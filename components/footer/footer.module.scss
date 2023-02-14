@@ -1,0 +1,131 @@
+@import "./styles/color";
+
+.footer {
+    background-color: $black;
+    height: 225px;
+    max-width: 100% !important;
+    width: 100vw;
+    z-index: 1;
+    position:absolute;
+    bottom: -400px;
+
+    &__wrapper {
+        margin-left: 220px;
+        padding-top: 20px;
+        display: flex;
+    }
+
+    &__left {
+
+        &__links {
+            display: flex;
+            flex-direction: row;
+        }
+
+        &__link {
+            align-items: center;
+            margin-right: 20px;
+            margin-top: 10px;
+            transition: .5s;
+            opacity: .6;
+
+            &:hover {
+                opacity: 1;
+            }
+
+            img {
+                width: 32px;
+                height: 32px;
+            }
+        }
+    }
+
+    &__right {
+        display: flex;
+        justify-content: space-between;
+        margin-left: 50px;
+        margin-top: 30px;
+
+        &__link {
+            color: white;
+            text-decoration: none;
+            font-weight: 300;
+            display: block;
+            padding-bottom: 0;
+            opacity: .6;
+            transition: .4s;
+
+            &:hover {
+                opacity: 1;
+            }
+        }
+
+        &__right {
+            padding-left: 140px;
+        }
+    }
+
+    &__copyright {
+        text-align: center;
+        color: white;
+        font-weight: 300;
+        margin-top:30px;
+        opacity: .6;
+    }
+}
+
+@media (max-width: 1000px) {
+    .footer__wrapper {
+        margin-left: 0;
+    }
+
+    .footer__left {
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 800px) {
+    .footer {
+        height: 380px;
+        bottom: -560px;
+    }
+
+    .footer__wrapper {
+        flex-direction: column;
+    }
+
+    .footer__right {
+        justify-content: start;
+        margin-left: 20px;
+    }
+
+    .footer__copyright {
+        margin-top: 60px;
+    }
+
+    .footer__right__right {
+        padding-left: 90px;
+    }
+}
+
+@media (max-width: 550px) {
+    .footer {
+        height: 480px;
+        bottom: -680px;
+    }
+
+
+    .footer__right__link {
+        font-size: 16px;
+        line-height: 18px;
+    }
+
+    .footer__right {
+        flex-direction: column;
+    }
+
+    .footer__right__right {
+        padding-left: 0;
+        margin-top: 18px;
+    }
+}
