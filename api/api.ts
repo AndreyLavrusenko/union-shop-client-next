@@ -8,7 +8,7 @@ const instance = axios.create({
 
 export const systemAPI = {
     getCopyright: async () => {
-        const {data} = await instance.get('system/copyright')
+        const {data} = await instance.get('api/system/copyright')
         return data
     }
 }
