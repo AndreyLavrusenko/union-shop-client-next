@@ -27,7 +27,7 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
         dispatch(loginStart())
 
         try {
-            const status = await signIn('credentials', {
+            const status = await signIn('union-shop', {
                 redirect: false,
                 email: email,
                 password: password,

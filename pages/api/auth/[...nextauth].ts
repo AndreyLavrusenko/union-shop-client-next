@@ -12,7 +12,8 @@ export const authOptions = {
         }),
         CredentialsProvider({
             type: 'credentials',
-            name: 'credentials',
+            id: 'union-shop',
+            name: 'union-shop',
             credentials: {},
             async authorize(credentials, req) {
                 try {
@@ -28,6 +29,31 @@ export const authOptions = {
                        .catch((error) => {
                            throw new Error(error.response.data.message);
                        }) || null;
+
+                } catch (err) {
+                    console.log(err)
+                }
+            }
+        }),
+        CredentialsProvider({
+            type: 'credentials',
+            id: 'unionId',
+            name: 'unionId',
+            credentials: {},
+            async authorize(credentials, req) {
+                try {
+                    const {email, password} = credentials as {
+                        email: string,
+                        password: string,
+                    };
+
+                    return await axios.post(`${process.env.REACT_APP_BACK_URI}/api/auth/unionId`, {email, password})
+                        .then((response) => {
+                            return response.data;
+                        })
+                        .catch((error) => {
+                            throw new Error(error.response.data.message);
+                        }) || null;
 
                 } catch (err) {
                     console.log(err)

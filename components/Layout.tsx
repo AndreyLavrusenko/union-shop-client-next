@@ -4,6 +4,7 @@ import Header from "@/components/header/Header";
 import Footer from "@/components/footer/Footer";
 import {systemAPI} from "@/api/api";
 import NavbarContainer from "@/components/navbar/NavbarContainer";
+import NextNProgress from "nextjs-progressbar";
 
 
 const Layout = ({children}: React.PropsWithChildren<{}>) => {

@@ -5,6 +5,8 @@ import Layout from "@/components/Layout";
 import {Provider} from "react-redux";
 import {store} from "@/redux/store";
 import {SessionProvider} from "next-auth/react";
+import NextNProgress from 'nextjs-progressbar';
+import Preloader from "@/common/Preloader";
 
 
 export default function App({Component, pageProps}: AppProps) {
@@ -14,11 +16,12 @@ export default function App({Component, pageProps}: AppProps) {
         setIsSSR(false);
     }, []);
 
-    if (isSSR) return null;
+    if (isSSR) return <Preloader />
 
     return (
         <SessionProvider session={pageProps.session}>
             <Provider store={store}>
+                <NextNProgress color="#F9B8A2" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
                 <Layout>
                     <Component {...pageProps} />
                 </Layout>

@@ -76,14 +76,6 @@ const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
         }
     }
 
-    // const handleLogout = async () => {
-    //     // await authAPI.logout(dispatch)
-    //     if (document.documentElement.clientWidth < 1000) {
-    //         setNavbar(false)
-    //     }
-    //     await router.push('/')
-    // }
-
 
     return (
         <Navbar

@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/hook/redux";
 
 import styles from '../modal.module.scss'
+import {loginStart, loginSuccess, loginUnionFailure} from "@/redux/reducer/userSlice";
+import {signIn} from "next-auth/react";
+import {useRouter} from "next/router";
 
 interface IProps {
     setModalActive: (status: boolean) => void
@@ -15,8 +18,32 @@ const UnionModal = ({setUnionId, setModalActive}: IProps) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
-    function singUpByUnion() {
+    async function singUpByUnion(e: any) {
+        e.preventDefault()
 
+        dispatch(loginStart())
+
+        try {
+
+            const status = await signIn('unionId', {
+                redirect: false,
+                email,
+                password,
+                callbackUrl: '/'
+            })
+
+            if (status?.ok) {
+                setModalActive(false)
+
+                setEmail("")
+                setPassword("")
+
+                dispatch(loginSuccess())
+            } else {
+                dispatch(loginUnionFailure())
+            }
+
+        } catch (err) {}
     }
 
     return (
