@@ -4,7 +4,6 @@ import {createSlice} from "@reduxjs/toolkit";
 const userSlice = createSlice({
     name: "user",
     initialState: {
-        currentUser: null,
         isLoading: false,
         error: false,
         unionError: false,
@@ -16,30 +15,14 @@ const userSlice = createSlice({
         loginSuccess: (state, action) => {
             state.isLoading = false;
             state.error = false;
-            state.currentUser = action.payload;
         },
         loginUnionFailure: (state) => {
             state.isLoading = false;
             state.unionError = true;
         },
-        loginGoogleStart: (state) => {
-            state.isLoading = true
-        },
-        loginGoogleSuccess: (state, action) => {
-            state.isLoading = false;
-            state.error = false;
-            state.currentUser = action.payload;
-        },
-        loginGoogleFailure: (state) => {
-            state.isLoading = false;
-            state.error = true;
-        },
         loginOrRegFailure: (state) => {
             state.isLoading = false;
             state.error = true
-        },
-        loginFailureServices: (state) => {
-            state.isLoading = false;
         },
         logoutStart: (state) => {
             state.isLoading = true
@@ -48,7 +31,6 @@ const userSlice = createSlice({
             state.isLoading = false;
             state.error = false;
             state.unionError = false;
-            state.currentUser = null;
         },
         logoutFailure: (state) => {
             state.isLoading = false;
@@ -64,9 +46,5 @@ export const {
     logoutStart,
     logoutSuccess,
     logoutFailure,
-    loginFailureServices,
-    loginGoogleStart,
-    loginGoogleFailure,
-    loginGoogleSuccess
 } = userSlice.actions;
 export default userSlice.reducer;

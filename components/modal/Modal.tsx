@@ -12,30 +12,34 @@ interface IProps {
     setModalActive: (status: boolean) => void
 }
 
-const Modal = ({active, setModalActive}: IProps) => {
+const Modal = ({active, setModalActive}: IProps): JSX.Element => {
     const [unionId, setUnionId] = useState(false)
 
-    return createPortal(
-        <div
-            className={active ?  styles.modal + " " + styles.active : styles.modal}
-            onClick={() => setModalActive(false)}
-        >
-            <div className={styles.modal__content} onClick={e => e.stopPropagation()}>
-                <div className={styles.modal__header}>
-                    <Image className={styles.modal__headerLogo} src={logo} alt="logo"/>
-                    <div
-                        className={styles.modal__headerClose}
-                        onClick={() => setModalActive(false)}
-                    />
+    if (process.browser) {
+        return createPortal(
+            <div
+                className={active ? styles.modal + " " + styles.active : styles.modal}
+                onClick={() => setModalActive(false)}
+            >
+                <div className={styles.modal__content} onClick={e => e.stopPropagation()}>
+                    <div className={styles.modal__header}>
+                        <Image className={styles.modal__headerLogo} src={logo} alt="logo"/>
+                        <div
+                            className={styles.modal__headerClose}
+                            onClick={() => setModalActive(false)}
+                        />
+                    </div>
+                    {unionId
+                        ? <UnionModal setModalActive={setModalActive} setUnionId={setUnionId}/>
+                        : <ClassicModal setModalActive={setModalActive} setUnionId={setUnionId}/>
+                    }
                 </div>
-                {unionId
-                    ? <UnionModal setModalActive={setModalActive} setUnionId={setUnionId}/>
-                    : <ClassicModal setModalActive={setModalActive} setUnionId={setUnionId}/>
-                }
-            </div>
-        </div>,
-        document.querySelector('#portal') as HTMLElement
-    )
+            </div>,
+            document.querySelector('#portal') as HTMLElement
+        )
+    } else {
+        return (<></>)
+    }
 };
 
 export default Modal;

@@ -2,20 +2,19 @@ import React, {useState} from 'react';
 import nav_logo from '../../assets/image/logo/nav_logo.svg'
 import NavItems from "@/components/navbar/navItems/NavItems";
 import Image from "next/image";
-
-import styles from './navbar.module.scss'
-import {IUser} from "@/models/IUser";
 import Modal from "@/components/modal/Modal";
+import { signOut } from "next-auth/react"
+import styles from './navbar.module.scss'
+
 
 interface IProps {
     quantityState: number
     navbar: boolean,
     closeNavbar: (status: boolean) => void,
-    isAuth: IUser,
-    handleLogout: () => void
+    isAuth: any,
 }
 
-const Navbar = ({quantityState, navbar, closeNavbar, isAuth, handleLogout}: IProps) => {
+const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
     const [modal, setModal] = useState(false)
 
     return (
@@ -41,7 +40,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth, handleLogout}: IPro
                                     fill="black"/>
                             </svg>
                         </NavItems>
-                        {isAuth.currentUser ?
+                        {isAuth ?
                             <NavItems quantityState={quantityState} pathway={"/cart"} name={"Корзина"} closeNavbar={closeNavbar}>
                                 <svg className={styles.nav__list__icon} width="25" height="25" viewBox="0 0 25 25"
                                      fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,7 +52,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth, handleLogout}: IPro
                             </NavItems>
                             : null
                         }
-                        {isAuth.currentUser ?
+                        {isAuth ?
                             <NavItems pathway={"/order"} name={"Мои заказы"} closeNavbar={closeNavbar}>
                                 <svg className={styles.nav__list__icon} width="25" height="25" viewBox="0 0 23 23"
                                      fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -79,9 +78,9 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth, handleLogout}: IPro
                 </nav>
 
                 <div className={styles.side__footer}>
-                    {isAuth.currentUser
+                    {isAuth
 
-                        ? <button className={styles.logout__link} onClick={() => handleLogout()} title="Logout">
+                        ? <button className={styles.logout__link} onClick={() => signOut()} title="Logout">
 
                             <svg className={styles.logout__link__icon} xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                                  viewBox="0 0 24 24">

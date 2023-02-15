@@ -1,24 +1,28 @@
 import '@/styles/global.scss'
 import type {AppProps} from 'next/app'
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Layout from "@/components/Layout";
 import {Provider} from "react-redux";
-import {persist, store} from "@/redux/store";
-import {PersistGate} from "redux-persist/integration/react";
-import {GoogleOAuthProvider} from '@react-oauth/google';
+import {store} from "@/redux/store";
+import {SessionProvider} from "next-auth/react";
 
 
 export default function App({Component, pageProps}: AppProps) {
+    const [isSSR, setIsSSR] = useState(true);
+
+    useEffect(() => {
+        setIsSSR(false);
+    }, []);
+
+    if (isSSR) return null;
 
     return (
-        <GoogleOAuthProvider clientId={"826383274395-c9r6kdrv5fkrk0q6kufnrn7i4a604sh6.apps.googleusercontent.com"}>
+        <SessionProvider>
             <Provider store={store}>
-                <PersistGate loading={null} persistor={persist}>
-                    <Layout>
-                        <Component {...pageProps} />
-                    </Layout>
-                </PersistGate>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
             </Provider>
-        </GoogleOAuthProvider>
+        </SessionProvider>
     )
 }

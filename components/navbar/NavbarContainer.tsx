@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Navbar from "@/components/navbar/Navbar";
 import {useRouter} from "next/router";
 import {useAppDispatch, useAppSelector} from "@/hook/redux";
-import {IUser} from "@/models/IUser";
+import {useSession} from "next-auth/react";
 
 
 interface IProps {
@@ -12,11 +12,10 @@ interface IProps {
 
 const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
     const dispatch = useAppDispatch()
-    const user = useAppSelector<IUser>(state => state.user)
     // Открыта боковая панель или нет
     const [navbar, setNavbar] = useState(false)
 
-    const router = useRouter()
+    const {data} = useSession()
 
     // Пишет кол-во товара в корзине
     // useEffect(() => {
@@ -32,7 +31,7 @@ const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
         if (document.documentElement.clientWidth < 1000) {
             setNavbar(false)
         }
-    }, [user])
+    }, [data?.user])
 
     // Показывать боковую панель взависимости от размера экрана
     useEffect(() => {
@@ -77,13 +76,13 @@ const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
         }
     }
 
-    const handleLogout = async () => {
-        // await authAPI.logout(dispatch)
-        if (document.documentElement.clientWidth < 1000) {
-            setNavbar(false)
-        }
-        await router.push('/')
-    }
+    // const handleLogout = async () => {
+    //     // await authAPI.logout(dispatch)
+    //     if (document.documentElement.clientWidth < 1000) {
+    //         setNavbar(false)
+    //     }
+    //     await router.push('/')
+    // }
 
 
     return (
@@ -91,8 +90,7 @@ const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
             quantityState={quantityState}
             navbar={navbar}
             closeNavbar={closeNavbar}
-            isAuth={user}
-            handleLogout={handleLogout}
+            isAuth={data?.user}
         />
     );
 };

@@ -1,5 +1,4 @@
-export interface IUser {
-    currentUser: string | null,
+export interface ILogin {
     error: boolean,
     isLoading: boolean,
     unionError: boolean

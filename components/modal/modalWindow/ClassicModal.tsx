@@ -3,6 +3,7 @@ import {useAppDispatch, useAppSelector} from "@/hook/redux";
 import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
 import union from '../../../assets/image/login/union.png'
 import Image from "next/image";
+import {signIn} from 'next-auth/react'
 
 import styles from '../modal.module.scss'
 
@@ -24,9 +25,6 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
         
     }
 
-    function authByGoogle(res: CredentialResponse) {
-
-    }
 
     const authByUnionId = () => {
         setUnionId(true)
@@ -67,21 +65,21 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
                 <span>или</span>
             </div>
             <div className={styles.modal__login}>
+
                 <div>
-                    <GoogleLogin
-                        theme={"outline"}
-                        size={"large"}
-                        text={"signin_with"}
-                        shape={"rectangular"}
-                        width={'205'}
-                        onSuccess={res => authByGoogle(res)}
-                        onError={() => console.log('Error')}
-                    />
+                    <button
+                        className={styles.modal__login__union}
+                        type={"button"}
+                        onClick={() => signIn()}>
+                        Google
+                    </button>
                 </div>
+
                 <div className={styles.modal__login__union} onClick={authByUnionId}>
                     <Image width={28} src={union} alt="login union"/>
                     <p>Войти через Union ID</p>
                 </div>
+
             </div>
         </div>
     );
