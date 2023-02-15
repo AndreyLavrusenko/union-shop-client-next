@@ -26,6 +26,13 @@ input, textarea {
   -webkit-appearance: none;
 }
 
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
 .container {
   //max-width: 1330px;
   margin: 0 auto;

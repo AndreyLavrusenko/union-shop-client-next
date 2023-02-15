@@ -1,0 +1,308 @@
+@import "../../styles/color";
+@import "../../styles/font";
+
+.modal {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(15, 15, 15, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .5s;
+    opacity: 0;
+    visibility: hidden;
+
+    &__content {
+        padding: 20px;
+        z-index: 200;
+        background: #FFFFFF;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 14px;
+        width: 474px;
+        height: 550px;
+    }
+
+    &.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    &__header {
+        margin-top: -20px;
+        text-align: center;
+        position: relative;
+
+        &-logo {
+            width: 150px;
+        }
+
+        &-close {
+            position: absolute;
+            top: 18px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            opacity: 0.2;
+            cursor: pointer;
+            transition: opacity ease 0.5s;
+
+            &:hover {
+                opacity: 1;
+            }
+
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                top: 10px;
+                display: block;
+                width: 24px;
+                height: 2px;
+                background: #000;
+            }
+
+            &::before {
+                transform: rotate(45deg);
+            }
+
+            &::after {
+                transform: rotate(-45deg);
+            }
+        }
+    }
+
+    &__info {
+        margin-top: -10px;
+        padding: 0 10px;
+
+        form {
+            margin-top: 40px;
+        }
+
+        &__error {
+            padding: 0;
+            margin: 0;
+            text-align: center;
+            color: $red;
+            position: relative;
+            top: -15px;
+            font-size: 12px;
+        }
+
+        &__back {
+            color: $blue;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: .2s;
+
+            &:hover {
+                color: #1d1dd2
+            }
+        }
+
+        &__link {
+            color: $dark;
+            text-decoration: none;
+            position: relative;
+            top: -15px;
+            display: block;
+            padding-bottom: 20px;
+        }
+
+        &__title {
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 28px;
+            font-family: "Raleway", -apple-system, sans-serif;
+        }
+
+        &__desc {
+            font-size: 15px;
+            line-height: 18px;
+            color: rgba(0, 0, 0, 0.46);
+            font-family: "Raleway", -apple-system, sans-serif;
+            margin-top: -10px;
+        }
+
+        &__input {
+            border: 2px solid rgba(0, 0, 0, 0.35);
+            border-radius: 5px;
+            background-color: inherit;
+            padding: 15px 10px;
+            width: calc(100% - 25px);
+            display: block;
+            margin-bottom: 25px;
+
+            &:hover {
+                border: 2px solid #0707e1;
+                transition: .4s;
+            }
+
+            &:focus {
+                outline: none;
+                border: 2px solid #0707e1;
+            }
+        }
+
+        &__button {
+            background: $blue;
+            border-radius: 10px;
+            width: 100%;
+            display: block;
+            color: white;
+            border: $blue;
+            cursor: pointer;
+            padding: 14px 0;
+            transition: .4s;
+
+            &:hover {
+                background-color: #1d1dd2
+            }
+
+            &:focus {
+                box-shadow: 0 0 10px $blue;
+                outline: none;
+            }
+        }
+
+        a {
+            text-decoration: none;
+            outline: none;
+            width: 140px;
+        }
+
+        &__button__link {
+            background-color: inherit;
+            border: 2px solid $blue;
+            color: $blue;
+            margin-top: 10px;
+
+            &:hover {
+                box-shadow: 0 0 5px $blue;
+                background-color: inherit;
+            }
+
+            &:focus {
+                box-shadow: 0 0 10px $blue;
+                outline: none;
+            }
+        }
+
+        &__or {
+            display: block;
+            position: relative;
+            text-align: center;
+            font-size: 17px;
+            line-height: 20px;
+            color: rgba(0, 0, 0, 0.41);
+            margin-top: 15px;
+
+            &::after, &::before {
+                content: '';
+                display: block;
+                width: 40px;
+                height: 1px;
+                background-color: rgba(0, 0, 0, 0.41);
+                position: absolute;
+            }
+
+            &::after {
+                top: 50%;
+                right: 160px;
+            }
+
+            &::before {
+                margin-left: 50px;
+                top: 50%;
+                left: 110px;
+            }
+        }
+    }
+
+    &__login {
+        margin-top: 23px;
+        display: flex;
+        justify-content: space-between;
+
+        &__union {
+            background-color: hsl(0, 0%, 0%);
+            transition: .2s;
+            cursor: pointer;
+
+            width: 197px;
+            height: 32px;
+            border-radius: 4px;
+            padding: 4px;
+
+            display: flex;
+            justify-content: start;
+            align-items: center;
+
+            &:hover {
+                background-color: hsl(0, 0%, 17%);
+            }
+
+            p {
+                color: white;
+                font-family: "Roboto", -apple-system, sans-serif;
+                font-style: normal;
+                padding: 0;
+
+                margin-left: 10px;
+                font-size: 13px;
+            }
+        }
+
+    }
+}
+
+
+@media (max-width: 500px) {
+    .modal__info__or::after, .modal__info__or::before{
+        content: none;
+    }
+
+    .modal__login {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        &-item {
+            margin-top: 20px;
+        }
+    }
+
+    .modal__content {
+        height: 100%;
+    }
+
+    .modal__header {
+        margin-top: 30px;
+    }
+
+    .modal__header-close {
+        top: -13px;
+    }
+}
+
+
+@media (max-width: 430px) {
+    .modal__info__desc {
+        font-size: 14px;
+        line-height: 16px;
+    }
+
+    .modal__info {
+        margin-top: 0;
+    }
+
+    .modal__login {
+        margin-top: 15px;
+    }
+}

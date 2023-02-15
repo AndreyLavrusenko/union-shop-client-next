@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import Navbar from "@/components/navbar/Navbar";
 import {useRouter} from "next/router";
+import {useAppDispatch, useAppSelector} from "@/hook/redux";
+import {IUser} from "@/models/IUser";
+
 
 interface IProps {
     quantityState: number
@@ -8,19 +11,28 @@ interface IProps {
 }
 
 const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
-
+    const dispatch = useAppDispatch()
+    const user = useAppSelector<IUser>(state => state.user)
     // Открыта боковая панель или нет
     const [navbar, setNavbar] = useState(false)
 
     const router = useRouter()
 
-    const handleLogout = async () => {
-        // await authAPI.logout(dispatch)
+    // Пишет кол-во товара в корзине
+    // useEffect(() => {
+    //     const getCartCount = async () => {
+    //         const data = await cartAPI.getCartQuantity()
+    //         setQuantityState(data)
+    //     }
+    //     getCartCount()
+    // }, [rerenderCart, user])
+
+    // Если пользователь зашел в аккану
+    useEffect(() => {
         if (document.documentElement.clientWidth < 1000) {
             setNavbar(false)
         }
-        await router.push('/')
-    }
+    }, [user])
 
     // Показывать боковую панель взависимости от размера экрана
     useEffect(() => {
@@ -33,7 +45,7 @@ const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
 
     const checkNavbar = (e: any) => {
         if (e.currentTarget.innerWidth <= 1000) {
-            if (!(e.target === document.querySelector(".js-side") || document.querySelector(".js-side")?.contains(e.target))) {
+            if (!(e.target === document.querySelector('.js-side') || document.querySelector(".js-side")?.contains(e.target))) {
                 setNavbar(false)
             }
         }
@@ -65,13 +77,21 @@ const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
         }
     }
 
+    const handleLogout = async () => {
+        // await authAPI.logout(dispatch)
+        if (document.documentElement.clientWidth < 1000) {
+            setNavbar(false)
+        }
+        await router.push('/')
+    }
+
 
     return (
         <Navbar
             quantityState={quantityState}
             navbar={navbar}
             closeNavbar={closeNavbar}
-            isAuth={true}
+            isAuth={user}
             handleLogout={handleLogout}
         />
     );

@@ -4,21 +4,22 @@ import NavItems from "@/components/navbar/navItems/NavItems";
 import Image from "next/image";
 
 import styles from './navbar.module.scss'
+import {IUser} from "@/models/IUser";
+import Modal from "@/components/modal/Modal";
 
 interface IProps {
     quantityState: number
     navbar: boolean,
     closeNavbar: (status: boolean) => void,
-    isAuth: boolean,
+    isAuth: IUser,
     handleLogout: () => void
 }
 
 const Navbar = ({quantityState, navbar, closeNavbar, isAuth, handleLogout}: IProps) => {
     const [modal, setModal] = useState(false)
 
-
     return (
-        <div className={styles.side} style={navbar ? {zIndex: "2", position: "fixed"} : {zIndex: "0", position: "absolute"}}>
+        <div className={styles.side + " js-side" } style={navbar ? {zIndex: "2", position: "fixed"} : {zIndex: "0", position: "absolute"}}>
             <div className={styles.side__inner} style={navbar ? {opacity: "1", visibility: 'visible'} : {opacity: "0", visibility: "hidden"}}>
                 <Image src={nav_logo} className={styles.nav__logo} alt="logo" />
 
@@ -40,7 +41,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth, handleLogout}: IPro
                                     fill="black"/>
                             </svg>
                         </NavItems>
-                        {isAuth ?
+                        {isAuth.currentUser ?
                             <NavItems quantityState={quantityState} pathway={"/cart"} name={"Корзина"} closeNavbar={closeNavbar}>
                                 <svg className={styles.nav__list__icon} width="25" height="25" viewBox="0 0 25 25"
                                      fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,7 +53,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth, handleLogout}: IPro
                             </NavItems>
                             : null
                         }
-                        {isAuth ?
+                        {isAuth.currentUser ?
                             <NavItems pathway={"/order"} name={"Мои заказы"} closeNavbar={closeNavbar}>
                                 <svg className={styles.nav__list__icon} width="25" height="25" viewBox="0 0 23 23"
                                      fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -78,7 +79,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth, handleLogout}: IPro
                 </nav>
 
                 <div className={styles.side__footer}>
-                    {isAuth
+                    {isAuth.currentUser
 
                         ? <button className={styles.logout__link} onClick={() => handleLogout()} title="Logout">
 
@@ -157,7 +158,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth, handleLogout}: IPro
                     <span className={styles.line}/>
                 </div>
             </div>
-            {/*<Modal active={modal} setModalActive={setModal}/>*/}
+            <Modal active={modal} setModalActive={setModal}/>
         </div>
     );
 };
