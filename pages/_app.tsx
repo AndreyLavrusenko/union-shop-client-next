@@ -17,7 +17,7 @@ export default function App({Component, pageProps}: AppProps) {
     if (isSSR) return null;
 
     return (
-        <SessionProvider>
+        <SessionProvider session={pageProps.session}>
             <Provider store={store}>
                 <Layout>
                     <Component {...pageProps} />

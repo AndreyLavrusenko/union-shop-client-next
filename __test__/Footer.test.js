@@ -15,7 +15,7 @@ describe("Footer test", () => {
     })
 
 
-    it("check copyright", async () => {
+    test("check copyright", async () => {
         axios.get.mockReturnValue(response)
 
         render(<Footer copyright={response.copyright} />)

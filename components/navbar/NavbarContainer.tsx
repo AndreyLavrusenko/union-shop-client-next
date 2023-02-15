@@ -15,7 +15,7 @@ const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
     // Открыта боковая панель или нет
     const [navbar, setNavbar] = useState(false)
 
-    const {data} = useSession()
+    const {data: user} = useSession()
 
     // Пишет кол-во товара в корзине
     // useEffect(() => {
@@ -31,7 +31,7 @@ const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
         if (document.documentElement.clientWidth < 1000) {
             setNavbar(false)
         }
-    }, [data?.user])
+    }, [user?.user])
 
     // Показывать боковую панель взависимости от размера экрана
     useEffect(() => {
@@ -90,7 +90,7 @@ const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
             quantityState={quantityState}
             navbar={navbar}
             closeNavbar={closeNavbar}
-            isAuth={data?.user}
+            isAuth={user?.user}
         />
     );
 };

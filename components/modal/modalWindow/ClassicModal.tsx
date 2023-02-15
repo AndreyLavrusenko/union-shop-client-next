@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/hook/redux";
-import {CredentialResponse, GoogleLogin} from '@react-oauth/google';
 import union from '../../../assets/image/login/union.png'
 import Image from "next/image";
 import {signIn} from 'next-auth/react'
+import {authAPI} from "@/api/api";
 
 import styles from '../modal.module.scss'
+import {loginOrRegFailure, loginStart, loginSuccess} from "@/redux/reducer/userSlice";
 
 
 interface IProps {
@@ -21,13 +22,39 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
     const [password, setPassword] = useState('')
 
 
-    function signUpOrRegister() {
-        
+    async function signUpOrRegister(e: any) {
+        e.preventDefault()
+        dispatch(loginStart())
+
+        try {
+            const status = await signIn('credentials', {
+                redirect: false,
+                email: email,
+                password: password,
+                callbackUrl: "/"
+            })
+
+            if (status?.ok) {
+                setModalActive(false)
+
+                setEmail("")
+                setPassword("")
+
+                dispatch(loginSuccess())
+            } else {
+                dispatch(loginOrRegFailure())
+            }
+
+        } catch (err) {}
     }
 
 
     const authByUnionId = () => {
         setUnionId(true)
+    }
+
+    async function authByGoogle() {
+       await signIn('google', {callbackUrl: process.env.REACT_APP_BACK_URI})
     }
 
     return (
@@ -57,7 +84,7 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
                     className={styles.modal__info__button}
                     type="submit"
                     disabled={isLoading}
-                    onClick={signUpOrRegister}>
+                    onClick={e => signUpOrRegister(e)}>
                     {isLoading ? "Загрузка..." : "Войти"}
                 </button>
             </form>
@@ -70,7 +97,7 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
                     <button
                         className={styles.modal__login__union}
                         type={"button"}
-                        onClick={() => signIn()}>
+                        onClick={() => authByGoogle()}>
                         Google
                     </button>
                 </div>

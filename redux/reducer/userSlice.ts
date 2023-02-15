@@ -12,7 +12,7 @@ const userSlice = createSlice({
         loginStart: (state) => {
             state.isLoading = true
         },
-        loginSuccess: (state, action) => {
+        loginSuccess: (state) => {
             state.isLoading = false;
             state.error = false;
         },

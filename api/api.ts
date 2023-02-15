@@ -1,6 +1,6 @@
 import axios from "axios";
-import jwt_decode from 'jwt-decode'
 import {Dispatch} from "redux";
+import {loginOrRegFailure, loginStart, loginSuccess} from "@/redux/reducer/userSlice";
 
 const instance = axios.create({
     withCredentials: true,

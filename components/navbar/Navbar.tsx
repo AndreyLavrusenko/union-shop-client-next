@@ -41,7 +41,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
                             </svg>
                         </NavItems>
                         {isAuth ?
-                            <NavItems quantityState={quantityState} pathway={"/cart"} name={"Корзина"} closeNavbar={closeNavbar}>
+                            <NavItems data-testid={"cart"} quantityState={quantityState} pathway={"/cart"} name={"Корзина"} closeNavbar={closeNavbar}>
                                 <svg className={styles.nav__list__icon} width="25" height="25" viewBox="0 0 25 25"
                                      fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -53,7 +53,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
                             : null
                         }
                         {isAuth ?
-                            <NavItems pathway={"/order"} name={"Мои заказы"} closeNavbar={closeNavbar}>
+                            <NavItems data-testid={"orders"} pathway={"/order"} name={"Мои заказы"} closeNavbar={closeNavbar}>
                                 <svg className={styles.nav__list__icon} width="25" height="25" viewBox="0 0 23 23"
                                      fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g clipPath="url(#clip0_4757_11064)">
