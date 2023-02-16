@@ -54,7 +54,7 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
     }
 
     async function authByGoogle() {
-       await signIn('google', {callbackUrl: process.env.REACT_APP_BACK_URI})
+       await signIn('google', {callbackUrl: process.env.NEXT_PUBLIC_BACK_URI})
     }
 
     return (

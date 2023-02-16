@@ -17,3 +17,9 @@ export default async function handler(
         return res.status(500).json({message: "Что-то пошло не так"})
     }
 }
+
+export const config = {
+    api: {
+        externalResolver: true,
+    },
+}

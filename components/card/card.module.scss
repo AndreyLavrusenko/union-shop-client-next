@@ -47,18 +47,19 @@
             position: relative;
         }
 
+        &__img {
+            max-width: 195px;
+            height: 100%;
+            object-fit: contain;
+            position: relative !important;
+        }
+
         &__content {
             text-align: center;
             width: 260px;
 
             position: absolute;
             bottom: 5px;
-
-            img {
-                max-width: 195px;
-                //height: 100%;
-                object-fit: contain;
-            }
         }
     }
 

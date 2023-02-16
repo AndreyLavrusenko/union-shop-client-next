@@ -22,7 +22,7 @@ export const authOptions = {
                         password: string,
                     };
 
-                   return await axios.post(`${process.env.REACT_APP_BACK_URI}/api/auth/signup`, {email, password})
+                   return await axios.post(`${process.env.NEXT_PUBLIC_BACK_URI}/api/auth/signup`, {email, password})
                         .then((response) => {
                             return response.data;
                         })
@@ -47,7 +47,7 @@ export const authOptions = {
                         password: string,
                     };
 
-                    return await axios.post(`${process.env.REACT_APP_BACK_URI}/api/auth/unionId`, {email, password})
+                    return await axios.post(`${process.env.NEXT_PUBLIC_BACK_URI}/api/auth/unionId`, {email, password})
                         .then((response) => {
                             return response.data;
                         })

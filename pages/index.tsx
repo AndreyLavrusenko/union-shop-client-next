@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {useRouter} from "next/router";
+import React from 'react';
 import {productAPI} from "@/api/api";
 import {IProduct} from "@/models/IProduct";
 import Advertising from "@/components/advertising/Advertising";
@@ -22,21 +21,21 @@ const Home = ({topProduct, firstCategory, secondCategory, thirdCategory}: IProps
     return (
         <>
             <Card products={topProduct} title={"Лучшие товары."} secondTitle={"Зацените."}/>
-            {/*{firstCategory.resultProduct.length > 0*/}
-            {/*    ? <Card products={firstCategory.resultProduct} title={firstCategory.titles[0]}*/}
-            {/*            secondTitle={firstCategory.titles[1]}/>*/}
-            {/*    : null*/}
-            {/*}*/}
-            {/*{secondCategory.resultProduct.length > 0*/}
-            {/*    ? <Card products={secondCategory.resultProduct} title={secondCategory.titles[0]}*/}
-            {/*            secondTitle={secondCategory.titles[1]}/>*/}
-            {/*    : null*/}
-            {/*}*/}
-            {/*{thirdCategory.resultProduct.length > 0*/}
-            {/*    ? <Card products={thirdCategory.resultProduct} title={thirdCategory.titles[0]}*/}
-            {/*            secondTitle={thirdCategory.titles[1]}/>*/}
-            {/*    : null*/}
-            {/*}*/}
+            {firstCategory.resultProduct.length > 0
+                ? <Card products={firstCategory.resultProduct} title={firstCategory.titles[0]}
+                        secondTitle={firstCategory.titles[1]}/>
+                : null
+            }
+            {secondCategory.resultProduct.length > 0
+                ? <Card products={secondCategory.resultProduct} title={secondCategory.titles[0]}
+                        secondTitle={secondCategory.titles[1]}/>
+                : null
+            }
+            {thirdCategory.resultProduct.length > 0
+                ? <Card products={thirdCategory.resultProduct} title={thirdCategory.titles[0]}
+                        secondTitle={thirdCategory.titles[1]}/>
+                : null
+            }
             <Advertising/>
         </>
     );

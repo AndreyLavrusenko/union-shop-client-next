@@ -3,6 +3,7 @@ import Link from "next/link";
 import {useRouter} from "next/router";
 
 import styles from '../card.module.scss'
+import Image from "next/image";
 
 interface IProps {
     backgroundcolor: string;
@@ -17,6 +18,8 @@ interface IProps {
 
 const CardItem = forwardRef(({backgroundcolor, color, subColor, image, subtitle, title, isLogo, id}: IProps, ref: any) => {
 
+    console.log(process.env.NEXT_PUBLIC_BACK_URI)
+
     const router = useRouter()
     const [isShop, setShop] = useState(false)
 
@@ -29,9 +32,9 @@ const CardItem = forwardRef(({backgroundcolor, color, subColor, image, subtitle,
 
     return (
         <Link ref={ref} href={`/product/${id}`} key={id} className={isShop ? styles.stripe__card + " " + styles.stripe__card__hover : styles.stripe__card} style={{backgroundColor: backgroundcolor, color: color}}>
-            <div className="stripe__card__header">
-                <div className="stripe__header__title">{title}</div>
-                <div className="stripe__header__subtitle"
+            <div className={styles.stripe__card__header}>
+                <div className={styles.stripe__header__title}>{title}</div>
+                <div className={styles.stripe__header__subtitle}
                      style={subColor ? {color: subColor} : {color: color}}>{subtitle}</div>
                 {isLogo
                     ? <svg width="66" height="73" viewBox="0 0 66 73" stroke={color} fill="none"
@@ -84,8 +87,14 @@ const CardItem = forwardRef(({backgroundcolor, color, subColor, image, subtitle,
                     </svg>
                     : null}
             </div>
-            <div className="stripe__card__content">
-                <img src={process.env.REACT_APP_BACK_URI + image} alt={title}/>
+            <div className={styles.stripe__card__content} >
+                <Image
+                    className={styles.stripe__card__img}
+                    src={process.env.NEXT_PUBLIC_API + image}
+                    alt={title}
+                    layout='fill'
+                    objectFit='contain'
+                />
             </div>
         </Link>
     );
