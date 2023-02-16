@@ -1,0 +1,150 @@
+.card {
+    display: flex;
+
+    margin-top: 40px;
+}
+
+
+.cardslider__down-item {
+    z-index: 1;
+}
+
+@media (max-width: 1000px) {
+
+    .card {
+        justify-content: center;
+    }
+
+    .cardinfo {
+        width: inherit;
+        margin-left: 75px;
+    }
+
+    .cardslider {
+        margin-left: 20px;
+    }
+}
+
+@media (max-width: 860px) {
+
+    .cardinfo__title {
+        font-size: 40px;
+        line-height: 50px;
+    }
+
+    .cardinfo__desc, .cardinfo__desc-title {
+        font-size: 26px;
+        line-height: 32px;
+    }
+
+    .cardslider__main {
+        width: 320px;
+        height: 400px;
+    }
+
+    .cardslider {
+        padding-left: 50px;
+    }
+
+    .cardinfo {
+        margin-left: 25px;
+    }
+}
+
+@media (max-width: 790px) {
+    .card {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cardslider__main {
+        width: 410px;
+        height: 460px;
+    }
+
+    .cardinfo {
+        width: 410px;
+    }
+
+    .cardslider {
+        margin-bottom: 40px;
+        padding-left: 0;
+        margin-left: 0;
+    }
+
+    .cardslider__down {
+        justify-content: center;
+    }
+
+    .cardinfo__title {
+        font-family: 'Raleway', "Helvetica", -apple-system, sans-serif;
+        font-weight: 700;
+    }
+
+    .cardinfo__price {
+        font-size: 18px;
+        line-height: 20px;
+    }
+
+    .cardinfo__color {
+        font-size: 18px;
+        line-height: 20px;
+    }
+
+    .cardinfo__size-item {
+        width: 38px;
+        height: 38px;
+
+        font-size: 20px;
+    }
+
+    .cardinfo__button {
+        width: 100%;
+        height: 43px;
+
+        font-size: 18px;
+        line-height: 20px;
+    }
+
+    .cardinfo__horizontal {
+        width: 100%;
+    }
+
+    .cardinfo__size {
+        text-align: center;
+    }
+}
+
+@media (max-width: 550px) {
+    .cardinfo {
+        margin-left: 0;
+    }
+
+    .cardslider__main {
+        width: 370px;
+        height: 420px;
+    }
+
+    .cardinfo__title {
+        font-size: 35px;
+        margin-bottom: 10px;
+    }
+
+    .cardinfo__desc, .cardinfo__desc-title {
+        font-size: 24px;
+        line-height: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .cardinfo {
+        width: 90%;
+    }
+}
+
+@media (max-width: 420px) {
+    .cardslider__main {
+        width: 350px;
+        height: 400px;
+    }
+}

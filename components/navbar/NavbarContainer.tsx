@@ -5,12 +5,12 @@ import {useAppDispatch, useAppSelector} from "@/hook/redux";
 import {useSession} from "next-auth/react";
 
 
-interface IProps {
-    quantityState: number
-    setQuantityState: (n: number) => void
-}
+interface IProps {}
 
-const NavbarContainer = ({quantityState, setQuantityState}: IProps) => {
+const NavbarContainer = ({}: IProps) => {
+    // Кол-во элементов в корзине
+    const [quantityState, setQuantityState] = useState(0)
+
     const dispatch = useAppDispatch()
     // Открыта боковая панель или нет
     const [navbar, setNavbar] = useState(false)

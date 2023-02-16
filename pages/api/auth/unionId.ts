@@ -12,7 +12,7 @@ export default async function handler(
         if (!req.body.email || !req.body.password) return res.status(400).json({resultCode: 1})
 
         // Получение пользователя по введенным данным
-        const sql = `SELECT email FROM registration WHERE email = ? AND password = ?`;
+        const sql = `SELECT email, id FROM registration WHERE email = ? AND password = ?`;
         const data = [req.body.email, md5(req.body.password)];
 
         // Отправка запроса и его проверка

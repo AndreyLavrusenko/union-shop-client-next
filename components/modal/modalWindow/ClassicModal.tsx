@@ -31,7 +31,7 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
                 redirect: false,
                 email: email,
                 password: password,
-                callbackUrl: "/"
+                callbackUrl: "/",
             })
 
             if (status?.ok) {

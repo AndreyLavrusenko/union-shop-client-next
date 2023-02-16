@@ -1,4 +1,7 @@
 import axios from "axios";
+import {Dispatch} from "redux";
+import {cartError, cartStart, cartSuccess} from "@/redux/reducer/cartSlice";
+import {IProductInfo} from "@/models/IProductInfo";
 
 const instance = axios.create({
     withCredentials: true,
@@ -41,8 +44,33 @@ export const productAPI = {
     getAdvertising: async () => {
         const {data} = await instance.get("api/product/advertising")
         return data
-    }
+    },
 
+    getProductById: async (id: string) => {
+        try {
+            return await instance.get(`api/product/${id}`)
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
+
+}
+
+
+export const cartAPI = {
+
+    setProduct: async (product: IProductInfo, dispatch: Dispatch, userId: string) => {
+        dispatch(cartStart())
+        try {
+            await instance.post('api/cart', product, {
+                headers: {userId}
+            })
+            dispatch(cartSuccess())
+        } catch (err) {
+            dispatch(cartError())
+        }
+    },
 
 }
 

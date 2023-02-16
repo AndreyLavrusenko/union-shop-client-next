@@ -24,6 +24,7 @@ export const authOptions = {
 
                    return await axios.post(`${process.env.NEXT_PUBLIC_BACK_URI}/api/auth/signup`, {email, password})
                         .then((response) => {
+                            console.log(response)
                             return response.data;
                         })
                        .catch((error) => {
@@ -61,6 +62,14 @@ export const authOptions = {
             }
         })
     ],
+    callbacks: {
+        session({ session, token }: any) {
+            if (session.user) {
+                session.user.id = token.sub as string;
+            }
+            return session;
+        },
+    },
     secret: process.env.NEXT_AUTH_SECRET,
     session: {
         jwt: true,

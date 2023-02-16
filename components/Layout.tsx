@@ -8,9 +8,6 @@ import NextNProgress from "nextjs-progressbar";
 
 
 const Layout = ({children}: React.PropsWithChildren<{}>) => {
-    // Кол-во элементов в корзине
-    const [quantityState, setQuantityState] = useState(0)
-
     const [copyright, setCopyright] = useState("")
 
     useEffect(() => {
@@ -31,7 +28,7 @@ const Layout = ({children}: React.PropsWithChildren<{}>) => {
                 <Header/>
                 <div className='container'>
                     <div className="main">
-                        <NavbarContainer quantityState={quantityState} setQuantityState={setQuantityState}/>
+                        <NavbarContainer />
                         {children}
                     </div>
                 </div>

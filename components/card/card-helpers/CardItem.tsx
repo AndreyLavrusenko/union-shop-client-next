@@ -18,8 +18,6 @@ interface IProps {
 
 const CardItem = forwardRef(({backgroundcolor, color, subColor, image, subtitle, title, isLogo, id}: IProps, ref: any) => {
 
-    console.log(process.env.NEXT_PUBLIC_BACK_URI)
-
     const router = useRouter()
     const [isShop, setShop] = useState(false)
 
