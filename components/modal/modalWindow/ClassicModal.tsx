@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/hook/redux";
 import union from '../../../assets/image/login/union.png'
+import google from '../../../assets/image/icon/Google-Original.svg'
 import Image from "next/image";
 import {signIn} from 'next-auth/react'
-import {authAPI} from "@/api/api";
+import {loginOrRegFailure, loginStart, loginSuccess} from "@/redux/reducer/userSlice";
 
 import styles from '../modal.module.scss'
-import {loginOrRegFailure, loginStart, loginSuccess} from "@/redux/reducer/userSlice";
 
 
 interface IProps {
@@ -92,19 +92,16 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
                 <span>или</span>
             </div>
             <div className={styles.modal__login}>
-
                 <div>
-                    <button
-                        className={styles.modal__login__union}
-                        type={"button"}
-                        onClick={() => authByGoogle()}>
-                        Google
+                    <button className={styles.modal__login__google} type={"button"} onClick={() => authByGoogle()}>
+                        <Image width={28} src={google} alt="google"/>
+                        <p>Google</p>
                     </button>
                 </div>
 
                 <div className={styles.modal__login__union} onClick={authByUnionId}>
-                    <Image width={28} src={union} alt="login union"/>
-                    <p>Войти через Union ID</p>
+                    <Image width={28} src={union} alt="union"/>
+                    <p>Union ID</p>
                 </div>
 
             </div>
