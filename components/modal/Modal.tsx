@@ -25,7 +25,7 @@ const Modal = ({active, setModalActive}: IProps): JSX.Element => {
                     <div className={styles.modal__header}>
                         <Image className={styles.modal__headerLogo} src={logo} alt="logo"/>
                         <div
-                            className={styles.modal__headerClose}
+                            className={styles.modal__header__close}
                             onClick={() => setModalActive(false)}
                         />
                     </div>

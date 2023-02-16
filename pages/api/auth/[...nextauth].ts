@@ -24,7 +24,6 @@ export const authOptions = {
 
                    return await axios.post(`${process.env.NEXT_PUBLIC_BACK_URI}/api/auth/signup`, {email, password})
                         .then((response) => {
-                            console.log(response)
                             return response.data;
                         })
                        .catch((error) => {

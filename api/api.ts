@@ -54,6 +54,17 @@ export const productAPI = {
         }
     },
 
+    getAllCategory: async (category: string = "all", page: number = 0, search: string = '') => {
+
+        const {data} = await instance.get(`api/product/shop?page=${page}&category=${category !== 'all' ? category : 'all'}&search=${search}`)
+
+        return data
+    },
+
+    getAllCategoryType: async () => {
+        const {data} = await instance.get('api/product/category')
+        return data
+    },
 
 }
 

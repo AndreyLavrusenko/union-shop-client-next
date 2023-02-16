@@ -51,6 +51,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.4.0",
+    "@types/lodash.debounce": "^4.0.7",
     "@types/md5": "^2.3.2",
     "@types/uuid": "^9.0.0",
     "jest-dom": "^4.0.0",

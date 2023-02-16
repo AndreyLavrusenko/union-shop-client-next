@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import Image from "next/image";
-import arrow from '../../../../assets/image/icon/arrow.svg'
+import arrow from '../../../../assets/image/icon/arrow_down.svg'
 
 import styles from '../cardinfo.module.scss'
 
@@ -20,7 +20,7 @@ const CardToggle = ({data, title}: IProps) => {
             <>
                 <div className={styles.cardinfo__toggle} onClick={() => setBlock(!block)}>
                     <div className={styles.cardinfo__toggle__title}>{title}</div>
-                    <Image style={block ? {transform: "rotate(180deg)"} : null} src={arrow} alt="open"/>
+                    <Image className={styles.cardinfo__toggle__img} width={10} style={block ? {transform: "rotate(180deg)"} : null} src={arrow} alt="open"/>
                 </div>
                 {block ?
                     <div className={styles.cardinfo__toggle__text}>

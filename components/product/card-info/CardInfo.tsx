@@ -326,7 +326,7 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
             <div className={styles.cardinfo__size}>
                 {sizeImg.map((item: string, i: number) => (
                     <div key={i}>
-                        <Image src={process.env.NEXT_PUBLIC_API + item} alt="" className={styles.cardinfo__size__img}/><br/>
+                        <Image src={process.env.NEXT_PUBLIC_API + item} alt="" objectFit={"cover"} layout={"fill"} className={styles.cardinfo__size__img}/><br/>
                     </div>
                 ))}
             </div>

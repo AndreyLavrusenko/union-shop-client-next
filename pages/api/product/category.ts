@@ -7,19 +7,15 @@ export default async function handler(
     res: NextApiResponse
 ) {
     try {
-        const sql = `SELECT * FROM product WHERE isTop = ? AND isVisible = ?`;
-        const data = [1, 1];
 
-        pool.query(sql, data, (error, result: any) => {
+        const sql = `SELECT category_type FROM product WHERE isVisible = 1 GROUP BY category_type`;
+
+        pool.query(sql, (error, result) => {
             if (error) return res.status(400).json({message: "Products not found", resultCode: 1})
 
-            if (result.length === 0) {
-                return res.status(400).json({message: "Products not found", resultCode: 1})
-            }
-
             return res.status(200).json(result)
-        })
 
+        })
 
     } catch (err) {
         return res.status(500).json({message: "Что-то пошло не так"})
