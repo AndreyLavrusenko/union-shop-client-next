@@ -83,6 +83,28 @@ export const cartAPI = {
         }
     },
 
+    getCart: async () => {
+        const {data} = await instance.get('api/cart/all')
+        return data
+    },
+
+    getItemFromCart: async (uniqCode: number) => {
+        const {data} = await instance.get(`api/cart/${uniqCode}`)
+        return data
+    },
+
+    plusQuantity: async (id: number) => {
+        await instance.put(`api/cart/quantity/plus/${id}`)
+    },
+
+    minusQuantity: async (id: number) => {
+        await instance.put(`api/cart/quantity/minus/${id}`)
+    },
+
+    deleteItemFromCart: async (id: number) => {
+        await instance.delete(`api/cart/${id}`)
+    },
+
 }
 
 

@@ -1,7 +1,6 @@
 import React, {useCallback, useEffect, useState} from 'react';
 import {productAPI} from "@/api/api";
 import {IProduct} from "@/models/IProduct";
-import debounce from 'lodash.debounce'
 import styles from '../styles/page/shop.module.scss'
 import AllCard from "@/components/all/all-card/AllCard";
 import Category from "@/components/all/category/Category";

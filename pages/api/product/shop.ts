@@ -7,7 +7,7 @@ export default async function handler(
     res: NextApiResponse
 ) {
     try {
-        const limit = 3; // Количетсво товаров на одной странице
+        const limit = 10; // Количетсво товаров на одной странице
 
         const sql = `SELECT COUNT(*) FROM product WHERE isVisible = 1`;
 

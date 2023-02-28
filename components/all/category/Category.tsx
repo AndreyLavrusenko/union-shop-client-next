@@ -10,7 +10,6 @@ interface IProps {
 }
 
 const Category = ({setActiveCategoryFunc, activeCategory, setSearch, category}: IProps) => {
-    console.log(activeCategory)
     return (
         <div className={styles.all__category}>
             {category.map((item, i) => {
