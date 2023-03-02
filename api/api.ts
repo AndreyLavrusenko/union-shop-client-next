@@ -2,6 +2,7 @@ import axios from "axios";
 import {Dispatch} from "redux";
 import {cartError, cartStart, cartSuccess} from "@/redux/reducer/cartSlice";
 import {IProductInfo} from "@/models/IProductInfo";
+import {IUserData} from "@/models/IUserData";
 
 const instance = axios.create({
     withCredentials: true,
@@ -10,6 +11,9 @@ const instance = axios.create({
 
 
 export const authAPI = {
+    getUserInfo: async () => {
+        return await instance.get('api/auth/userInfo')
+    }
 }
 
 export const productAPI = {
@@ -105,8 +109,42 @@ export const cartAPI = {
         await instance.delete(`api/cart/${id}`)
     },
 
+    getCartQuantity: async () => {
+        const {data} = await instance.get('api/cart/quantity')
+        return data
+    },
 }
 
+
+export const orderAPI = {
+    getOrders: async () => {
+        return await instance.get('api/order')
+    },
+
+    getOrderSum: async () => {
+        return await instance.get('api/order/order-sum')
+    },
+
+    createOrder: async (deliverType: string, letter: string) => {
+        return await instance.post('api/order', {deliverType, letter})
+    },
+
+    setNewDeliveryPrice: async (price: number, deliveryType: string) => {
+        return await instance.post('api/order/change-price', {price, deliveryType})
+    },
+
+    setUserInfoDelivery: async (userInfo: IUserData, email: string) => {
+        return await instance.put('api/order/delivery-user-info', {userInfo, email})
+    },
+
+    getOrdersQuantity: async () => {
+        return await instance.get('api/order/get-quantity-orders')
+    },
+
+    setPerformedOrderStatus: async () => {
+        return await instance.put('api/order/delivery-buy', {})
+    },
+}
 
 export const systemAPI = {
     getCopyright: async () => {

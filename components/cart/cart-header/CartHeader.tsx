@@ -18,7 +18,7 @@ const CartHeader = ({myCart, availableBuy}: IProps) => {
             <h1 className={styles.cart__header__title}>Общая сумма корзины <span>{price} ₽.</span></h1>
             <div className={styles.cart__header__desc}>Бесплатная доставка</div>
             {availableBuy
-                ? <Link style={{ textDecoration: "none"}} href="delivery-method">
+                ? <Link style={{ textDecoration: "none"}} href="delivery/delivery-method">
                     <button className={styles.cart__header__button}>Оформить заказ</button>
                 </Link>
                 : <button style={{ textDecoration: "none", backgroundColor: "#0707e1", cursor: "not-allowed"}} className={styles.cart__header__button}>Доступны не все товары</button>

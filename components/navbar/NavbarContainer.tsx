@@ -3,28 +3,32 @@ import Navbar from "@/components/navbar/Navbar";
 import {useRouter} from "next/router";
 import {useAppDispatch, useAppSelector} from "@/hook/redux";
 import {useSession} from "next-auth/react";
+import {cartAPI} from "@/api/api";
+import {setCartQuantity} from "@/redux/reducer/cartSlice";
 
 
 interface IProps {}
 
 const NavbarContainer = ({}: IProps) => {
-    // Кол-во элементов в корзине
-    const [quantityState, setQuantityState] = useState(0)
+    const {quantity} = useAppSelector(state => state.cart)
 
     const dispatch = useAppDispatch()
     // Открыта боковая панель или нет
     const [navbar, setNavbar] = useState(false)
 
+    // Перерисовка корзины при изменении кол-ва объектов
+    const [rerenderCart, setRerenderCart] = useState(false)
+
     const {data: user} = useSession()
 
     // Пишет кол-во товара в корзине
-    // useEffect(() => {
-    //     const getCartCount = async () => {
-    //         const data = await cartAPI.getCartQuantity()
-    //         setQuantityState(data)
-    //     }
-    //     getCartCount()
-    // }, [rerenderCart, user])
+    useEffect(() => {
+        const getCartCount = async () => {
+            const data = await cartAPI.getCartQuantity()
+            dispatch(setCartQuantity(data))
+        }
+        getCartCount().then(() => setRerenderCart(prev => !prev))
+    }, [rerenderCart, user])
 
     // Если пользователь зашел в аккану
     useEffect(() => {
@@ -79,7 +83,7 @@ const NavbarContainer = ({}: IProps) => {
 
     return (
         <Navbar
-            quantityState={quantityState}
+            quantityState={quantity}
             navbar={navbar}
             closeNavbar={closeNavbar}
             isAuth={user?.user}

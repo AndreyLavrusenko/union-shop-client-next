@@ -1,12 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import styles from '../styles/page/cart.module.scss'
-import {cartAPI} from "@/api/api";
+import {cartAPI, productAPI} from "@/api/api";
 import {useSession} from "next-auth/react";
 import CartHeader from "@/components/cart/cart-header/CartHeader";
 import {ICart} from "@/models/ICart";
 import CartItem from "@/components/cart/cart-item/CartItem";
 import CartLetter from "@/components/cart/cart-letter/CartLetter";
 import CartCheque from "@/components/cart/cart-cheque/CartCheque";
+import {setCartQuantity} from "@/redux/reducer/cartSlice";
+import {useAppDispatch} from "@/hook/redux";
 
 
 const Cart = () => {
@@ -17,6 +19,8 @@ const Cart = () => {
     const [loading, setLoading] = useState(true)
     const [cartUpdate, setCartUpdate] = useState(true)
     const [updateDelete, setUpdateDelete] = useState(false)
+
+    const dispatch = useAppDispatch()
 
     // Получение товаров в корзине и количество этого товара в наличии из таблицы all_products
     useEffect(() => {
@@ -32,9 +36,40 @@ const Cart = () => {
             setLoading(false)
         }
 
-        getAllProduct()
+        getAllProduct().then(() => setUpdateDelete(!updateDelete))
 
     }, [user, cartUpdate])
+
+
+    // Получение кол-ва товаров в корзине
+    useEffect(() => {
+        const getCartCount = async () => {
+            const data = await cartAPI.getCartQuantity()
+            dispatch(setCartQuantity(data))
+        }
+        getCartCount()
+    }, [cartUpdate, user, availableBuy])
+
+    // При удалении элемента из корзина, смотрит остались ли там товары, которых нет в наличии
+    // Если их нет, то разрешает покупку
+    useEffect(() => {
+        const arr: number[] = []
+
+        myCart.map(item => {
+            if (item.quantity <= item.count) {
+                arr.push(1)
+            } else {
+                arr.push(0)
+            }
+        })
+
+        if (arr.includes(0)) {
+            setAvailableBuy(false)
+        } else {
+            setAvailableBuy(true)
+        }
+
+    }, [updateDelete, cartUpdate])
 
     // Удаление элемента из корзины
     const handleDelete = async (id: number) => {

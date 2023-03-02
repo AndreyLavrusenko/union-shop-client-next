@@ -78,7 +78,7 @@ const CartCheque = ({availableBuy, myCart}: IProps) => {
                 </div>
 
                 {availableBuy
-                    ? <Link style={{ textDecoration: "none"}} href="/delivery-method" className={styles.cart__check__button}>Оформить заказ</Link>
+                    ? <Link style={{ textDecoration: "none"}} href="delivery/delivery-method" className={styles.cart__check__button}>Оформить заказ</Link>
                     : <button style={{ textDecoration: "none", backgroundColor: "#0707e1", cursor: "not-allowed"}} className={styles.cart__check__button}>Доступны не все товары</button>
                 }
             </div>
