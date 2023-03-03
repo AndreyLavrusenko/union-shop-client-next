@@ -7,4 +7,6 @@ export interface IProductInfo {
     title_product?: string
     uniqCode?: number
     name?: string
+    image?: string
+    title?: string
 }

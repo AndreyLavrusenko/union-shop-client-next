@@ -1,10 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from "next/router";
 import {orderAPI} from "@/api/api";
+import styles from '../../styles/page/status.module.scss'
+import StatusInfo from "@/components/status/StatusInfo";
+import {IStatus} from "@/models/IStatus";
+import StatusProducts from "@/components/status/status-products/StatusProducts";
+import StatusDetails from "@/components/status/status-details/StatusDetails";
 
 const Status = () => {
     const router = useRouter()
-    const [orderData, setOrderData] = useState([])
+    const [orderData, setOrderData] = useState<IStatus[]>([])
 
     const id = router.query.id
 
@@ -20,8 +25,15 @@ const Status = () => {
 
 
     return (
-        <div>
-
+        <div className={styles.status}>
+            <div className={styles.status__wrapper}>
+                {/*@ts-ignore*/}
+                <StatusInfo orderId={orderData.result[0].id} orderStatus={orderData.result[0].status} />
+                {/*@ts-ignore*/}
+                <StatusProducts orderProducts={orderData.arr} />
+            </div>
+            {/*@ts-ignore*/}
+            <StatusDetails orderDetails={orderData.result} />
         </div>
     );
 };
