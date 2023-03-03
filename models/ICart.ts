@@ -13,4 +13,8 @@ export interface ICart {
     image?: string
     title?: string
     description?: string
+    performed?: string
+    subColor?: string
+    backgroundcolor?: string
+    trackNumber?: string
 }

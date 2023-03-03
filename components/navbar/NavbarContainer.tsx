@@ -16,9 +16,6 @@ const NavbarContainer = ({}: IProps) => {
     // Открыта боковая панель или нет
     const [navbar, setNavbar] = useState(false)
 
-    // Перерисовка корзины при изменении кол-ва объектов
-    const [rerenderCart, setRerenderCart] = useState(false)
-
     const {data: user} = useSession()
 
     // Пишет кол-во товара в корзине
@@ -27,8 +24,8 @@ const NavbarContainer = ({}: IProps) => {
             const data = await cartAPI.getCartQuantity()
             dispatch(setCartQuantity(data))
         }
-        getCartCount().then(() => setRerenderCart(prev => !prev))
-    }, [rerenderCart, user])
+        getCartCount()
+    }, [user])
 
     // Если пользователь зашел в аккану
     useEffect(() => {

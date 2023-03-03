@@ -144,6 +144,10 @@ export const orderAPI = {
     setPerformedOrderStatus: async () => {
         return await instance.put('api/order/delivery-buy', {})
     },
+
+    getOrderById: async (id: string | string[]) => {
+        return await instance.get(`api/order/${id}`)
+    },
 }
 
 export const systemAPI = {

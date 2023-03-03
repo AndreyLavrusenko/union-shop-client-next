@@ -28,7 +28,6 @@ export default async function handler(
             pool.query(sql, data, (error, result: any[]) => {
                 if (error) return res.status(400).json({message: "Products not found", resultCode: 1})
 
-
                 const price = result.reduce((accumulator, object) => {
                     return accumulator + object.quantity
                 }, 0)

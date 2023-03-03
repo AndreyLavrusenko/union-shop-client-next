@@ -106,7 +106,7 @@
 .search {
     display: flex;
     justify-content: center;
-    margin-left: -230px;
+    margin-left: -240px;
 }
 
 .search > h3 {
@@ -249,18 +249,20 @@
 
 
 @media (max-width: 1336px) {
+    .stripe__card {
+        margin-right: 1px;
+        min-width: 259px;
+        height: 341px;
+    }
+}
+
+@media (max-width: 1300px) {
     .search {
         margin-left: -50px;
     }
 
     .pagination {
         margin-left: 50px;
-    }
-
-    .stripe__card {
-        margin-right: 1px;
-        min-width: 259px;
-        height: 341px;
     }
 }
 
