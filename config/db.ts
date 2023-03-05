@@ -14,6 +14,6 @@ export const pool = mysql.createPool({
     user: process.env.DB_USER,
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
-    socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock',
+    // socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock',
     port: 3306
 })
