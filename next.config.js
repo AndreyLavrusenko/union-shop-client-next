@@ -7,9 +7,10 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_BACK_URI: process.env.BASE_URL,
     NEXT_PUBLIC_API: process.env.API_URL,
+    NEXT_AUTH_SECRET: process.env.NEXT_AUTH_SECRET,
   },
   images: {
-    domains: ["localhost"]
+    domains: ["localhost", 'https://unionshop-api.onrender.com', 'https://union-shop-client-next.vercel.app']
   },
 
 }
