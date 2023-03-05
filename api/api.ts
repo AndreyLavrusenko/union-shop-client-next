@@ -148,6 +148,10 @@ export const orderAPI = {
     getOrderById: async (id: string | string[]) => {
         return await instance.get(`api/order/${id}`)
     },
+
+    getCompleteOrders: async () => {
+        return await instance.get(`api/order/get-complete-orders`)
+    },
 }
 
 export const systemAPI = {

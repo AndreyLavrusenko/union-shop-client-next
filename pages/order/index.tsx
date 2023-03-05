@@ -154,7 +154,7 @@ const Order = () => {
                 : null
             }
 
-            <Link className={styles.order__pastoreder} href={"/previous-order"}>Мои предыдущие заказы</Link>
+            <Link className={styles.order__pastoreder} href={"order/previous-order"}>Мои предыдущие заказы</Link>
 
         </div>
     );
