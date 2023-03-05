@@ -10,7 +10,7 @@ const nextConfig = {
     NEXT_AUTH_SECRET: process.env.NEXT_AUTH_SECRET,
   },
   images: {
-    domains: ["localhost", 'https://unionshop-api.onrender.com', 'https://union-shop-client-next.vercel.app']
+    domains: ["localhost", 'unionshop-api.onrender.com']
   },
 
 }

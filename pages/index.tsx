@@ -44,7 +44,7 @@ const Home = ({topProduct, firstCategory, secondCategory, thirdCategory}: IProps
 export default Home;
 
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
 
     const topProduct = await productAPI.renderTop()
 
