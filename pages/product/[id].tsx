@@ -52,16 +52,13 @@ export default Product;
 
 
 export const getServerSideProps = async ({query}: {query: {id: string}}) => {
-    let productData, productInfo
 
-    const res = await productAPI.getProductById(query.id)
-    console.log(res)
-
+    const data = await productAPI.getProductById(query.id)
 
     return {
         props: {
-            productData,
-            productInfo,
+            productData: data.result[0],
+            productInfo: data.info_result,
         }
     }
 }
