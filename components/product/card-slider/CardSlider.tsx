@@ -27,7 +27,7 @@ const CardSlider = ({image, images, background, title}: IProps) => {
             <div className={styles.cardslider__main} style={{backgroundColor: background}}>
                 {/*Главная картинка images*/}
                 {/*@ts-ignore*/}
-                <Image layout='fill' objectFit='contain' className={styles.cardslider__main__img} src={activeImg.length > 0 ? activeImg : process.env.NEXT_PUBLIC_API + image} alt={title} />
+                <img className={styles.cardslider__main__img} src={activeImg.length > 0 ? activeImg : process.env.NEXT_PUBLIC_API + image} alt={title} />
             </div>
             {/*Картинки из массива*/}
             <div className={styles.cardslider__down}>
