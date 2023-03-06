@@ -52,8 +52,11 @@ export const productAPI = {
 
     getProductById: async (id: string | string[]) => {
         try {
-            const {data} = await instance.get(`api/product/${id}`)
-            return data
+            const product = await instance.get(`api/product/${id}`)
+
+            return {
+                product
+            }
         } catch (err) {
             console.log(err)
         }

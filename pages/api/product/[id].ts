@@ -21,8 +21,6 @@ export default async function handler(
 
                 const arr = [...result, ...info_result]
 
-                console.log(arr)
-
                 return res.status(200).json(arr)
             })
         })
