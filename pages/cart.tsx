@@ -25,7 +25,6 @@ const Cart = () => {
     // Получение товаров в корзине и количество этого товара в наличии из таблицы all_products
     useEffect(() => {
         const getAllProduct = async () => {
-            //@ts-ignore
             const res = await cartAPI.getCart()
             if (res.resultCode) {
                 setMyCart([])

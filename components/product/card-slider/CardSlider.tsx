@@ -19,6 +19,8 @@ const CardSlider = ({image, images, background, title}: IProps) => {
         setActiveImg(e.target.src)
     }
 
+    console.log(activeImg)
+
 
     return (
         <div className={styles.cardslider}>

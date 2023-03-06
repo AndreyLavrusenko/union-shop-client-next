@@ -54,9 +54,8 @@ export const productAPI = {
         try {
             const product = await instance.get(`api/product/${id}`)
 
-            return {
-                product
-            }
+            return {product}
+
         } catch (err) {
             console.log(err)
         }

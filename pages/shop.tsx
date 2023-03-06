@@ -89,7 +89,5 @@ export const getServerSideProps = async ({query}: any) => {
             products: result,
             category,
         }
-
-
     }
 }
