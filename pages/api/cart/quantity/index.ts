@@ -1,5 +1,5 @@
 import {pool} from "@/config/db";
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type {NextApiRequest, NextApiResponse} from 'next'
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/pages/api/auth/[...nextauth]";
 
@@ -14,13 +14,13 @@ export default async function handler(
     res: NextApiResponse<Data>
 ) {
 
-    try {
+    const user = await getServerSession(req, res, authOptions)
 
-        const user = await getServerSession(req, res, authOptions)
+    const authHeader = user?.user?.id ?? ''
 
-        const authHeader = user?.user?.id ?? ''
+    if (authHeader) {
 
-        if (authHeader) {
+        try {
 
             const sql = "SELECT quantity FROM cart WHERE userId = ?"
             const data = [authHeader]
@@ -36,14 +36,12 @@ export default async function handler(
 
             })
 
+
+        } catch (err) {
+            return res.status(500).json({message: "Что-то пошло не так"})
         }
-
-    } catch (err) {
-        return res.status(500).json({message: "Что-то пошло не так"})
     }
-
 }
-
 
 export const config = {
     api: {

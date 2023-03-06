@@ -12,6 +12,7 @@ export default async function handler(
     res: NextApiResponse<Data>
 ) {
     try {
+
         const sql = `SELECT copyright FROM system`;
 
         pool.query(sql, (error, result: any) => {
