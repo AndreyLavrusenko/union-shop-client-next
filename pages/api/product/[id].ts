@@ -13,16 +13,16 @@ export default async function handler(
         pool.query(sql, (error, result: any) => {
             if (error) return res.status(400).json({message: "Products not found", resultCode: 1})
 
-
             const sql = `SELECT * FROM all_products WHERE uniqCode = ?`;
             const data = [result[0].uniqCode]
 
-            pool.query(sql, data, (error, info_result) => {
+            pool.query(sql, data, (error, info_result: any) => {
                 if (error) return res.status(400).json({message: "Products not found", resultCode: 1})
 
-                return res.status(200).json({result, info_result})
-            })
+                const arr = [...result, ...info_result]
 
+                return res.status(200).json(arr)
+            })
         })
 
     } catch (err) {

@@ -57,8 +57,8 @@ export const getServerSideProps = async ({query}: {query: {id: string}}) => {
 
     return {
         props: {
-            productData: data.result[0],
-            productInfo: data.info_result,
+            productData: data[0],
+            productInfo: [data[1]],
         }
     }
 }
