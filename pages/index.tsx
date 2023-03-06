@@ -44,13 +44,16 @@ const Home = ({topProduct, firstCategory, secondCategory, thirdCategory}: IProps
 export default Home;
 
 
-export async function getServerSideProps() {
-
+export const getServerSideProps = async () => {
     const topProduct = await productAPI.renderTop()
 
-    const categoryProduct = await productAPI.renderCategory()
+    let firstCategory, secondCategory, thirdCategory
 
-    const {firstCategory: {data: firstCategory}, secondCategory: {data: secondCategory}, thirdCategory: {data: thirdCategory}} = categoryProduct
+    await productAPI.renderCategory()
+        .then(data => {
+            return {firstCategory: {data: firstCategory}, secondCategory: {data: secondCategory}, thirdCategory: {data: thirdCategory}} = data
+        })
+
 
     return {
         props: {

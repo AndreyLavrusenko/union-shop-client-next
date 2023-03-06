@@ -50,7 +50,7 @@ export const productAPI = {
         return data
     },
 
-    getProductById: async (id: string) => {
+    getProductById: async (id: string | string[]) => {
         try {
             return await instance.get(`api/product/${id}`)
         } catch (err) {
