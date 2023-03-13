@@ -14,7 +14,7 @@ import styles from './cardinfo.module.scss'
 
 
 interface IProps {
-    setRerenderCart: (status:boolean) => void
+    setRerenderCart: (status: boolean) => void
     rerenderCart: boolean
     isAuth: any
     productInfo: IProductInfo[]
@@ -149,8 +149,15 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
 
                 const name = title_product.title_product
 
-                // @ts-ignore
-                await cartAPI.setProduct({name, price, id, color: activeColor, size: activeSize}, dispatch, user?.user?.id ?? '')
+
+                await cartAPI.setProduct({
+                    name,
+                    price,
+                    id,
+                    color: activeColor,
+                    size: activeSize
+                    // @ts-ignore
+                }, dispatch, user?.user?.id ?? '')
 
                 setActiveSize(productInfo[0].size)
                 setActiveColor(productInfo[0].color)
@@ -172,7 +179,14 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                 const name = title_product.title_product
 
                 // @ts-ignore
-                await cartAPI.setProduct({name, price, id, color: activeColor, size: activeSize}, dispatch, user?.user?.id ?? '')
+                await cartAPI.setProduct({
+                    name,
+                    price,
+                    id,
+                    color: activeColor,
+                    size: activeSize
+                    // @ts-ignore
+                }, dispatch, user?.user?.id ?? '')
 
                 setActiveSize(productInfo[0].size)
                 setActiveColor(productInfo[0].color)
@@ -193,7 +207,14 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
             const name = title_product.title_product
 
             // @ts-ignore
-            await cartAPI.setProduct({name, price, id, color: activeColor, size: activeSize}, dispatch, user?.user?.id ?? '')
+            await cartAPI.setProduct({
+                name,
+                price,
+                id,
+                color: activeColor,
+                size: activeSize
+                // @ts-ignore
+            }, dispatch, user?.user?.id ?? '')
 
             setActiveColor(productInfo[0].color)
             setColorError(false)
@@ -220,7 +241,8 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
     return (
         <div className={styles.cardinfo}>
             {/*@ts-ignore*/}
-            <Notification color={"#E2F5EA"} sendColor={"#6FCF97"} text={"Товар добавлен в корзину"} toastActive={toastActive} setToastActive={setToastActive} isError={error} />
+            <Notification color={"#E2F5EA"} sendColor={"#6FCF97"} text={"Товар добавлен в корзину"}
+                          toastActive={toastActive} setToastActive={setToastActive} isError={error}/>
             <div className={styles.cardinfo__new}>{productData.isNew ? "Новинка" : null}</div>
             <div className={styles.cardinfo__title}>{productData.title}</div>
             <div className={styles.cardinfo__desc}>{productData.description} -</div>
@@ -230,16 +252,37 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                 {title_product ? title_product.title_product : "-------"}
             </div>
 
-            {/* Вывод цены */}
-            <div
-                className={styles.cardinfo__price}
-                style={price ? {opacity: 1} : {opacity: 0}}
-            >
-                {price
-                    ? price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽"
-                    : "-------"
-                }
-            </div>
+            {/* Вывод цены если есть скидка */}
+            {productInfo[0].discount
+                ?
+                <div style={{display: "flex"}}>
+
+                    <del style={{textDecoration: 'line-through', textDecorationColor: 'red'}}
+                         className={styles.cardinfo__price}>
+                        {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽"}
+                    </del>
+
+                    <div className={styles.cardinfo__price} style={{marginLeft: '10px'}}>
+                        {price
+                            ? productInfo[0].discount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽"
+                            : "-------"
+                        }
+                    </div>
+
+                </div>
+
+                // Вывод цена
+                : <div
+                    className={styles.cardinfo__price}
+                    style={price ? {opacity: 1} : {opacity: 0}}
+                >
+                    {price
+                        ? price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽"
+                        : "-------"
+                    }
+                </div>
+            }
+
 
             {/* Если у товара нет размера, то ничего не выводит */}
             {!showSize
@@ -326,7 +369,8 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
             <div className={styles.cardinfo__size}>
                 {sizeImg.map((item: string, i: number) => (
                     <div key={i}>
-                        <Image src={process.env.NEXT_PUBLIC_API + item} alt="" objectFit={"cover"} layout={"fill"} className={styles.cardinfo__size__img}/><br/>
+                        <Image src={process.env.NEXT_PUBLIC_API + item} alt="" objectFit={"cover"} layout={"fill"}
+                               className={styles.cardinfo__size__img}/><br/>
                     </div>
                 ))}
             </div>

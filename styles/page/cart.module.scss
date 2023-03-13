@@ -363,6 +363,7 @@
 @media (max-width: 1300px) {
     .cart__info__main {
         width: 480px;
+        margin-left: 20px;
     }
 
     .cart__info {
@@ -378,7 +379,7 @@
     }
 
     .cart__info__count {
-        margin-left: 330px;
+        margin-left: 280px;
     }
 }
 
@@ -398,10 +399,7 @@
     .cart__item__wrapper {
         margin-left: -145px;
     }
-
-    .cart__info__main {
-        margin-left: 0;
-    }
+    
 }
 
 
@@ -431,6 +429,7 @@
         flex-direction: column;
         width: inherit;
         border-bottom: none;
+        margin-left: 0;
     }
 
     .cart__info__left {

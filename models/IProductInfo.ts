@@ -9,4 +9,5 @@ export interface IProductInfo {
     name?: string
     image?: string
     title?: string
+    discount?: number | string
 }
