@@ -5,6 +5,7 @@ import Image from "next/image";
 import Modal from "@/components/modal/Modal";
 import { signOut } from "next-auth/react"
 import styles from './navbar.module.scss'
+import Link from "next/link";
 
 
 interface IProps {
@@ -20,7 +21,9 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
     return (
         <div className={styles.side + " js-side" } style={navbar ? {zIndex: "2", position: "fixed"} : {zIndex: "0", position: "absolute"}}>
             <div className={styles.side__inner} style={navbar ? {opacity: "1", visibility: 'visible'} : {opacity: "0", visibility: "hidden"}}>
-                <Image src={nav_logo} className={styles.nav__logo} alt="logo" />
+                <Link href="/">
+                    <Image src={nav_logo} className={styles.nav__logo} alt="logo" />
+                </Link>
 
                 <nav className={styles.nav}>
                     <ul>

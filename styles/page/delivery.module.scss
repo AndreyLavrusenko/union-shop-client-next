@@ -418,6 +418,11 @@
     margin-bottom: 7px;
 }
 
+.delivery_info_disabled {
+    background-color: #0707e1;
+    cursor: not-allowed;
+}
+
 
 @media (max-width: 1000px) {
     .create {

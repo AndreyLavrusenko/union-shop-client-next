@@ -13,6 +13,8 @@ export default async function handler(
 
         const authHeader = user?.user?.id ?? ''
 
+        console.log(authHeader)
+
         if (authHeader) {
 
             const getQuantitySql = "SELECT myOrder FROM orders WHERE userId = ? AND status = ?"
@@ -37,8 +39,8 @@ export default async function handler(
 
                 //Уменьшить количество товара в таблице all_products
                 orderUniqCode.map(orderItem => {
-                    const decrease_sql = "UPDATE all_products SET count = count - ? WHERE id = ?"
-                    const decrease_data = [orderItem.quantity, orderItem.allProductId]
+                    const decrease_sql = "UPDATE all_products SET count = count - ?, sold = sold + ? WHERE id = ?"
+                    const decrease_data = [orderItem.quantity, orderItem.quantity, orderItem.allProductId]
 
                     pool.query(decrease_sql, decrease_data, (error_decrease, result_decrease) => {
                         if (error_decrease) return res.status(400).json({message: error_decrease, resultCode: 1})

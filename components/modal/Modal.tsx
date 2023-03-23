@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createPortal} from "react-dom";
 import Image from "next/image";
 import logo from '../../assets/image/logo/header_logo.svg'
@@ -14,6 +14,16 @@ interface IProps {
 
 const Modal = ({active, setModalActive}: IProps): JSX.Element => {
     const [unionId, setUnionId] = useState(false)
+
+    useEffect(() => {
+        if (active) {
+            document.querySelector('body').style.overflow = 'hidden'
+        }
+
+        return () => {
+            document.querySelector('body').style.overflow = 'scroll'
+        }
+    }, [active])
 
     if (process.browser) {
         return createPortal(

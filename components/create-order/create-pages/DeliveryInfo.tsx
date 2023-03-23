@@ -10,6 +10,7 @@ import {IUserData} from "@/models/IUserData";
 const DeliveryInfoComponent = () => {
     const router = useRouter()
     const {register, formState: {errors}, handleSubmit} = useForm()
+    const [isChecked, setIsChecked] = useState(false)
     const [userData, setUserData] = useState({
         fullName: "",
         city: "",
@@ -76,7 +77,11 @@ const DeliveryInfoComponent = () => {
         <div>
             <CreateTitle subtitle={"Введите ваше имя и адрес:"} title={"Куда отправить ваш заказ?"}/>
             <div className={styles.create__order}>
-                <form onSubmit={e => onSubmit(e, userData)} className={styles.order__form}>
+                <form
+                    style={{marginTop: '20px'}}
+                    onSubmit={e => onSubmit(e, userData)}
+                    className={styles.order__form}
+                >
                     <input
                         required
                         type="name"
@@ -185,7 +190,16 @@ const DeliveryInfoComponent = () => {
                     <p className={styles.order__form__error + " " + styles.order__promo__error}>Неверный промокод</p>
 
                     <div className={styles.checkbox}>
-                        <input required className={styles.custom__checkbox} type="checkbox" id="conditions" name="conditions" value="conditions" />
+                        <input
+                            checked={isChecked}
+                            onClick={() => setIsChecked(prev => !prev)}
+                            required
+                            className={styles.custom__checkbox}
+                            type="checkbox"
+                            id="conditions"
+                            name="conditions"
+                            value="conditions"
+                        />
                         <label htmlFor="conditions">
                             Я принимаю условия: Условия доставки и оплаты / Shipping and Payment, Согласие на обработку
                             персональных данных / Consent to the Processing of Personal Data</label>
@@ -199,7 +213,15 @@ const DeliveryInfoComponent = () => {
                     </div>
 
 
-                    <button className={styles.order__form__buy} type="submit">Продолжить</button>
+                    <button
+                        disabled={!isChecked}
+                        className={isChecked
+                            ? styles.order__form__buy
+                            : styles.delivery_info_disabled + ' ' + styles.order__form__buy
+                        }
+                        type="submit"
+                    >Продолжить
+                    </button>
 
                 </form>
 
