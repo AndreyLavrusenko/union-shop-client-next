@@ -40,6 +40,7 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
         sizeImg = JSON.parse(productData.sizeImg)
     }
 
+
     // Изначальный размер
     const [activeSize, setActiveSize] = useState(productInfo[0].size)
     const [activeColor, setActiveColor] = useState(productInfo[0].color)

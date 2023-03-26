@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type {NextApiRequest, NextApiResponse} from 'next'
 import {pool} from '@/config/db'
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/pages/api/auth/[...nextauth]";
@@ -13,7 +13,6 @@ export default async function handler(
 
         const authHeader = user?.user?.id ?? ''
 
-        console.log(authHeader)
 
         if (authHeader) {
 
@@ -36,6 +35,24 @@ export default async function handler(
                         })
                     })
                 }
+
+                // Увеличиваю кол-во проданных вещей, что бы узнать самые продаваемые товары
+                // И предлагать их на главной странице
+                orderUniqCode.forEach(item => {
+                    const sql = `SELECT uniqCode FROM all_products WHERE id = ${item.allProductId}`;
+
+                    pool.query(sql, (error, result: any) => {
+                        if (error) return res.status(400).json({message: "Products not found", resultCode: 1})
+
+                        const sql = `UPDATE product SET popularity = popularity + 1 WHERE uniqCode = ?`;
+                        const data = [result[0].uniqCode]
+
+                        pool.query(sql, data, (error) => {
+                            if (error) return res.status(400).json({message: "Products not found", resultCode: 1})
+                        })
+                    })
+                })
+
 
                 //Уменьшить количество товара в таблице all_products
                 orderUniqCode.map(orderItem => {

@@ -12,15 +12,17 @@ interface categoryItem {
 
 interface IProps {
     topProduct: IProduct[],
+    newProduct: IProduct[],
     firstCategory: categoryItem,
     secondCategory: categoryItem,
     thirdCategory: categoryItem,
 }
 
-const Home = ({topProduct, firstCategory, secondCategory, thirdCategory}: IProps) => {
+const Home = ({topProduct, newProduct, firstCategory, secondCategory, thirdCategory}: IProps) => {
     return (
         <>
             <Card products={topProduct} title={"Лучшие товары."} secondTitle={"Зацените."}/>
+            <Card products={newProduct} title={"Наши новинки."} secondTitle={"Полистайте."}/>
             {firstCategory.resultProduct.length > 0
                 ? <Card products={firstCategory.resultProduct} title={firstCategory.titles[0]}
                         secondTitle={firstCategory.titles[1]}/>
@@ -46,6 +48,7 @@ export default Home;
 
 export const getServerSideProps = async () => {
     const topProduct = await productAPI.renderTop()
+    const newProduct = await productAPI.renderNew()
 
     let firstCategory, secondCategory, thirdCategory
 
@@ -58,6 +61,7 @@ export const getServerSideProps = async () => {
     return {
         props: {
             topProduct,
+            newProduct,
             firstCategory,
             secondCategory,
             thirdCategory,

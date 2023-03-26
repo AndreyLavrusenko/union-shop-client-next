@@ -10,16 +10,17 @@ interface IProps {
 }
 
 const Category = ({setActiveCategoryFunc, activeCategory, setSearch, category}: IProps) => {
+    console.log(category)
     return (
         <div className={styles.all__category}>
             {category.map((item, i) => {
                 return (
                     <div
                         key={i}
-                        className={activeCategory === item.category_type ? styles.all__category__item + " " + styles.active : styles.all__category__item}
-                        onClick={() => setActiveCategoryFunc(item.category_type)}
+                        className={activeCategory === item.categories ? styles.all__category__item + " " + styles.active : styles.all__category__item}
+                        onClick={() => setActiveCategoryFunc(item.categories)}
                     >
-                        {item.category_type}
+                        {item.categories}
                     </div>
                 )
             })}

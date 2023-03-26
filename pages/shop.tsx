@@ -10,7 +10,7 @@ import {useRouter} from "next/router";
 
 
 export interface ICategoryType {
-    category_type: string
+    categories: string
 }
 
 interface IProductType {

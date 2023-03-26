@@ -26,6 +26,15 @@ export const productAPI = {
         }
     },
 
+    renderNew: async () => {
+        try {
+            const {data} = await instance.get('api/product/new')
+            return data;
+        } catch (err) {
+            console.log(err)
+        }
+    },
+
     renderCategory: async () => {
         try {
             const firstCategory = await instance.get('api/product/popular/first')

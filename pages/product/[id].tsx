@@ -17,7 +17,6 @@ interface IProps {
 }
 
 const Product = ({productData, productInfo}: IProps) => {
-
     const {data: user} = useSession()
 
     const dispatch = useAppDispatch()
@@ -33,6 +32,8 @@ const Product = ({productData, productInfo}: IProps) => {
         }
         getCartCount()
     }, [rerenderCart])
+
+    console.log(productInfo)
 
     return (
         <div className={styles.card}>
@@ -57,7 +58,9 @@ export const getServerSideProps = async ({query}: {query: {id: string}}) => {
     await productAPI.getProductById(query.id)
         .then(data => {
                 productData = data.product.data[0];
-                productInfo = [data.product.data[1]]
+
+                data.product.data.splice(0,1)
+                productInfo = data.product.data
         })
 
 

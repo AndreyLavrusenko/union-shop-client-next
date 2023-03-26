@@ -19,7 +19,7 @@ export default async function handler(
 
             if (qCategory !== 'all' && search) {
                 let replacement = `'%${search}%'`;
-                const sqlCategorySearch = `SELECT COUNT(*) FROM product WHERE isVisible = 1 AND category_type = ? AND title LIKE ${replacement}`;
+                const sqlCategorySearch = `SELECT COUNT(*) FROM product WHERE isVisible = 1 AND categories = ? AND title LIKE ${replacement}`;
                 const dataCategorySearch = [qCategory]
 
                 pool.query(sqlCategorySearch, dataCategorySearch, (error, result) => {
@@ -33,7 +33,7 @@ export default async function handler(
                     //@ts-ignore
                     const totalPage = Math.ceil(totalRows / limit)
 
-                    const sql = `SELECT * FROM product WHERE category_type = ? AND isVisible = 1 AND title LIKE ${replacement} ORDER BY id ASC LIMIT ${limit} OFFSET ${offset}`;
+                    const sql = `SELECT * FROM product WHERE categories = ? AND isVisible = 1 AND title LIKE ${replacement} ORDER BY id ASC LIMIT ${limit} OFFSET ${offset}`;
                     const data = [qCategory]
 
                     pool.query(sql, data, (error, result) => {
@@ -45,7 +45,7 @@ export default async function handler(
                 })
             } else if (qCategory !== 'all') { // Если страницы с выбором категории
 
-                const sqlCategory = `SELECT COUNT(*) FROM product WHERE isVisible = 1 AND category_type = ?`;
+                const sqlCategory = `SELECT COUNT(*) FROM product WHERE isVisible = 1 AND categories = ?`;
                 const dataCategory = [qCategory]
 
                 pool.query(sqlCategory, dataCategory, (error, result) => {
@@ -59,7 +59,7 @@ export default async function handler(
                     //@ts-ignore
                     const totalPage = Math.ceil(totalRows / limit)
 
-                    const sql = `SELECT * FROM product WHERE category_type = ? AND isVisible = 1 ORDER BY id ASC LIMIT ${limit} OFFSET ${offset}`;
+                    const sql = `SELECT * FROM product WHERE categories = ? AND isVisible = 1 ORDER BY id ASC LIMIT ${limit} OFFSET ${offset}`;
                     const data = [qCategory]
 
                     pool.query(sql, data, (error, result) => {
