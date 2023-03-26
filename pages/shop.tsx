@@ -13,6 +13,7 @@ export interface ICategoryType {
     categories: string
 }
 
+
 interface IProductType {
     limit: number
     page: number
