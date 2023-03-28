@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from '../styles/page/cart.module.scss'
 import {cartAPI, productAPI} from "@/api/api";
-import {useSession} from "next-auth/react";
+import {getSession, useSession} from "next-auth/react";
 import CartHeader from "@/components/cart/cart-header/CartHeader";
 import {ICart} from "@/models/ICart";
 import CartItem from "@/components/cart/cart-item/CartItem";
@@ -111,3 +111,21 @@ const Cart = () => {
 };
 
 export default Cart
+
+
+export async function getServerSideProps(context: any) {
+    const session = await getSession(context)
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+
+    return {
+        props: { session }
+    }
+}
