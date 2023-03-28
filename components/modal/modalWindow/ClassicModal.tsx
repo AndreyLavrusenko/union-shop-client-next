@@ -92,7 +92,7 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
                 <span>или</span>
             </div>
             <div className={styles.modal__login}>
-                <div>
+                <div className={styles.modal__login__mobile}>
                     <button className={styles.modal__login__google} type={"button"} onClick={() => authByGoogle()}>
                         <Image width={28} src={google} alt="google"/>
                         <p>Google</p>

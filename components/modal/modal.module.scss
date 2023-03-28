@@ -306,6 +306,11 @@
         content: none;
     }
 
+    .modal__login__mobile {
+        width: 100%;
+    }
+
+
     .modal__login {
         flex-direction: column;
         justify-content: center;
@@ -328,11 +333,11 @@
 
     .modal__login__google {
         margin-bottom: 20px;
-        width: 300px;
+        width: 100%;
     }
 
     .modal__login__union {
-        width: 300px;
+        width: 100%;
     }
 
     .modal__header {

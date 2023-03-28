@@ -32,7 +32,6 @@ const Product = ({productData, productInfo}: IProps) => {
         getCartCount()
     }, [rerenderCart])
 
-    console.log(productInfo)
 
     return (
         <div className={styles.card}>
