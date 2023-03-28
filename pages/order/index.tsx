@@ -5,6 +5,7 @@ import Link from "next/link";
 import styles from '../../styles/page/order.module.scss'
 import OrderHeader from "@/components/order/order-header/OrderHeader";
 import OrderCard from "@/components/order/order-card/OrderCard";
+import {getSession} from "next-auth/react";
 
 
 interface IRes {
@@ -161,3 +162,21 @@ const Order = () => {
 };
 
 export default Order;
+
+
+export async function getServerSideProps(context: any) {
+    const session = await getSession(context)
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+
+    return {
+        props: { session }
+    }
+}

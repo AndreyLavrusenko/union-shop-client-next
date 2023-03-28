@@ -4,6 +4,7 @@ import OrderHeader from "@/components/order/order-header/OrderHeader";
 import OrderCard from "@/components/order/order-card/OrderCard";
 import styles from '../../styles/page/order.module.scss'
 import {ICart} from "@/models/ICart";
+import {getSession} from "next-auth/react";
 
 interface IRes {
     data: ICart[]
@@ -71,3 +72,21 @@ const PreviousOrder = () => {
 };
 
 export default PreviousOrder;
+
+
+export async function getServerSideProps(context: any) {
+    const session = await getSession(context)
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+
+    return {
+        props: { session }
+    }
+}

@@ -6,6 +6,7 @@ import StatusInfo from "@/components/status/StatusInfo";
 import {IStatus} from "@/models/IStatus";
 import StatusProducts from "@/components/status/status-products/StatusProducts";
 import StatusDetails from "@/components/status/status-details/StatusDetails";
+import {getSession} from "next-auth/react";
 
 const Status = () => {
     const router = useRouter()
@@ -39,3 +40,20 @@ const Status = () => {
 };
 
 export default Status;
+
+export async function getServerSideProps(context: any) {
+    const session = await getSession(context)
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/',
+                permanent: false,
+            },
+        }
+    }
+
+    return {
+        props: { session }
+    }
+}
