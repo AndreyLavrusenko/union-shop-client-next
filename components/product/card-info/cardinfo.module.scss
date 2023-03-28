@@ -194,4 +194,29 @@
         justify-content: center;
         flex-direction: column;
     }
+
+    .cardinfo__size {
+        text-align: center;
+    }
+
+    .cardinfo__toggle__text div {
+        font-size: 16px;
+        line-height: 18px;
+    }
+
+    .cardinfo__button {
+        width: 100%;
+    }
+
+    .cardinfo__toggle__title {
+        font-size: 18px;
+    }
+}
+
+
+@media (max-width: 420px) {
+    .cardinfo {
+        width: 90%;
+        margin-left: initial;
+    }
 }
