@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useRouter} from "next/router";
 import {useSession} from "next-auth/react";
 import CardSlider from "@/components/product/card-slider/CardSlider";
 import {cartAPI, productAPI} from "@/api/api";
@@ -33,7 +32,6 @@ const Product = ({productData, productInfo}: IProps) => {
         getCartCount()
     }, [rerenderCart])
 
-    console.log(productInfo)
 
     return (
         <div className={styles.card}>
