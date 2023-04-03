@@ -1,0 +1,62 @@
+.official {
+  width: calc(100% - 200px);
+  max-width: 1230px;
+  padding-left: 260px;
+  margin: 0 auto;
+  position: relative;
+  left: -240px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  ul {
+    margin-left: 24px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #00A3FF;
+    cursor: pointer;
+  }
+}
+
+.title {
+  font-family: 'Raleway', -apple-system, sans-serif;;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 39px;
+  line-height: 46px;
+  letter-spacing: -0.065em;
+  border-radius: 10px;
+
+  text-align: center;
+  margin: 50px 0;
+
+  padding: 1px 20px;
+
+  min-width: 320px;
+
+  &_main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.text {
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 51px;
+  color: #131313;
+  width: 100%;
+  }
+
+.image {
+  display: block;
+  margin: 0 auto;
+}
+
+.link_other {
+  text-decoration: underline;
+  color: #131313;
+}
