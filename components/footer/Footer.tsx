@@ -32,7 +32,7 @@ const Footer = ({copyright}: IProps) => {
                 </div>
                 <div className={styles.footer__right}>
                     <div className={styles.footer__right__left}>
-                        <Link className={styles.footer__right__link} href={"/"}>Оплата</Link><br/>
+                        <Link className={styles.footer__right__link} href={"/official/payment"}>Оплата</Link><br/>
                         <Link className={styles.footer__right__link} href={"/"}>Доставка</Link><br/>
                         <Link className={styles.footer__right__link} href={"/"}>Публичная Оферта</Link>
                     </div>
