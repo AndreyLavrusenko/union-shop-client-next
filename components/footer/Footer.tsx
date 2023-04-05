@@ -34,12 +34,12 @@ const Footer = ({copyright}: IProps) => {
                     <div className={styles.footer__right__left}>
                         <Link className={styles.footer__right__link} href={"/official/payment"}>Оплата</Link><br/>
                         <Link className={styles.footer__right__link} href={"/official/delivery"}>Доставка</Link><br/>
-                        <Link className={styles.footer__right__link} href={"/"}>Публичная Оферта</Link>
+                        <Link className={styles.footer__right__link} href={"/official/public-offer"}>Публичная Оферта</Link>
                     </div>
                     <div className={styles.footer__right__right}>
-                        <Link className={styles.footer__right__link} href={"/"}>Обработка персональных данных</Link><br/>
-                        <Link className={styles.footer__right__link} href={"/"}>Ответы на часто задаваемые вопросы</Link><br/>
-                        <Link className={styles.footer__right__link} href={"/"}>Контакты</Link>
+                        <Link className={styles.footer__right__link} href={"/official/personal-data"}>Обработка персональных данных</Link><br/>
+                        <Link className={styles.footer__right__link} href={"/official/faq"}>Ответы на часто задаваемые вопросы</Link><br/>
+                        <Link className={styles.footer__right__link} href={"/official/contacts"}>Контакты</Link>
                     </div>
                 </div>
             </div>
