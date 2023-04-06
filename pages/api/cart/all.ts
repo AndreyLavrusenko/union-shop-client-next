@@ -55,7 +55,8 @@ export default async function handler(
                         result.forEach((result: any, i: number) => {
                             resultArray.forEach((item: any, j: number) => {
                                 if (result.allProductId === item.id) {
-                                    result.count = item.count
+                                    result.count = item.count // Смотрит кол-во этого товара в наличии
+                                    result.discount = item.discount // Проверяет наличие скидки на товар
                                 }
                             })
                         })

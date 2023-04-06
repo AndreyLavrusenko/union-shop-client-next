@@ -91,9 +91,18 @@ const Cart = () => {
         setCartUpdate(!cartUpdate)
     }
 
+    const price = myCart.reduce((accumulator, object) => {
+        return accumulator + (object.discount ?? object.price) * object.quantity
+    }, 0)
+
+    // Добавляет цену с учетом скидке по которой будет формироваться заказ
+    const saveTotalPriceWithDiscount = async () => {
+        await cartAPI.saveDiscountPrice(price)
+    }
+
     return (
         <div className={styles.cart__main}>
-            <CartHeader myCart={myCart} availableBuy={availableBuy}/>
+            <CartHeader saveTotalPriceWithDiscount={saveTotalPriceWithDiscount} price={price} availableBuy={availableBuy}/>
             <div className={styles.cart__item__wrapper}>
                 {myCart.map((item, i) => (
                     <CartItem
@@ -104,7 +113,7 @@ const Cart = () => {
                         cart={item}/>
                 ))}
                 <CartLetter/>
-                <CartCheque availableBuy={availableBuy} myCart={myCart}/>
+                <CartCheque saveTotalPriceWithDiscount={saveTotalPriceWithDiscount} availableBuy={availableBuy} price={price}/>
             </div>
         </div>
     );

@@ -125,6 +125,10 @@ export const cartAPI = {
         const {data} = await instance.get('api/cart/quantity')
         return data
     },
+
+    saveDiscountPrice: async (price: number) => {
+        await instance.put(`api/cart/save-discount-price`, {price})
+    }
 }
 
 

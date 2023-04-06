@@ -4,6 +4,7 @@ export interface ICart {
     count: number
     id: number
     price: number
+    discount: number | null
     productId: number
     productName: string
     quantity: number
