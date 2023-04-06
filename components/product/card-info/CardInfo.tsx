@@ -40,7 +40,6 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
         sizeImg = JSON.parse(productData.sizeImg)
     }
 
-
     // Изначальный размер
     const [activeSize, setActiveSize] = useState(productInfo[0].size)
     const [activeColor, setActiveColor] = useState(productInfo[0].color)
@@ -56,10 +55,11 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
     const [modal, setModal] = useState(false)
 
     let price: string | number = null
+    let discount: string | number = null
     let title_product: IProductInfo = null
 
     useEffect(() => {
-        // ОБнуляем выбранный цвет
+        // Обнуляем выбранный цвет
         let FLAG = false
 
         productInfo.filter(item => {
@@ -107,7 +107,14 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
             if (activeColor && activeSize) {
                 productInfo.map(item => {
                     if (item.color === activeColor && item.size === activeSize) {
-                        price = item.price
+                        // Если на товар есть скидка то записываем ее
+                        if (item.discount === null) {
+                            price = item.price
+                        } else if (item.discount) {
+                            discount = item.discount
+                            price = item.price
+                        }
+                        // price = item.discount === null || item.discount > item.price ? item.price : item.discount
                     }
                 })
             }
@@ -117,7 +124,12 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
             if (activeColor) {
                 productInfo.map(item => {
                     if (item.color === activeColor) {
-                        price = item.price
+                        if (item.discount === null) {
+                            price = item.price
+                        } else if (item.discount) {
+                            discount = item.discount
+                            price = item.price
+                        }
                     }
                 })
             }
@@ -125,7 +137,12 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
 
         if (!showColor && !showSize) {
             productInfo.map(item => {
-                price = item.price
+                if (item.discount === null) {
+                    price = item.price
+                } else if (item.discount) {
+                    discount = item.discount
+                    price = item.price
+                }
             })
         }
 
@@ -254,7 +271,7 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
             </div>
 
             {/* Вывод цены если есть скидка */}
-            {productInfo[0].discount
+            {discount
                 ?
                 <div style={{display: "flex"}}>
 
@@ -264,15 +281,12 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                     </del>
 
                     <div className={styles.cardinfo__price} style={{marginLeft: '10px'}}>
-                        {price
-                            ? productInfo[0].discount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽"
-                            : "-------"
-                        }
+                        {discount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽"}
                     </div>
 
                 </div>
 
-                // Вывод цена
+                // Вывод цены
                 : <div
                     className={styles.cardinfo__price}
                     style={price ? {opacity: 1} : {opacity: 0}}

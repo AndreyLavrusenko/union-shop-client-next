@@ -19,10 +19,8 @@ export const popularFunc = (res: any, category: string, category_name: string, c
         pool.query(sql_select, data, (error, resultProduct:any) => {
             if (error) return res.status(400).json({resultProduct: [], message: "Products not found", resultCode: 1})
 
-            if (resultProduct.length > 0) {
+            if (resultProduct) {
                 return res.status(200).json({resultProduct, titles})
-            } else {
-                return res.status(400).json({resultProduct: [], resultCode: 1, message: "Products not found"})
             }
         })
     })

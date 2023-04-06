@@ -104,7 +104,7 @@ export default async function handler(
 
         if (authHeader) {
 
-            const sql_select = "SELECT uniqCode, allProductId, productName, color, price, size, quantity FROM cart WHERE userId = ?";
+            const sql_select = "SELECT uniqCode, allProductId, productName, color, totalPriceWithDiscount, size, quantity FROM cart WHERE userId = ?";
             const data_select = [authHeader]
 
             // Получение товаров из корзины
@@ -129,15 +129,13 @@ export default async function handler(
                         })
 
 
-                        const total = resultCart.reduce((acc: any, obj: any) => {
-                            return acc + obj.price * obj.quantity;
-                        }, 0)
+                        const total = resultCart[0].totalPriceWithDiscount
 
 
                         // Если заказ уже есть, но еще не оплачен, то обновлеям его
                         if (orderProcessId) {
                             const sql_create = "UPDATE orders SET deliveryType = ?, deliveryPrice = ?, myOrder = ?, total = ?, letter = ?, status = ?, orderDate = ? WHERE id = ? AND status = ?"
-                            const data_create = [req.body.deliverType, 0, JSON.stringify(resultCart), total, req.body.letter, 'process', orderProcessId, 'process', new Date()]
+                            const data_create = [req.body.deliverType, 0, JSON.stringify(resultCart), total, req.body.letter, 'process', new Date(), orderProcessId, 'process']
 
                             pool.query(sql_create, data_create, (error, result) => {
                                 if (error) return res.status(400).json({message: error, resultCode: 1})

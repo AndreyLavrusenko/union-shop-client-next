@@ -68,13 +68,21 @@ const CartItem = ({cart, handleDelete, plusProductQuantity, minusProductQuantity
                     </div>
 
                     <div className={styles.cart__info__count}>
-                        <button onClick={() => minusProductQuantity(cart.id)}>&#8722;</button> {cart.quantity} <button onClick={() => plusProductQuantity(cart.id)}>&#43;</button>
+                        <button onClick={() => minusProductQuantity(cart.id)}>&#8722;</button>
+                        {cart.quantity}
+                        <button onClick={() => plusProductQuantity(cart.id)}>&#43;</button>
                     </div>
 
                     <div>
                         <div className={styles.cart__right}>
                             <div
-                                className={styles.cart__right__price}>{cart.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"}</div>
+                                className={styles.cart__right__price}>
+                                {
+                                    cart.discount
+                                        ? cart.discount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"
+                                        : cart.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"
+                                }
+                            </div>
                             <button
                                 className={styles.cart__right__delete}
                                 onClick={() => handleDelete(cart.id)}
