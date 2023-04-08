@@ -180,12 +180,19 @@
 .cart__right {
     margin-top: 30px;
     position: relative;
+    text-align: right;
 
     &__price {
         font-weight: 400;
         font-size: 23px;
         line-height: 24px;
         text-align: right;
+
+        &__sale {
+            text-decoration: line-through;
+            text-decoration-color: red;
+            font-size: 16px;
+        }
     }
 
     &__delete {
@@ -487,9 +494,14 @@
     }
 
     .cart__right__price {
-        //margin-top: -53px;
-        //position: relative;
-        //left: 9px;
+        text-align: center;
+    }
+
+    .cart__right__price__sale {
+        margin-bottom: 20px;
+    }
+
+    .cart__right {
         text-align: center;
     }
 

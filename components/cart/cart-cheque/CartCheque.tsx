@@ -6,10 +6,11 @@ import styles from '../../../styles/page/cart.module.scss'
 interface IProps {
     availableBuy: boolean,
     price: number,
+    finalPrice: number,
     saveTotalPriceWithDiscount: () => {}
 }
 
-const CartCheque = ({availableBuy, price, saveTotalPriceWithDiscount}: IProps) => {
+const CartCheque = ({availableBuy, price, saveTotalPriceWithDiscount, finalPrice}: IProps) => {
 
 
     return (
@@ -39,13 +40,13 @@ const CartCheque = ({availableBuy, price, saveTotalPriceWithDiscount}: IProps) =
                     Скидка
                 </div>
                 <div className={styles.cart__check__right}>
-                    0
+                    {(price - finalPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"}
                 </div>
             </div>
 
             <div className={styles.cart__check__wrapper + ' ' + styles.cart__check__wrapper__sum}>
                 <div className={styles.cart__check__sum}>Итог</div>
-                <div className={styles.cart__check__pay}>{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"}</div>
+                <div className={styles.cart__check__pay}>{finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"}</div>
             </div>
 
 
