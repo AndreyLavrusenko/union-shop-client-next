@@ -92,6 +92,10 @@ const Cart = () => {
     }
 
     const price = myCart.reduce((accumulator, object) => {
+        return accumulator + object.price * object.quantity
+    }, 0)
+
+    const finalPrice = myCart.reduce((accumulator, object) => {
         return accumulator + (object.discount ?? object.price) * object.quantity
     }, 0)
 
@@ -102,7 +106,7 @@ const Cart = () => {
 
     return (
         <div className={styles.cart__main}>
-            <CartHeader saveTotalPriceWithDiscount={saveTotalPriceWithDiscount} price={price} availableBuy={availableBuy}/>
+            <CartHeader saveTotalPriceWithDiscount={saveTotalPriceWithDiscount} price={finalPrice} availableBuy={availableBuy}/>
             <div className={styles.cart__item__wrapper}>
                 {myCart.map((item, i) => (
                     <CartItem
@@ -113,7 +117,7 @@ const Cart = () => {
                         cart={item}/>
                 ))}
                 <CartLetter/>
-                <CartCheque saveTotalPriceWithDiscount={saveTotalPriceWithDiscount} availableBuy={availableBuy} price={price}/>
+                <CartCheque finalPrice={finalPrice} saveTotalPriceWithDiscount={saveTotalPriceWithDiscount} availableBuy={availableBuy} price={price}/>
             </div>
         </div>
     );
