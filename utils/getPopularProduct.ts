@@ -9,7 +9,7 @@ export const popularFunc = (res: any, category: string, category_name: string, c
     pool.query(sql, (error, result:any) => {
         if (error) return res.status(400).json({message: "Products not found", resultCode: 1})
 
-        const sql_select = `SELECT * FROM product WHERE categories = ? AND isVisible = 1 ORDER BY popularity DESC`
+        const sql_select = `SELECT * FROM product WHERE categories = ? AND isVisible = 1 ORDER BY popularity DESC LIMIT 14`
         // Дотсаю категорию
         const data = [([...Object.values(result[0])][0])]
 

@@ -20,7 +20,7 @@ const Card = ({products, title, secondTitle}: IProps) => {
             event.preventDefault();
 
             element.scrollBy({
-                left: event.deltaY < 0 ? -6 : 6,
+                left: event.deltaY < 0 ? -10 : 10,
             });
         }
 

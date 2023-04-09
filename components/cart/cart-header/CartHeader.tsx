@@ -7,14 +7,16 @@ interface IProps {
     price: number,
     availableBuy: boolean,
     saveTotalPriceWithDiscount: () => {}
+    isEmailConfirmed: boolean
 }
 
-const CartHeader = ({price, availableBuy, saveTotalPriceWithDiscount}: IProps) => {
+const CartHeader = ({price, availableBuy, saveTotalPriceWithDiscount, isEmailConfirmed}: IProps) => {
 
     return (
         <div className={styles.cart__header}>
             <h1 className={styles.cart__header__title}>Общая сумма корзины <span>{price} ₽.</span></h1>
             <div className={styles.cart__header__desc}>Бесплатная доставка</div>
+            {!isEmailConfirmed ? <h2 className={styles.cart__header__email}>Для оформления заказа подтвердите email</h2> : null}
             {availableBuy
                 ? <Link style={{ textDecoration: "none"}} onClick={saveTotalPriceWithDiscount} href="delivery/delivery-method">
                     <button className={styles.cart__header__button}>Оформить заказ</button>

@@ -7,7 +7,7 @@ export default async function handler(
     res: NextApiResponse
 ) {
     try {
-        const sql = `SELECT * FROM product WHERE isTop = ? AND isVisible = ?`;
+        const sql = `SELECT * FROM product WHERE isTop = ? AND isVisible = ? LIMIT 14`;
         const data = [1, 1];
 
         pool.query(sql, data, (error, result: any) => {
