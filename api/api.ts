@@ -13,6 +13,15 @@ const instance = axios.create({
 export const authAPI = {
     getUserInfo: async () => {
         return await instance.get('api/auth/userInfo')
+    },
+
+    getUserEmailConfirmed: async () => {
+        return await instance.get('api/auth/userConfirmed')
+    },
+
+    // Для повторнй отправки письма
+    sendConfirmEmail: async (email: string) => {
+        return await instance.post('api/auth/sendEmail', email)
     }
 }
 
