@@ -6,5 +6,5 @@ export interface IUserData {
     phone: string,
     index: string,
     region: string,
-    email: string
+    email?: string
 }
