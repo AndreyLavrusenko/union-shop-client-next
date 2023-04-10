@@ -25,6 +25,20 @@ export const authAPI = {
     }
 }
 
+export const profileAPI = {
+    getUserInfo: async () => {
+      return await instance.get('api/profile/get-profile-info')
+    },
+
+    setUserInfo: async (data: string) => {
+        return await instance.post('api/profile/save-profile-info', {data})
+    },
+
+    getUserEmail: async () => {
+        return await instance.get('api/profile/get-user-email')
+    }
+}
+
 export const productAPI = {
     renderTop: async () => {
         try {
