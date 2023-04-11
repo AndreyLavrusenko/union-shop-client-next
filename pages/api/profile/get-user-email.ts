@@ -15,7 +15,7 @@ export default async function handler(
 
         if (authHeader) {
 
-            const sql = "SELECT email FROM users WHERE id = ?"
+            const sql = "SELECT email, confirmed, otherServiceLogin FROM users WHERE id = ?"
             const data = [authHeader]
 
             pool.query(sql, data, (error, result) => {

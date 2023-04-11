@@ -7,7 +7,6 @@ import {signIn} from 'next-auth/react'
 import {loginOrRegFailure, loginStart, loginSuccess} from "@/redux/reducer/userSlice";
 
 import styles from '../modal.module.scss'
-import {authAPI} from "@/api/api";
 
 
 interface IProps {

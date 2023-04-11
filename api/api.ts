@@ -22,6 +22,10 @@ export const authAPI = {
     // Для повторнй отправки письма
     sendConfirmEmail: async (email: string) => {
         return await instance.post('api/auth/sendEmail', email)
+    },
+
+    confirmGoogleUser: async (email: string, token: string) => {
+        return await instance.post('api/auth/confirm-google-account', {email, token})
     }
 }
 
