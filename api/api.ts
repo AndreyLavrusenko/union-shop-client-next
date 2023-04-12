@@ -16,12 +16,16 @@ export const authAPI = {
     },
 
     getUserEmailConfirmed: async () => {
-        return await instance.get('api/auth/userConfirmed')
+        return await instance.get('api/auth/user-confirmed')
     },
 
     // Для повторнй отправки письма
     sendConfirmEmail: async (email: string) => {
-        return await instance.post('api/auth/sendEmail', email)
+        return await instance.post('api/auth/send-email', {email})
+    },
+
+    confirmGoogleUser: async (email: string, token: string) => {
+        return await instance.post('api/auth/confirm-google-account', {email, token})
     }
 }
 

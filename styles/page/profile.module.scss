@@ -101,18 +101,25 @@
 
 .saveButton {
   background: #292933;
+  color: #FFFFFF;
+  border: 2px solid #292933;
   border-radius: 8px;
-  border: none;
+
   cursor: pointer;
+  transition: .4s;
 
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  color: #FFFFFF;
 
   padding: 12px 24px;
   margin-left: -235px;
-  margin-top: 40px;
+  margin-top: 90px;
+
+  &:hover {
+    background-color: inherit;
+    color: #292933;
+  }
 }
 
 .confirmEmail {
@@ -122,6 +129,11 @@
   max-width: 350px;
   margin-top: 40px;
   cursor: pointer;
+  transition: .4s;
+
+  &:hover {
+    background: rgba(255, 232, 141, 0.63);
+  }
 
   p {
     font-weight: 400;
@@ -134,4 +146,48 @@
 
 .profile__item__confirm {
   margin: 0 auto;
+}
+
+.toggle__main {
+
+  padding: 12px 20px;
+  border: 1px solid #E4E4E4;
+  border-radius: 8px;
+  width: 350px;
+
+  margin-top: 15px;
+
+  h4, p {
+    margin: 0;
+  }
+
+  h4 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: #191847;
+    padding-bottom: 5px;
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    color: #191847;
+  }
+
+  input {
+    border: 1px solid #dedede;
+    border-radius: 11px;
+    background-color: inherit;
+
+    margin-top: 10px;
+    padding: 10px 14px;
+
+    width: 260px;
+
+    ::placeholder {
+      color: rgba(0, 0, 0, 0.35);
+    }
+  }
 }
