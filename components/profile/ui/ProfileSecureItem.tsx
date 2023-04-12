@@ -4,12 +4,14 @@ import Image from "next/image";
 
 interface IProps {
     img: string,
-    title: string
+    title: string,
+    onClick: (e: any) => void
 }
 
-const ProfileSecureItem = ({img, title}: IProps) => {
+const ProfileSecureItem = ({img, title, onClick}: IProps) => {
+
     return (
-        <div className={styles.secure}>
+        <div className={styles.secure} onClick={onClick}>
             <div className={[styles.header__wrapper, styles.secure__wrapper].join(' ')}>
                 <div className={styles.header__img}>
                     <Image src={img} alt={""}/>

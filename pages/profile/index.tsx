@@ -7,10 +7,11 @@ import mail from '../../assets/image/profile/at-sign.svg'
 import pass from '../../assets/image/profile/shield-check.svg'
 import styles from '../../styles/page/profile.module.scss'
 import ProfileInput from "@/components/profile/ui/ProfileInput";
-import {profileAPI} from "@/api/api";
+import {authAPI, profileAPI} from "@/api/api";
 import ProfileSecureItem from "@/components/profile/ui/ProfileSecureItem";
 import ConfirmEmail from "@/components/profile/ui/ConfirmEmail";
 import {getSession} from "next-auth/react";
+import ProfileToggleChange from "@/components/profile/ui/ProfileToggleChange";
 
 const Profile = () => {
     const [userInfo, setUserInfo] = useState({
@@ -24,6 +25,9 @@ const Profile = () => {
     })
     const [email, setEmail] = useState("")
     const [confirmEmail, setConfirmEmail] = useState(true)
+    const [loginByThirdServices, setLoginByThirdServices] = useState(false)
+    const [toggleEmail, setToggleEmail] = useState(false)
+    const [togglePassword, setTogglePassword] = useState(false)
 
     useEffect(() => {
         const getUserInformation = async () => {
@@ -55,6 +59,7 @@ const Profile = () => {
                 if (res.data[0]) {
                     setEmail(res.data[0].email)
                     setConfirmEmail(!!res.data[0].confirmed)
+                    setLoginByThirdServices(!!res.data[0].otherServiceLogin)
                 }
             }
         }
@@ -62,6 +67,10 @@ const Profile = () => {
         getUserInformation()
         getUserEmail()
     }, [])
+
+    const sendEmailToConfirm = async () => {
+        await authAPI.sendConfirmEmail(email)
+    }
 
 
     const onChange = (e: any) => {
@@ -97,17 +106,48 @@ const Profile = () => {
                                   onChange={onChange} type={"number"}/>
                 </ProfileItem>
             </form>
-            <ProfileItem img={lock} title={"Безопасность"}>
-                <ProfileSecureItem img={mail} title={`Email - ${email}`}/>
-                <ProfileSecureItem img={pass} title={`Сменить пароль`}/>
-            </ProfileItem>
+            {
+                loginByThirdServices
+                    ? null
+                    : <ProfileItem img={lock} title={"Безопасность"}>
 
 
-            {/* Если email подтвержден то не показываю плашку */}
+                        <ProfileSecureItem onClick={() => setToggleEmail(prev => !prev)} img={mail} title={`Email - ${email}`}/>
+                        {
+                            toggleEmail
+                                ? <ProfileToggleChange
+                                    title={"Смена почты"}
+                                    description={"На новый адрес электронной почты придет письмо для подтверждения смены электронной почты"}>
+                                    <div>
+                                        <input type="email" placeholder={"Новый email"}/>
+                                    </div>
+                                </ProfileToggleChange>
+                                : null
+                        }
+
+
+                        <ProfileSecureItem  onClick={() => setTogglePassword(prev => !prev)} img={pass} title={`Сменить пароль`}/>
+                        {
+                            togglePassword
+                                ? <ProfileToggleChange
+                                    title={"Смена пароля"}
+                                    description={"Для того что бы изменить пароль сначала введите старый пароль, а затем придумайте новый"}>
+                                    <div>
+                                        <input type="password" placeholder={"Старый пароль"}/>
+                                    </div>
+                                </ProfileToggleChange>
+                                : null
+                        }
+
+                    </ProfileItem>
+            }
+
+
+            {/* Если email подтвержден или вход черезе гугл то не показываю плашку */}
             {
                 confirmEmail
                     ? null
-                    : <div className={[styles.profile__item, styles.profile__item__confirm].join(' ')}>
+                    : <div onClick={sendEmailToConfirm} className={[styles.profile__item, styles.profile__item__confirm].join(' ')}>
                         <ConfirmEmail/>
                     </div>
             }
@@ -136,6 +176,6 @@ export async function getServerSideProps(context: any) {
     }
 
     return {
-        props: { session }
+        props: {session}
     }
 }
