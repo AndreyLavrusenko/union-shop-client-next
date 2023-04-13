@@ -13,24 +13,25 @@ interface IProps {
 
 const Card = ({products, title, secondTitle}: IProps) => {
 
-    useEffect(() => {
-        const element = document.querySelector(`.${styles.stripe__slider}`);
+    // useEffect(() => {
+    //     const element = document.querySelector(`.${styles.stripe__slider}`);
+    //
+    //     const handleScroll = (event: any) => {
+    //         event.preventDefault();
+    //
+    //         element.scrollBy({
+    //             left: event.deltaY < 0 ? -10 : 10,
+    //         });
+    //     }
+    //
+    //     element.addEventListener('wheel', handleScroll);
+    //
+    //     return () => {
+    //         element.removeEventListener('wheel', handleScroll);
+    //     };
+    //
+    // }, [])
 
-        const handleScroll = (event: any) => {
-            event.preventDefault();
-
-            element.scrollBy({
-                left: event.deltaY < 0 ? -10 : 10,
-            });
-        }
-
-        element.addEventListener('wheel', handleScroll);
-
-        return () => {
-            element.removeEventListener('wheel', handleScroll);
-        };
-
-    }, [])
     return (
         <div className={styles.stripe}>
             <CardTitle title={title} secondTitle={secondTitle}/>
