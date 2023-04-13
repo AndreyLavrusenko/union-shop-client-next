@@ -2,6 +2,9 @@ import React, {useEffect} from 'react';
 import {IProduct} from "@/models/IProduct";
 import CardTitle from "@/components/card/card-helpers/CardTitle";
 import CardItem from "@/components/card/card-helpers/CardItem";
+import arrow_right from '../../assets/image/icon/arrow_right_slider.svg';
+import arrow_left from '../../assets/image/icon/arrow_left_slider.svg';
+import Image from 'next/image'
 
 import styles from './card.module.scss'
 
@@ -13,29 +16,37 @@ interface IProps {
 
 const Card = ({products, title, secondTitle}: IProps) => {
 
-    // useEffect(() => {
-    //     const element = document.querySelector(`.${styles.stripe__slider}`);
-    //
-    //     const handleScroll = (event: any) => {
-    //         event.preventDefault();
-    //
-    //         element.scrollBy({
-    //             left: event.deltaY < 0 ? -10 : 10,
-    //         });
-    //     }
-    //
-    //     element.addEventListener('wheel', handleScroll);
-    //
-    //     return () => {
-    //         element.removeEventListener('wheel', handleScroll);
-    //     };
-    //
-    // }, [])
+    function sideScroll(element: any,direction: any,speed: any,distance: any,step: any){
+        let  scrollAmount = 0;
+        const slideTimer = setInterval(function(){
+            if(direction == 'left'){
+                element.scrollLeft -= step;
+            } else {
+                element.scrollLeft += step;
+            }
+            scrollAmount += step;
+            if(scrollAmount >= distance){
+                window.clearInterval(slideTimer);
+            }
+        }, speed);
+    }
+
+
+    const slideLeft = () => {
+        const slider = document.querySelector(`.${styles.stripe__slider}`);
+        sideScroll(slider,'left',1,400,5);
+    }
+
+    const slideRight = () => {
+        const slider = document.querySelector(`.${styles.stripe__slider}`)
+        sideScroll(slider,'right',1,400,5);
+    }
 
     return (
         <div className={styles.stripe}>
             <CardTitle title={title} secondTitle={secondTitle}/>
             <div className={styles.stripe__slider}>
+                <Image onClick={slideLeft} className={[styles.arrow, styles.arrow_left].join(' ')} src={arrow_left} alt="left"/>
                 {products.map(item => {
                     return <CardItem
                         key={item.id}
@@ -48,6 +59,7 @@ const Card = ({products, title, secondTitle}: IProps) => {
                         subColor={item.subColor}
                         backgroundcolor={item.backgroundcolor}/>
                 })}
+                <Image onClick={slideRight} className={[styles.arrow, styles.arrow_right].join(' ')} src={arrow_right} alt="left"/>
             </div>
         </div>
     )
