@@ -35,9 +35,10 @@
 
         position: relative;
 
+
         &__hover:hover {
-            transition: .5s;
-            transform: scale(1.04);
+            transition: .8s;
+            transform: scale(1.02);
         }
 
         &__hover:not(:hover) {
@@ -122,7 +123,7 @@
     transition: .4s;
 
     &_right {
-        right: 10px;
+        right: 5px;
     }
 
     &_left {
@@ -132,4 +133,8 @@
     &:hover {
         background-color: rgba(0,0,0,.4);
     }
+}
+
+.stripe__card:first-of-type {
+    margin-left: -20px;
 }

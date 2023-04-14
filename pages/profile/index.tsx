@@ -28,6 +28,7 @@ const Profile = () => {
     const [loginByThirdServices, setLoginByThirdServices] = useState(false)
     const [toggleEmail, setToggleEmail] = useState(false)
     const [togglePassword, setTogglePassword] = useState(false)
+    const [emailSendResponse, setEmailSendResponse] = useState("")
 
     useEffect(() => {
         const getUserInformation = async () => {
@@ -69,7 +70,10 @@ const Profile = () => {
     }, [])
 
     const sendEmailToConfirm = async () => {
-        await authAPI.sendConfirmEmail(email)
+        const res = await authAPI.sendConfirmEmail(email)
+        if (res.data) {
+            setEmailSendResponse(res.data.message)
+        }
     }
 
 
@@ -147,9 +151,12 @@ const Profile = () => {
             {
                 confirmEmail
                     ? null
-                    : <div onClick={sendEmailToConfirm} className={[styles.profile__item, styles.profile__item__confirm].join(' ')}>
-                        <ConfirmEmail/>
-                    </div>
+                    : <>
+                        <div onClick={sendEmailToConfirm} className={[styles.profile__item, styles.profile__item__confirm].join(' ')}>
+                            <ConfirmEmail/>
+                        </div>
+                        <div className={styles.profile__email_again}>{emailSendResponse}</div>
+                    </>
             }
 
 

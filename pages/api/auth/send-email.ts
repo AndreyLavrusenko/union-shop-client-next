@@ -4,6 +4,18 @@ import {getServerSession} from "next-auth";
 import {authOptions} from "@/pages/api/auth/[...nextauth]";
 import {v4 as uuidv4} from "uuid";
 import nodemailer from "nodemailer";
+import {Ratelimit} from "@upstash/ratelimit";
+import {Redis} from "@upstash/redis";
+
+const redis = new Redis({
+    url: process.env.NEXT_UPSTASH_REDIS_REST_URL,
+    token: process.env.NEXT_UPSTASH_REDIS_REST_TOKEN,
+})
+
+const ratelimit = new Ratelimit({
+    redis: redis,
+    limiter: Ratelimit.fixedWindow(1, "300 s"),
+});
 
 export default async function handler(
     req: NextApiRequest,
@@ -17,44 +29,54 @@ export default async function handler(
 
         if (authHeader) {
 
-            const sql = "SELECT confirmed FROM users WHERE id = ?"
-            const data = [authHeader]
-
-            pool.query(sql, data, (error, result: any[]) => {
-                if (error) return res.status(400).json({message: error, resultCode: 1})
-
-                if (result.length > 0) {
-                    if (result[0].confirmed === 0) {
-
-                        const hashEmail = uuidv4() // Для подтверждения email
-
-                        const sqlUpdateEmailHash = "UPDATE users SET confirmHash = ? WHERE id = ?"
-                        const dataUpdateEmailHash = [hashEmail, authHeader]
+            const identifier = "api";
+            const result = await ratelimit.limit(identifier);
+            res.setHeader('X-RateLimit-Limit', result.limit)
+            res.setHeader('X-RateLimit-Remaining', result.remaining)
 
 
-                        pool.query(sqlUpdateEmailHash, dataUpdateEmailHash, async (error, result: any[]) => {
-                            if (error) return res.status(400).json({message: error, resultCode: 1})
+            if (!result.success) {
+                res.status(200).json({message: 'Повторная отправка через 5 минут...', rateLimitState: result})
+                return
+            } else {
+                const sql = "SELECT confirmed FROM users WHERE id = ?"
+                const data = [authHeader]
 
-                            // Если пользователь создает аккаунт, то отправляем письмо на почту с подтверждением email
-                            const transporter = nodemailer.createTransport({
-                                service: 'gmail',
-                                auth: {
-                                    user: process.env.NEXT_EMAIL, // generated ethereal user
-                                    pass: process.env.NEXT_EMAIL_PASSWORD, // generated ethereal password
-                                },
-                            });
+                pool.query(sql, data, (error, result: any[]) => {
+                    if (error) return res.status(400).json({message: error, resultCode: 1})
 
-                            const mailOptions = {
-                                from: process.env.NEXT_EMAIL,
-                                to: req.body.email,
-                            }
+                    if (result.length > 0) {
+                        if (result[0].confirmed === 0) {
 
-                            try {
-                                await transporter.sendMail({
-                                    ...mailOptions,
-                                    subject: "Union Shop - Подтверждение email", // Subject line
-                                    text: "Подтверждение почты", // plain text body
-                                    html: `
+                            const hashEmail = uuidv4() // Для подтверждения email
+
+                            const sqlUpdateEmailHash = "UPDATE users SET confirmHash = ? WHERE id = ?"
+                            const dataUpdateEmailHash = [hashEmail, authHeader]
+
+
+                            pool.query(sqlUpdateEmailHash, dataUpdateEmailHash, async (error, result: any[]) => {
+                                if (error) return res.status(400).json({message: error, resultCode: 1})
+
+                                // Если пользователь создает аккаунт, то отправляем письмо на почту с подтверждением email
+                                const transporter = nodemailer.createTransport({
+                                    service: 'gmail',
+                                    auth: {
+                                        user: process.env.NEXT_EMAIL, // generated ethereal user
+                                        pass: process.env.NEXT_EMAIL_PASSWORD, // generated ethereal password
+                                    },
+                                });
+
+                                const mailOptions = {
+                                    from: process.env.NEXT_EMAIL,
+                                    to: req.body.email,
+                                }
+
+                                try {
+                                    await transporter.sendMail({
+                                        ...mailOptions,
+                                        subject: "Union Shop - Подтверждение email", // Subject line
+                                        text: "Подтверждение почты", // plain text body
+                                        html: `
                                     <div style="background-color: white; padding: 40px; height: 100%;">
                                         <h3 style="font-weight: 700;
                                                     font-size: 48px;
@@ -106,16 +128,18 @@ export default async function handler(
                                         <br><br><br>
                                     </div>
                                 `,
-                                })
-                            } catch (err) {
-                                console.log(err)
-                            }
-                        })
+                                    })
 
+                                    res.status(200).json({message: 'Сообщение отправлено на почту'})
+                                } catch (err) {
+                                    console.log(err)
+                                }
+                            })
+
+                        }
                     }
-                }
-            })
-
+                })
+            }
         }
 
     } catch (err) {

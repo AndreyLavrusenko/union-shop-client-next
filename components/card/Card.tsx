@@ -7,6 +7,8 @@ import arrow_left from '../../assets/image/icon/arrow_left_slider.svg';
 import Image from 'next/image'
 
 import styles from './card.module.scss'
+import {JSXInternal} from "preact/src/jsx";
+import ElementClass = JSXInternal.ElementClass;
 
 interface IProps {
     products: IProduct[],
@@ -41,6 +43,15 @@ const Card = ({products, title, secondTitle}: IProps) => {
         const slider = document.querySelector(`.${styles.stripe__slider}`)
         sideScroll(slider,'right',1,400,5);
     }
+
+    useEffect(() => {
+        const slider = document.querySelectorAll(`.${styles.stripe__slider}`)
+        slider.forEach(item => {
+            if (item.children.length - 2 < 3) {
+                item.querySelectorAll<HTMLElement>(`:scope > .${styles.arrow}`).forEach(arrow => arrow.style.opacity = '0')
+            }
+        })
+    }, []);
 
     return (
         <div className={styles.stripe}>
