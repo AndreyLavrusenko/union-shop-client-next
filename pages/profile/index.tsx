@@ -29,6 +29,12 @@ const Profile = () => {
     const [toggleEmail, setToggleEmail] = useState(false)
     const [togglePassword, setTogglePassword] = useState(false)
     const [emailSendResponse, setEmailSendResponse] = useState("")
+    const [passwordChange, setPasswordChange] = useState({
+        oldPassword: "",
+        newPassword: "",
+        passwordError: false,
+        passwordChangedSuccess: false,
+    })
 
     useEffect(() => {
         const getUserInformation = async () => {
@@ -76,6 +82,27 @@ const Profile = () => {
         }
     }
 
+    const changePassword = async () => {
+        const res = await profileAPI.changeUserPassword({oldPassword: passwordChange.oldPassword, newPassword: passwordChange.newPassword})
+        if (res.data) {
+            if (res.data.resultCode !== 0) {
+                setPasswordChange({
+                    ...passwordChange,
+                    passwordError: true,
+                    passwordChangedSuccess: false
+                })
+            } else {
+                setPasswordChange({
+                    ...passwordChange,
+                    passwordError: false,
+                    passwordChangedSuccess: true,
+                    newPassword: "",
+                    oldPassword: "",
+                })
+            }
+        }
+    }
+
 
     const onChange = (e: any) => {
         const value = e.target.value;
@@ -110,6 +137,8 @@ const Profile = () => {
                                   onChange={onChange} type={"number"}/>
                 </ProfileItem>
             </form>
+
+            {/* Если акканут union или google то не показывать раздел безопасность */}
             {
                 loginByThirdServices
                     ? null
@@ -121,9 +150,10 @@ const Profile = () => {
                             toggleEmail
                                 ? <ProfileToggleChange
                                     title={"Смена почты"}
-                                    description={"На новый адрес электронной почты придет письмо для подтверждения смены электронной почты"}>
+                                    description={"Введите новый адрес электронной почты и пароль, после этого нужно будет подтвердить новый адрес электроный почты"}>
                                     <div>
                                         <input type="email" placeholder={"Новый email"}/>
+                                        <input type="password" placeholder={"Пароль"}/>
                                     </div>
                                 </ProfileToggleChange>
                                 : null
@@ -135,9 +165,31 @@ const Profile = () => {
                             togglePassword
                                 ? <ProfileToggleChange
                                     title={"Смена пароля"}
-                                    description={"Для того что бы изменить пароль сначала введите старый пароль, а затем придумайте новый"}>
+                                    description={"Для того что бы изменить пароль: введите старый пароль, а затем придумайте новый."}>
                                     <div>
-                                        <input type="password" placeholder={"Старый пароль"}/>
+                                        <input value={passwordChange.oldPassword} onChange={(e: any) => setPasswordChange({...passwordChange, oldPassword: e.target.value})} type="password" placeholder={"Старый пароль"}/>
+                                        <input value={passwordChange.newPassword} onChange={(e: any) => setPasswordChange({...passwordChange, newPassword: e.target.value})} type="password" placeholder={"Новый пароль"}/>
+                                        <div style={{display: "flex", justifyContent: 'center'}}>
+                                            <button onClick={changePassword} className={styles.security__button}>Сохранить</button>
+                                        </div>
+                                        <div
+                                            style={passwordChange.passwordError
+                                                ? {display: "block"}
+                                                : {display: "none"}
+                                            }
+                                            className={styles.security__error}
+                                        >
+                                            Неверный старый пароль
+                                        </div>
+                                        <div
+                                            style={passwordChange.passwordChangedSuccess
+                                                ? {display: "block"}
+                                                : {display: "none"}
+                                            }
+                                            className={styles.security__success}
+                                        >
+                                            Пароль успешно изменен
+                                        </div>
                                     </div>
                                 </ProfileToggleChange>
                                 : null
