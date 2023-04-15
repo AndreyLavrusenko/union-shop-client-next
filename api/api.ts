@@ -44,6 +44,10 @@ export const profileAPI = {
 
     changeUserPassword: async (passwords: {newPassword: string, oldPassword: string}) => {
         return await instance.put('api/profile/change-password', {passwords})
+    },
+
+    changeUserEmail: async (data: {email: string, password: string}) => {
+        return await instance.put('api/profile/change-email', {data})
     }
 }
 

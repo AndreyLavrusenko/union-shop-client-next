@@ -35,6 +35,13 @@ const Profile = () => {
         passwordError: false,
         passwordChangedSuccess: false,
     })
+    const [emailChange, setEmailChange] = useState({
+        newEmail: "",
+        password: "",
+        newEmailError: false,
+        newEmailErrorMessage: "",
+        newEmailSuccess: false,
+    })
 
     useEffect(() => {
         const getUserInformation = async () => {
@@ -103,6 +110,29 @@ const Profile = () => {
         }
     }
 
+    const changeEmail = async () => {
+        const res = await profileAPI.changeUserEmail({email: emailChange.newEmail, password: emailChange.password})
+        if (res.data) {
+            if (res.data.resultCode !== 0) {
+                setEmailChange({
+                    ...emailChange,
+                    newEmailError: true,
+                    newEmailErrorMessage: res.data?.errorMessage,
+                    newEmailSuccess: false
+                })
+            } else {
+                setEmailChange({
+                    ...emailChange,
+                    newEmailError: false,
+                    newEmailErrorMessage: "",
+                    newEmailSuccess: true,
+                    newEmail: "",
+                    password: "",
+                })
+            }
+        }
+    }
+
 
     const onChange = (e: any) => {
         const value = e.target.value;
@@ -152,8 +182,39 @@ const Profile = () => {
                                     title={"Смена почты"}
                                     description={"Введите новый адрес электронной почты и пароль, после этого нужно будет подтвердить новый адрес электроный почты"}>
                                     <div>
-                                        <input type="email" placeholder={"Новый email"}/>
-                                        <input type="password" placeholder={"Пароль"}/>
+                                        <input
+                                            type="email"
+                                            value={emailChange.newEmail}
+                                            onChange={(e: any) => setEmailChange({...emailChange, newEmail: e.target.value})}
+                                            placeholder={"Новый email"}
+                                        />
+                                        <input
+                                            type="password"
+                                            placeholder={"Пароль"}
+                                            value={emailChange.password}
+                                            onChange={(e: any) => setEmailChange({...emailChange, password: e.target.value})}
+                                        />
+                                        <div style={{display: "flex", justifyContent: 'center'}}>
+                                            <button onClick={changeEmail} className={styles.security__button}>Сохранить</button>
+                                        </div>
+                                        <div
+                                            style={emailChange.newEmailError
+                                                ? {display: "block"}
+                                                : {display: "none"}
+                                            }
+                                            className={styles.security__error}
+                                        >
+                                            {emailChange.newEmailErrorMessage}
+                                        </div>
+                                        <div
+                                            style={emailChange.newEmailSuccess
+                                                ? {display: "block"}
+                                                : {display: "none"}
+                                            }
+                                            className={styles.security__success}
+                                        >
+                                            На почту отпарвлено письмо
+                                        </div>
                                     </div>
                                 </ProfileToggleChange>
                                 : null
@@ -167,8 +228,18 @@ const Profile = () => {
                                     title={"Смена пароля"}
                                     description={"Для того что бы изменить пароль: введите старый пароль, а затем придумайте новый."}>
                                     <div>
-                                        <input value={passwordChange.oldPassword} onChange={(e: any) => setPasswordChange({...passwordChange, oldPassword: e.target.value})} type="password" placeholder={"Старый пароль"}/>
-                                        <input value={passwordChange.newPassword} onChange={(e: any) => setPasswordChange({...passwordChange, newPassword: e.target.value})} type="password" placeholder={"Новый пароль"}/>
+                                        <input
+                                            value={passwordChange.oldPassword}
+                                            onChange={(e: any) => setPasswordChange({...passwordChange, oldPassword: e.target.value})}
+                                            type="password"
+                                            placeholder={"Старый пароль"}
+                                        />
+                                        <input
+                                            value={passwordChange.newPassword}
+                                            onChange={(e: any) => setPasswordChange({...passwordChange, newPassword: e.target.value})}
+                                            type="password"
+                                            placeholder={"Новый пароль"}
+                                        />
                                         <div style={{display: "flex", justifyContent: 'center'}}>
                                             <button onClick={changePassword} className={styles.security__button}>Сохранить</button>
                                         </div>
