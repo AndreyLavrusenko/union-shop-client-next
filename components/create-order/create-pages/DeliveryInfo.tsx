@@ -5,12 +5,15 @@ import styles from '../../../styles/page/delivery.module.scss'
 import {useRouter} from "next/router";
 import {authAPI, cartAPI, orderAPI} from "@/api/api";
 import {IUserData} from "@/models/IUserData";
+import {useSession} from "next-auth/react";
 
 
 const DeliveryInfoComponent = () => {
     const router = useRouter()
+    const {data: user} = useSession()
     const {register, formState: {errors}, handleSubmit} = useForm()
     const [isChecked, setIsChecked] = useState(false)
+    const [subscribeNews, setSubscribeNews] = useState(true)
     const [userData, setUserData] = useState({
         fullName: "",
         city: "",
@@ -19,7 +22,6 @@ const DeliveryInfoComponent = () => {
         phone: "",
         index: "",
         region: "",
-        email: ""
     })
 
 
@@ -50,7 +52,6 @@ const DeliveryInfoComponent = () => {
                     phone: user.phone,
                     index: user.index,
                     region: user.region,
-                    email: user.email
                 })
             }
 
@@ -59,13 +60,13 @@ const DeliveryInfoComponent = () => {
     }, [])
 
 
-
     const onSubmit = async (e: any, userData: IUserData) => {
         e.preventDefault()
 
+        userData.email = user.user.email
+
         // Записывает данные пользователя в бд после нажатия на кнопку
-        //@ts-ignore
-        await orderAPI.setUserInfoDelivery(JSON.stringify(userData), userData.email)
+        await orderAPI.setUserInfoDelivery(JSON.stringify(userData), user.user.email, subscribeNews)
         return router.push("delivery-pay");
     }
 
@@ -158,22 +159,6 @@ const DeliveryInfoComponent = () => {
                         className={styles.order__form__big + " " + styles.order__form__input}
                     />
 
-
-                    <span className={styles.order__form__label}>
-                        Введите адрес своей электронной почты. <br/>
-                        На этот адрес будут отправляться уведомления о статусе заказа.
-                    </span>
-                    <input
-                        type="email"
-                        name="email"
-                        value={userData.email}
-                        onChange={onChange}
-                        required={true}
-                        placeholder="Ваш адрес электронной почты"
-                        className={styles.order__form__input + " " + styles.order__form__special}
-                    />
-                    <div/>
-
                     <span className={styles.order__form__label}>
                        Введите промокод
                     </span>
@@ -206,7 +191,16 @@ const DeliveryInfoComponent = () => {
                     </div>
 
                     <div className="checkbox">
-                        <input {...register("news")} className={styles.custom__checkbox} type="checkbox" id="news" name="news" value="true" />
+                        <input
+                            {...register("news")}
+                            checked={subscribeNews}
+                            onClick={() => setSubscribeNews(prev => !prev)}
+                            className={styles.custom__checkbox}
+                            type="checkbox"
+                            id="news"
+                            name="news"
+                            value="news"
+                        />
                         <label htmlFor="news">
                             Подписаться на новости и эксклюзивные предложения
                         </label>

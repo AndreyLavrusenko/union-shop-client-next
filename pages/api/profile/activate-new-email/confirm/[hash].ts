@@ -10,17 +10,26 @@ export default async function handler(
     try {
         const hash = req.query.hash
 
-        const sql = `SELECT id, newEmail FROM users WHERE newEmailHash = ?`
+        const sql = `SELECT id, newEmail, userInfo FROM users WHERE newEmailHash = ?`
         const data = [hash]
 
-
-        // Отправка запроса и его проверка
+        // Получаю данные о пользователе
         pool.query(sql, data, async (error, result: any) => {
             if (error) return res.status(400).json({message: error, resultCode: 1})
 
+            // Если пользователь с такие email найден
             if (result[0]) {
-                const sqlChangeEmail = "UPDATE users SET email = ?, newEmail = ?, newEmailHash = ? WHERE id = ?"
-                const dataChangeEmail = [result[0].newEmail, null, null, result[0].id]
+
+                // Меняю email в userInfo
+                let newUserInfo = null
+
+                if (result[0].userInfo) {
+                    newUserInfo = JSON.parse(result[0].userInfo)
+                    newUserInfo.email = result[0].newEmail
+                }
+
+                const sqlChangeEmail = "UPDATE users SET email = ?, newEmail = ?, newEmailHash = ?, userInfo = ? WHERE id = ?"
+                const dataChangeEmail = [result[0].newEmail, null, null, newUserInfo ? JSON.stringify(newUserInfo) : req.body.userInfo, result[0].id]
 
                 pool.query(sqlChangeEmail, dataChangeEmail, async (error, result: any) => {
                     if (error) return res.status(400).json({message: error, resultCode: 1})

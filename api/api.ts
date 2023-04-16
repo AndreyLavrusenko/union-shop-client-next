@@ -184,8 +184,8 @@ export const orderAPI = {
         return await instance.post('api/order/change-price', {price, deliveryType})
     },
 
-    setUserInfoDelivery: async (userInfo: IUserData, email: string) => {
-        return await instance.put('api/order/delivery-user-info', {userInfo, email})
+    setUserInfoDelivery: async (userInfo: string, email: string, subscribeNews: boolean) => {
+        return await instance.put('api/order/delivery-user-info', {userInfo, email, subscribeNews})
     },
 
     getOrdersQuantity: async () => {

@@ -49,7 +49,7 @@ const Profile = () => {
         const getUserInformation = async () => {
             const res = await profileAPI.getUserInfo()
             if (res.status === 200) {
-                if (res.data[0]) {
+                if (res.data[0] && res.data[0].userInfo) {
                     const data = JSON.parse(res.data[0].userInfo)
 
                     if (data) {

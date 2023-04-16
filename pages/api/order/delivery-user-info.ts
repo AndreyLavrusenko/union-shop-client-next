@@ -26,28 +26,20 @@ export default async function handler(
                 const find_user_sql = "SELECT * FROM users WHERE id = ?"
                 const find_user_data = [authHeader]
 
-
                 pool.query(find_user_sql, find_user_data, (error, result: any[]) => {
                     if (error) return res.status(400).json({message: error, resultCode: 1})
 
-                    if (result.length === 0) {
-                        const user_sql = "INSERT INTO users (id, userId, userInfo) VALUES (?, ?, ?)"
-                        const user_data = [authHeader, authHeader, req.body.userInfo]
-
-                        pool.query(user_sql, user_data, (error, result) => {
-                            if (error) return res.status(400).json({message: error, resultCode: 1})
-
-                            return res.status(200).json({resultCode: 0})
-                        })
-                    } else {
-                        const sql_user = "UPDATE users SET userInfo = ? WHERE id = ?"
-                        const data_user = [req.body.userInfo, authHeader]
+                    if (result.length !== 0) {
+                        const sql_user = "UPDATE users SET userInfo = ?, newsSubscriber = ? WHERE id = ?"
+                        const data_user = [req.body.userInfo, req.body.subscribeNews, authHeader]
 
                         pool.query(sql_user, data_user, (error, result) => {
                             if (error) return res.status(400).json({message: error, resultCode: 1})
 
                             return res.status(200).json({resultCode: 0})
                         })
+                    } else {
+                        return res.status(404).json({message: 'Пользователь не найден'})
                     }
                 })
             })

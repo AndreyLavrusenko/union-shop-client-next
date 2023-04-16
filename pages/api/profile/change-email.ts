@@ -14,6 +14,12 @@ const redis = new Redis({
     token: process.env.NEXT_UPSTASH_REDIS_REST_TOKEN,
 })
 
+// Успешный запрос можно отправлять всего 1 раз в 12 часов
+const ratelimit = new Ratelimit({
+    redis: redis,
+    limiter: Ratelimit.fixedWindow(1, "30 s"), //FIXME Поменять на 43200
+});
+
 
 export default async function handler(
     req: NextApiRequest,
@@ -26,7 +32,6 @@ export default async function handler(
         const authHeader = user?.user?.id ?? ''
 
         if (authHeader) {
-
             // Проверка были отправлены какие нибудь данные или нет
             if (!req.body.data.email || !req.body.data.password) return res.status(400).json({resultCode: 1})
 
@@ -47,17 +52,11 @@ export default async function handler(
                         const sqlSearchAccountByEmail = "SELECT id FROM users WHERE email = ?"
                         const dataSearch = [req.body.data.email]
 
-                        pool.query(sqlSearchAccountByEmail, dataSearch, async (error, result: any) => {
+                        pool.query(sqlSearchAccountByEmail, dataSearch, async (error, resultSearch: any) => {
                             if (error) return res.status(400).json({message: error, resultCode: 1})
 
                             // Если пользователей не с такой почтой не найдено
-                            if (result.length === 0) {
-
-                                // Успешный запрос можно отправлять всего 1 раз в 12 часов
-                                const ratelimit = new Ratelimit({
-                                    redis: redis,
-                                    limiter: Ratelimit.fixedWindow(1, "30 s"), //FIXME Поменять на 43200
-                                });
+                            if (resultSearch.length === 0) {
 
                                 const identifier = "api";
                                 const result = await ratelimit.limit(identifier);
