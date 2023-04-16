@@ -28,6 +28,22 @@ const Profile = () => {
     const [loginByThirdServices, setLoginByThirdServices] = useState(false)
     const [toggleEmail, setToggleEmail] = useState(false)
     const [togglePassword, setTogglePassword] = useState(false)
+    const [emailSendResponse, setEmailSendResponse] = useState("")
+    const [passwordChange, setPasswordChange] = useState({
+        oldPassword: "",
+        newPassword: "",
+        passwordError: false,
+        passwordChangedSuccess: false,
+        passwordLoading: false,
+    })
+    const [emailChange, setEmailChange] = useState({
+        newEmail: "",
+        password: "",
+        newEmailError: false,
+        newEmailErrorMessage: "",
+        newEmailSuccess: false,
+        newEmailIsLoading: false,
+    })
 
     useEffect(() => {
         const getUserInformation = async () => {
@@ -48,7 +64,6 @@ const Profile = () => {
                         })
                     }
                 }
-
             }
         }
 
@@ -69,7 +84,60 @@ const Profile = () => {
     }, [])
 
     const sendEmailToConfirm = async () => {
-        await authAPI.sendConfirmEmail(email)
+        const res = await authAPI.sendConfirmEmail(email)
+        if (res.data) {
+            setEmailSendResponse(res.data.message)
+        }
+    }
+
+    const changePassword = async () => {
+        setPasswordChange({...passwordChange, passwordLoading: true})
+        const res = await profileAPI.changeUserPassword({oldPassword: passwordChange.oldPassword, newPassword: passwordChange.newPassword})
+        if (res.data) {
+            if (res.data.resultCode !== 0) {
+                setPasswordChange({
+                    ...passwordChange,
+                    passwordError: true,
+                    passwordChangedSuccess: false,
+                    passwordLoading: false,
+                })
+            } else {
+                setPasswordChange({
+                    ...passwordChange,
+                    passwordError: false,
+                    passwordChangedSuccess: true,
+                    newPassword: "",
+                    oldPassword: "",
+                    passwordLoading: false,
+                })
+            }
+        }
+    }
+
+    const changeEmail = async () => {
+        setEmailChange({...emailChange, newEmailIsLoading: true})
+        const res = await profileAPI.changeUserEmail({email: emailChange.newEmail, password: emailChange.password})
+        if (res.data) {
+            if (res.data.resultCode !== 0) {
+                setEmailChange({
+                    ...emailChange,
+                    newEmailError: true,
+                    newEmailErrorMessage: res.data?.errorMessage,
+                    newEmailSuccess: false,
+                    newEmailIsLoading: false,
+                })
+            } else {
+                setEmailChange({
+                    ...emailChange,
+                    newEmailError: false,
+                    newEmailErrorMessage: "",
+                    newEmailSuccess: true,
+                    newEmail: "",
+                    password: "",
+                    newEmailIsLoading: false,
+                })
+            }
+        }
     }
 
 
@@ -106,6 +174,8 @@ const Profile = () => {
                                   onChange={onChange} type={"number"}/>
                 </ProfileItem>
             </form>
+
+            {/* Если акканут union или google то не показывать раздел безопасность */}
             {
                 loginByThirdServices
                     ? null
@@ -116,10 +186,45 @@ const Profile = () => {
                         {
                             toggleEmail
                                 ? <ProfileToggleChange
+                                    passwordError={emailChange.newEmailError}
                                     title={"Смена почты"}
-                                    description={"На новый адрес электронной почты придет письмо для подтверждения смены электронной почты"}>
+                                    description={"Введите новый адрес электронной почты и пароль, после этого нужно будет подтвердить новый адрес электроный почты"}>
                                     <div>
-                                        <input type="email" placeholder={"Новый email"}/>
+                                        <input
+                                            type="email"
+                                            value={emailChange.newEmail}
+                                            onChange={(e: any) => setEmailChange({...emailChange, newEmail: e.target.value})}
+                                            placeholder={"Новый email"}
+                                        />
+                                        <input
+                                            type="password"
+                                            placeholder={"Пароль"}
+                                            value={emailChange.password}
+                                            onChange={(e: any) => setEmailChange({...emailChange, password: e.target.value})}
+                                        />
+                                        <div style={{display: "flex", justifyContent: 'center'}}>
+                                            <button onClick={changeEmail} className={styles.security__button}>
+                                                {emailChange.newEmailIsLoading ? "Загрузка..." : "Сохранить"}
+                                            </button>
+                                        </div>
+                                        <div
+                                            style={emailChange.newEmailError
+                                                ? {display: "block"}
+                                                : {display: "none"}
+                                            }
+                                            className={styles.security__error}
+                                        >
+                                            {emailChange.newEmailErrorMessage}
+                                        </div>
+                                        <div
+                                            style={emailChange.newEmailSuccess
+                                                ? {display: "block"}
+                                                : {display: "none"}
+                                            }
+                                            className={styles.security__success}
+                                        >
+                                            На почту отпарвлено письмо
+                                        </div>
                                     </div>
                                 </ProfileToggleChange>
                                 : null
@@ -130,10 +235,45 @@ const Profile = () => {
                         {
                             togglePassword
                                 ? <ProfileToggleChange
+                                    passwordError={passwordChange.passwordError}
                                     title={"Смена пароля"}
-                                    description={"Для того что бы изменить пароль сначала введите старый пароль, а затем придумайте новый"}>
+                                    description={"Для того что бы изменить пароль: введите старый пароль, а затем придумайте новый."}>
                                     <div>
-                                        <input type="password" placeholder={"Старый пароль"}/>
+                                        <input
+                                            value={passwordChange.oldPassword}
+                                            onChange={(e: any) => setPasswordChange({...passwordChange, oldPassword: e.target.value})}
+                                            type="password"
+                                            placeholder={"Старый пароль"}
+                                        />
+                                        <input
+                                            value={passwordChange.newPassword}
+                                            onChange={(e: any) => setPasswordChange({...passwordChange, newPassword: e.target.value})}
+                                            type="password"
+                                            placeholder={"Новый пароль"}
+                                        />
+                                        <div style={{display: "flex", justifyContent: 'center'}}>
+                                            <button onClick={changePassword} className={styles.security__button}>
+                                                {passwordChange.passwordLoading ? "Загрузка..." : "Сохранить"}
+                                            </button>
+                                        </div>
+                                        <div
+                                            style={passwordChange.passwordError
+                                                ? {display: "block"}
+                                                : {display: "none"}
+                                            }
+                                            className={styles.security__error}
+                                        >
+                                            Неверный старый пароль
+                                        </div>
+                                        <div
+                                            style={passwordChange.passwordChangedSuccess
+                                                ? {display: "block"}
+                                                : {display: "none"}
+                                            }
+                                            className={styles.security__success}
+                                        >
+                                            Пароль успешно изменен
+                                        </div>
                                     </div>
                                 </ProfileToggleChange>
                                 : null
@@ -147,9 +287,12 @@ const Profile = () => {
             {
                 confirmEmail
                     ? null
-                    : <div onClick={sendEmailToConfirm} className={[styles.profile__item, styles.profile__item__confirm].join(' ')}>
-                        <ConfirmEmail/>
-                    </div>
+                    : <>
+                        <div onClick={sendEmailToConfirm} className={[styles.profile__item, styles.profile__item__confirm].join(' ')}>
+                            <ConfirmEmail/>
+                        </div>
+                        <div className={styles.profile__email_again}>{emailSendResponse}</div>
+                    </>
             }
 
 

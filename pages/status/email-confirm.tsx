@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../../styles/page/email.module.scss'
-import main_img from '../../assets/image/service/black-friday-Email 1.png'
+import main_img from '../../assets/image/service/black-friday-Email 1.svg'
 import Image from 'next/image'
 import protect_icon from '../../assets/image/icon/manage-protection.svg'
 import support_icon from '../../assets/image/icon/police.svg'
