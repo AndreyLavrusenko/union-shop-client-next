@@ -34,6 +34,7 @@ const Profile = () => {
         newPassword: "",
         passwordError: false,
         passwordChangedSuccess: false,
+        passwordLoading: false,
     })
     const [emailChange, setEmailChange] = useState({
         newEmail: "",
@@ -41,6 +42,7 @@ const Profile = () => {
         newEmailError: false,
         newEmailErrorMessage: "",
         newEmailSuccess: false,
+        newEmailIsLoading: false,
     })
 
     useEffect(() => {
@@ -89,13 +91,15 @@ const Profile = () => {
     }
 
     const changePassword = async () => {
+        setPasswordChange({...passwordChange, passwordLoading: true})
         const res = await profileAPI.changeUserPassword({oldPassword: passwordChange.oldPassword, newPassword: passwordChange.newPassword})
         if (res.data) {
             if (res.data.resultCode !== 0) {
                 setPasswordChange({
                     ...passwordChange,
                     passwordError: true,
-                    passwordChangedSuccess: false
+                    passwordChangedSuccess: false,
+                    passwordLoading: false,
                 })
             } else {
                 setPasswordChange({
@@ -104,12 +108,14 @@ const Profile = () => {
                     passwordChangedSuccess: true,
                     newPassword: "",
                     oldPassword: "",
+                    passwordLoading: false,
                 })
             }
         }
     }
 
     const changeEmail = async () => {
+        setEmailChange({...emailChange, newEmailIsLoading: true})
         const res = await profileAPI.changeUserEmail({email: emailChange.newEmail, password: emailChange.password})
         if (res.data) {
             if (res.data.resultCode !== 0) {
@@ -117,7 +123,8 @@ const Profile = () => {
                     ...emailChange,
                     newEmailError: true,
                     newEmailErrorMessage: res.data?.errorMessage,
-                    newEmailSuccess: false
+                    newEmailSuccess: false,
+                    newEmailIsLoading: false,
                 })
             } else {
                 setEmailChange({
@@ -127,6 +134,7 @@ const Profile = () => {
                     newEmailSuccess: true,
                     newEmail: "",
                     password: "",
+                    newEmailIsLoading: false,
                 })
             }
         }
@@ -195,7 +203,9 @@ const Profile = () => {
                                             onChange={(e: any) => setEmailChange({...emailChange, password: e.target.value})}
                                         />
                                         <div style={{display: "flex", justifyContent: 'center'}}>
-                                            <button onClick={changeEmail} className={styles.security__button}>Сохранить</button>
+                                            <button onClick={changeEmail} className={styles.security__button}>
+                                                {emailChange.newEmailIsLoading ? "Загрузка..." : "Сохранить"}
+                                            </button>
                                         </div>
                                         <div
                                             style={emailChange.newEmailError
@@ -242,7 +252,9 @@ const Profile = () => {
                                             placeholder={"Новый пароль"}
                                         />
                                         <div style={{display: "flex", justifyContent: 'center'}}>
-                                            <button onClick={changePassword} className={styles.security__button}>Сохранить</button>
+                                            <button onClick={changePassword} className={styles.security__button}>
+                                                {passwordChange.passwordLoading ? "Загрузка..." : "Сохранить"}
+                                            </button>
                                         </div>
                                         <div
                                             style={passwordChange.passwordError
