@@ -62,7 +62,6 @@ const Profile = () => {
                         })
                     }
                 }
-
             }
         }
 
@@ -179,6 +178,7 @@ const Profile = () => {
                         {
                             toggleEmail
                                 ? <ProfileToggleChange
+                                    passwordError={emailChange.newEmailError}
                                     title={"Смена почты"}
                                     description={"Введите новый адрес электронной почты и пароль, после этого нужно будет подтвердить новый адрес электроный почты"}>
                                     <div>
@@ -225,6 +225,7 @@ const Profile = () => {
                         {
                             togglePassword
                                 ? <ProfileToggleChange
+                                    passwordError={passwordChange.passwordError}
                                     title={"Смена пароля"}
                                     description={"Для того что бы изменить пароль: введите старый пароль, а затем придумайте новый."}>
                                     <div>

@@ -1,4 +1,4 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type {NextApiRequest, NextApiResponse} from 'next'
 import {pool} from '@/config/db'
 import {getServerSession} from "next-auth";
 import {authOptions} from "@/pages/api/auth/[...nextauth]";
@@ -32,8 +32,7 @@ export default async function handler(
             }
         })
 
-
-        } catch (err) {
+    } catch (err) {
         return res.status(500).json("Что-то пошло не так")
     }
 }
