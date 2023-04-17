@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from "next/link";
-import {ICart} from "@/models/ICart";
 import styles from '../../../styles/page/cart.module.scss'
+import {useRouter} from "next/router";
 
 interface IProps {
     price: number,
@@ -11,12 +11,13 @@ interface IProps {
 }
 
 const CartHeader = ({price, availableBuy, saveTotalPriceWithDiscount, isEmailConfirmed}: IProps) => {
+    const router = useRouter()
 
     return (
         <div className={styles.cart__header}>
             <h1 className={styles.cart__header__title}>Общая сумма корзины <span>{price} ₽.</span></h1>
             <div className={styles.cart__header__desc}>Бесплатная доставка</div>
-            {!isEmailConfirmed ? <h2 className={styles.cart__header__email}>Для оформления заказа подтвердите email</h2> : null}
+            {!isEmailConfirmed ? <h2  onClick={() => router.push('/profile')} className={styles.cart__header__email}>Для оформления заказа подтвердите email</h2> : null}
             {availableBuy
                 ? <Link style={{ textDecoration: "none"}} onClick={saveTotalPriceWithDiscount} href="delivery/delivery-method">
                     <button className={styles.cart__header__button}>Оформить заказ</button>

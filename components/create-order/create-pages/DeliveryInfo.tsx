@@ -3,7 +3,7 @@ import CreateTitle from "../create-title/CreateTitle";
 import {useForm} from "react-hook-form";
 import styles from '../../../styles/page/delivery.module.scss'
 import {useRouter} from "next/router";
-import {authAPI, cartAPI, orderAPI} from "@/api/api";
+import {authAPI, cartAPI, orderAPI, profileAPI} from "@/api/api";
 import {IUserData} from "@/models/IUserData";
 import {useSession} from "next-auth/react";
 
@@ -14,6 +14,7 @@ const DeliveryInfoComponent = () => {
     const {register, formState: {errors}, handleSubmit} = useForm()
     const [isChecked, setIsChecked] = useState(false)
     const [subscribeNews, setSubscribeNews] = useState(true)
+    const [isEmailConfirm, setIsEmailConfirm] = useState(true);
     const [userData, setUserData] = useState({
         fullName: "",
         city: "",
@@ -59,6 +60,18 @@ const DeliveryInfoComponent = () => {
         getUserInfo()
     }, [])
 
+    useEffect(() => {
+        (async function (){
+            const data = await profileAPI.getUserEmail()
+            if (data.data[0] && data.data.length !== 0) {
+                if (data.data[0].otherServiceLogin === 1 || data.data[0].confirmed === 1) {
+                    setIsEmailConfirm(true)
+                } else {
+                    setIsEmailConfirm(false)
+                }
+            }
+        }())
+    }, []);
 
     const onSubmit = async (e: any, userData: IUserData) => {
         e.preventDefault()
@@ -77,6 +90,7 @@ const DeliveryInfoComponent = () => {
     return (
         <div>
             <CreateTitle subtitle={"Введите ваше имя и адрес:"} title={"Куда отправить ваш заказ?"}/>
+            {!isEmailConfirm ? <h2  onClick={() => router.push('/profile')} className={styles.cart__header__email}>Для оформления заказа подтвердите email</h2> : null}
             <div className={styles.create__order}>
                 <form
                     style={{marginTop: '20px'}}
@@ -206,10 +220,9 @@ const DeliveryInfoComponent = () => {
                         </label>
                     </div>
 
-
                     <button
-                        disabled={!isChecked}
-                        className={isChecked
+                        disabled={!isChecked || !isEmailConfirm}
+                        className={isChecked && isEmailConfirm
                             ? styles.order__form__buy
                             : styles.delivery_info_disabled + ' ' + styles.order__form__buy
                         }
