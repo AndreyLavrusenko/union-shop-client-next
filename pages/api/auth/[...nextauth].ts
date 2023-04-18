@@ -78,6 +78,9 @@ export const authOptions = {
             return true
         },
     },
+    pages: {
+        error: '/error/login-error'
+    },
     secret: process.env.NEXT_AUTH_SECRET,
     session: {
         jwt: true,
