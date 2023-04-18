@@ -26,7 +26,25 @@ export default async function handler(
                     return res.status(200).json(result)
                 })
             } else {
-                return res.status(200).json({resultCode: 0})
+                //Если аккаунт уже есть то проверить через гугл он или нет
+                //Если не через гугл то отменить вход в аккаунт или если есть возможность зайти под обычным аккаунтом
+                const sqlCheckLogin = "SELECT otherServiceLogin FROM users WHERE id = ?"
+                const dataCheckLogin = [result[0].id]
+
+                pool.query(sqlCheckLogin, dataCheckLogin, (error, result: any) => {
+                    if (error) return res.status(400).json({message: error, resultCode: 1})
+
+                    if (result.length !== 0) {
+                        if (result[0].otherServiceLogin === 0) {
+                            return res.status(404).json({resultCode: 1})
+                        } else {
+                            return res.status(200).json({resultCode: 0})
+                        }
+                    } else {
+                        return res.status(400).json({resultCode: 1})
+                    }
+
+                })
             }
 
 

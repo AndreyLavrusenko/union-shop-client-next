@@ -48,7 +48,7 @@ export const profileAPI = {
 
     changeUserEmail: async (data: {email: string, password: string}) => {
         return await instance.put('api/profile/change-email', {data})
-    }
+    },
 }
 
 export const productAPI = {
