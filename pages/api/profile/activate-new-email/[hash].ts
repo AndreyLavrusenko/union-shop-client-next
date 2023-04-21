@@ -22,7 +22,7 @@ export default async function handler(
         if (response.status === 400) {
             return res.status(400).json("Не удалось определить пользователя")
         } else {
-            res.redirect(307, '/status/email-confirm')
+            res.redirect(307, '/status/email-changed')
         }
 
     } catch (err) {
