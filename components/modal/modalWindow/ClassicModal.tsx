@@ -99,10 +99,10 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
                     </button>
                 </div>
 
-                <div className={styles.modal__login__union} onClick={authByUnionId}>
-                    <Image width={28} src={union} alt="union"/>
-                    <p>Union ID</p>
-                </div>
+                {/*<div className={styles.modal__login__union} onClick={authByUnionId}>*/}
+                {/*    <Image width={28} src={union} alt="union"/>*/}
+                {/*    <p>Union ID</p>*/}
+                {/*</div>*/}
 
             </div>
         </div>
