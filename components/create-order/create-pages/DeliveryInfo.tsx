@@ -3,14 +3,18 @@ import CreateTitle from "../create-title/CreateTitle";
 import {useForm} from "react-hook-form";
 import styles from '../../../styles/page/delivery.module.scss'
 import {useRouter} from "next/router";
-import {authAPI, cartAPI, orderAPI} from "@/api/api";
+import {authAPI, cartAPI, orderAPI, profileAPI} from "@/api/api";
 import {IUserData} from "@/models/IUserData";
+import {useSession} from "next-auth/react";
 
 
 const DeliveryInfoComponent = () => {
     const router = useRouter()
+    const {data: user} = useSession()
     const {register, formState: {errors}, handleSubmit} = useForm()
     const [isChecked, setIsChecked] = useState(false)
+    const [subscribeNews, setSubscribeNews] = useState(true)
+    const [isEmailConfirm, setIsEmailConfirm] = useState(true);
     const [userData, setUserData] = useState({
         fullName: "",
         city: "",
@@ -19,7 +23,6 @@ const DeliveryInfoComponent = () => {
         phone: "",
         index: "",
         region: "",
-        email: ""
     })
 
 
@@ -50,7 +53,6 @@ const DeliveryInfoComponent = () => {
                     phone: user.phone,
                     index: user.index,
                     region: user.region,
-                    email: user.email
                 })
             }
 
@@ -58,14 +60,26 @@ const DeliveryInfoComponent = () => {
         getUserInfo()
     }, [])
 
-
+    useEffect(() => {
+        (async function (){
+            const data = await profileAPI.getUserEmail()
+            if (data.data[0] && data.data.length !== 0) {
+                if (data.data[0].otherServiceLogin === 1 || data.data[0].confirmed === 1) {
+                    setIsEmailConfirm(true)
+                } else {
+                    setIsEmailConfirm(false)
+                }
+            }
+        }())
+    }, []);
 
     const onSubmit = async (e: any, userData: IUserData) => {
         e.preventDefault()
 
+        userData.email = user.user.email
+
         // Записывает данные пользователя в бд после нажатия на кнопку
-        //@ts-ignore
-        await orderAPI.setUserInfoDelivery(JSON.stringify(userData), userData.email)
+        await orderAPI.setUserInfoDelivery(JSON.stringify(userData), user.user.email, subscribeNews)
         return router.push("delivery-pay");
     }
 
@@ -76,6 +90,7 @@ const DeliveryInfoComponent = () => {
     return (
         <div>
             <CreateTitle subtitle={"Введите ваше имя и адрес:"} title={"Куда отправить ваш заказ?"}/>
+            {!isEmailConfirm ? <h2  onClick={() => router.push('/profile')} className={styles.cart__header__email}>Для оформления заказа подтвердите email</h2> : null}
             <div className={styles.create__order}>
                 <form
                     style={{marginTop: '20px'}}
@@ -158,22 +173,6 @@ const DeliveryInfoComponent = () => {
                         className={styles.order__form__big + " " + styles.order__form__input}
                     />
 
-
-                    <span className={styles.order__form__label}>
-                        Введите адрес своей электронной почты. <br/>
-                        На этот адрес будут отправляться уведомления о статусе заказа.
-                    </span>
-                    <input
-                        type="email"
-                        name="email"
-                        value={userData.email}
-                        onChange={onChange}
-                        required={true}
-                        placeholder="Ваш адрес электронной почты"
-                        className={styles.order__form__input + " " + styles.order__form__special}
-                    />
-                    <div/>
-
                     <span className={styles.order__form__label}>
                        Введите промокод
                     </span>
@@ -206,16 +205,24 @@ const DeliveryInfoComponent = () => {
                     </div>
 
                     <div className="checkbox">
-                        <input {...register("news")} className={styles.custom__checkbox} type="checkbox" id="news" name="news" value="true" />
+                        <input
+                            {...register("news")}
+                            checked={subscribeNews}
+                            onClick={() => setSubscribeNews(prev => !prev)}
+                            className={styles.custom__checkbox}
+                            type="checkbox"
+                            id="news"
+                            name="news"
+                            value="news"
+                        />
                         <label htmlFor="news">
                             Подписаться на новости и эксклюзивные предложения
                         </label>
                     </div>
 
-
                     <button
-                        disabled={!isChecked}
-                        className={isChecked
+                        disabled={!isChecked || !isEmailConfirm}
+                        className={isChecked && isEmailConfirm
                             ? styles.order__form__buy
                             : styles.delivery_info_disabled + ' ' + styles.order__form__buy
                         }

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from '../styles/page/cart.module.scss'
-import {cartAPI, productAPI} from "@/api/api";
+import {authAPI, cartAPI, productAPI} from "@/api/api";
 import {getSession, useSession} from "next-auth/react";
 import CartHeader from "@/components/cart/cart-header/CartHeader";
 import {ICart} from "@/models/ICart";
@@ -19,6 +19,7 @@ const Cart = () => {
     const [loading, setLoading] = useState(true)
     const [cartUpdate, setCartUpdate] = useState(true)
     const [updateDelete, setUpdateDelete] = useState(false)
+    const [isEmailConfirmed, setEmailConfirmed] = useState(true)
 
     const dispatch = useAppDispatch()
 
@@ -38,6 +39,19 @@ const Cart = () => {
         getAllProduct().then(() => setUpdateDelete(!updateDelete))
 
     }, [user, cartUpdate])
+
+
+    // Проверяет подтверждена ли почта или нет
+    useEffect(() => {
+        const getEmailConfirmedHandler = async () => {
+            const res = await authAPI.getUserEmailConfirmed()
+            if (res.status === 200) {
+                setEmailConfirmed(!!res.data[0].confirmed)
+            }
+        }
+
+        getEmailConfirmedHandler()
+    }, [])
 
 
     // Получение кол-ва товаров в корзине
@@ -62,7 +76,7 @@ const Cart = () => {
             }
         })
 
-        if (arr.includes(0)) {
+        if (arr.includes(0) || isEmailConfirmed === false) {
             setAvailableBuy(false)
         } else {
             setAvailableBuy(true)
@@ -91,9 +105,22 @@ const Cart = () => {
         setCartUpdate(!cartUpdate)
     }
 
+    const price = myCart.reduce((accumulator, object) => {
+        return accumulator + object.price * object.quantity
+    }, 0)
+
+    const finalPrice = myCart.reduce((accumulator, object) => {
+        return accumulator + (object.discount ?? object.price) * object.quantity
+    }, 0)
+
+    // Добавляет цену с учетом скидке по которой будет формироваться заказ
+    const saveTotalPriceWithDiscount = async () => {
+        await cartAPI.saveDiscountPrice(price)
+    }
+
     return (
         <div className={styles.cart__main}>
-            <CartHeader myCart={myCart} availableBuy={availableBuy}/>
+            <CartHeader isEmailConfirmed={isEmailConfirmed} saveTotalPriceWithDiscount={saveTotalPriceWithDiscount} price={finalPrice} availableBuy={availableBuy}/>
             <div className={styles.cart__item__wrapper}>
                 {myCart.map((item, i) => (
                     <CartItem
@@ -104,7 +131,7 @@ const Cart = () => {
                         cart={item}/>
                 ))}
                 <CartLetter/>
-                <CartCheque availableBuy={availableBuy} myCart={myCart}/>
+                <CartCheque finalPrice={finalPrice} saveTotalPriceWithDiscount={saveTotalPriceWithDiscount} availableBuy={availableBuy} price={price}/>
             </div>
         </div>
     );

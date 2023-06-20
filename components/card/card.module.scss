@@ -1,4 +1,5 @@
 .stripe {
+    margin-top: 55px;
 
     &__title {
         display: flex;
@@ -30,13 +31,14 @@
         height: 341px;
         cursor: pointer;
         padding: 10px;
-        margin: 50px 15px 80px 20px;
+        margin: 50px 15px 20px 20px;
 
         position: relative;
 
+
         &__hover:hover {
-            transition: .5s;
-            transform: scale(1.04);
+            transition: .8s;
+            transform: scale(1.02);
         }
 
         &__hover:not(:hover) {
@@ -93,10 +95,46 @@
 
     &__slider {
         display: flex;
-        overflow-x: auto;
+        overflow-x: scroll;
+        position: sticky;
 
         &::-webkit-scrollbar {
             display: none;
         }
+
+        &:hover .arrow {
+            opacity: 1;
+            visibility: visible;
+        }
     }
+}
+
+.arrow {
+    background-color: rgba(0,0,0,.2);
+    border-radius: 50%;
+    padding: 8px;
+    cursor: pointer;
+    z-index: 2;
+    position: sticky;
+    top: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: .4s;
+
+    &_right {
+        right: 5px;
+    }
+
+    &_left {
+        left: 25px;
+    }
+
+    &:hover {
+        background-color: rgba(0,0,0,.4);
+    }
+}
+
+.stripe__card:first-of-type {
+    margin-left: -20px;
 }

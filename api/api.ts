@@ -13,7 +13,42 @@ const instance = axios.create({
 export const authAPI = {
     getUserInfo: async () => {
         return await instance.get('api/auth/userInfo')
+    },
+
+    getUserEmailConfirmed: async () => {
+        return await instance.get('api/auth/user-confirmed')
+    },
+
+    // Для повторнй отправки письма
+    sendConfirmEmail: async (email: string) => {
+        return await instance.post('api/auth/send-email', {email})
+    },
+
+    confirmGoogleUser: async (email: string, token: string) => {
+        return await instance.post('api/auth/confirm-google-account', {email, token})
     }
+}
+
+export const profileAPI = {
+    getUserInfo: async () => {
+      return await instance.get('api/profile/get-profile-info')
+    },
+
+    setUserInfo: async (data: string) => {
+        return await instance.post('api/profile/save-profile-info', {data})
+    },
+
+    getUserEmail: async () => {
+        return await instance.get('api/profile/get-user-email')
+    },
+
+    changeUserPassword: async (passwords: {newPassword: string, oldPassword: string}) => {
+        return await instance.put('api/profile/change-password', {passwords})
+    },
+
+    changeUserEmail: async (data: {email: string, password: string}) => {
+        return await instance.put('api/profile/change-email', {data})
+    },
 }
 
 export const productAPI = {
@@ -125,6 +160,10 @@ export const cartAPI = {
         const {data} = await instance.get('api/cart/quantity')
         return data
     },
+
+    saveDiscountPrice: async (price: number) => {
+        await instance.put(`api/cart/save-discount-price`, {price})
+    }
 }
 
 
@@ -145,8 +184,8 @@ export const orderAPI = {
         return await instance.post('api/order/change-price', {price, deliveryType})
     },
 
-    setUserInfoDelivery: async (userInfo: IUserData, email: string) => {
-        return await instance.put('api/order/delivery-user-info', {userInfo, email})
+    setUserInfoDelivery: async (userInfo: string, email: string, subscribeNews: boolean) => {
+        return await instance.put('api/order/delivery-user-info', {userInfo, email, subscribeNews})
     },
 
     getOrdersQuantity: async () => {

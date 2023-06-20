@@ -68,13 +68,27 @@ const CartItem = ({cart, handleDelete, plusProductQuantity, minusProductQuantity
                     </div>
 
                     <div className={styles.cart__info__count}>
-                        <button onClick={() => minusProductQuantity(cart.id)}>&#8722;</button> {cart.quantity} <button onClick={() => plusProductQuantity(cart.id)}>&#43;</button>
+                        <button onClick={() => minusProductQuantity(cart.id)}>&#8722;</button>
+                        {cart.quantity}
+                        <button onClick={() => plusProductQuantity(cart.id)}>&#43;</button>
                     </div>
 
                     <div>
                         <div className={styles.cart__right}>
-                            <div
-                                className={styles.cart__right__price}>{cart.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"}</div>
+                            { cart.discount
+                                ? <del className={[styles.cart__right__price, styles.cart__right__price__sale].join(' ')}>
+                                    {cart.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"}
+                                </del>
+                                : null
+                            }
+                            { cart.discount
+                                ? <div
+                                    className={styles.cart__right__price}>{cart.discount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"}
+                                </div>
+                                : <div
+                                    className={styles.cart__right__price}>{cart.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"}
+                                </div>
+                            }
                             <button
                                 className={styles.cart__right__delete}
                                 onClick={() => handleDelete(cart.id)}

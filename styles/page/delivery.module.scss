@@ -1,5 +1,22 @@
 @import "../color";
 
+.cart__header__email {
+    color: #856404;
+    background-color: #fff3cd;
+    border-radius: 6px;
+    border: 1px solid #ffecb5;
+
+    padding: 12px 0;
+    cursor: pointer;
+
+    text-align: center;
+    font-weight: 400;
+    font-size: 16px;
+
+    width: 400px;
+    margin: 30px auto 10px auto;
+}
+
 .create__title {
     text-align: center;
     margin-top: 50px;

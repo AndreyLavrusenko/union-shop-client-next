@@ -1,0 +1,302 @@
+.profile {
+  width: calc(100% - 200px);
+  max-width: 1230px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  &__item {
+    margin: 0 auto;
+    width: 600px;
+
+    &__button {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+
+.secure {
+  margin-top: 20px;
+  margin-left: 75px;
+  display: flex;
+  flex-direction: column;
+
+  p {
+    margin-left: 20px;
+  }
+
+  &__wrapper {
+    cursor: pointer;
+    width: 100%;
+  }
+}
+
+.header {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    user-select: none;
+
+    h2 {
+      margin: 0;
+      font-weight: 700;
+      font-size: 24px;
+      line-height: 24px;
+      color: #191847;
+      padding-left: 30px;
+    }
+  }
+
+  &__title {
+
+    p {
+      padding-top: 15px;
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 26px;
+      color: #191847;
+      margin: 0 0 0 74px;
+      max-width: 400px;
+
+      padding-bottom: 8px;
+    }
+  }
+
+  &__img {
+    background: #F4F5F8;
+    border-radius: 14px;
+    width: 44px;
+    height: 44px;
+    position: relative;
+
+    img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+.input {
+  border: 1px solid #dedede;
+  border-radius: 11px;
+  background-color: inherit;
+
+  margin-left: 74px;
+  margin-top: 10px;
+  padding: 10px 14px;
+
+  width: 260px;
+
+  ::placeholder {
+    color: rgba(0, 0, 0, 0.35);
+  }
+}
+
+.saveButton {
+  background: #292933;
+  color: #FFFFFF;
+  border: 2px solid #292933;
+  border-radius: 8px;
+
+  cursor: pointer;
+  transition: .4s;
+
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+
+  padding: 12px 24px;
+  margin-left: -235px;
+  margin-top: 90px;
+
+  &:hover {
+    background-color: #3c3c44;
+  }
+}
+
+.confirmEmail {
+  background: rgba(255, 241, 191, 0.55);
+  border: 1px solid #FFF3CD;
+  border-radius: 11px;
+  max-width: 350px;
+  margin-top: 40px;
+  cursor: pointer;
+  transition: .4s;
+
+  &:hover {
+    background: rgba(255, 232, 141, 0.63);
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 26px;
+    text-align: center;
+    color: #664D03;
+  }
+}
+
+.profile__item__confirm {
+  margin: 0 auto;
+}
+
+.toggle__main {
+  padding: 12px 20px;
+  border: 1px solid #E4E4E4;
+  border-radius: 8px;
+  width: 350px;
+
+  margin-top: 15px;
+
+  h4, p {
+    margin: 0;
+  }
+
+  h4 {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 24px;
+    color: #191847;
+    padding-bottom: 5px;
+  }
+
+  p {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    color: #191847;
+  }
+
+  input {
+    border: 1px solid #dedede;
+    border-radius: 11px;
+    background-color: inherit;
+
+    margin-top: 10px;
+    padding: 10px 14px;
+
+    width: 260px;
+
+    ::placeholder {
+      color: rgba(0, 0, 0, 0.35);
+    }
+  }
+}
+
+.profile__email_again {
+  margin-top: 8px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 21px;
+  color: #191847;
+
+ text-align: center;
+  margin-left: -240px;
+}
+
+.security__error {
+  text-align: center;
+  color: #e55b5b;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.security__success {
+  text-align: center;
+  color: #1468E7;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.security__button {
+  background: #1468E7;
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  margin-top: 15px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 15px;
+  color: #FFFFFF;
+
+  padding: 10px 30px;
+}
+
+
+@media (max-width: 1300px) {
+  .profile {
+    padding-left: 120px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .profile {
+    padding-left: 205px;
+  }
+}
+
+
+@media (max-width: 840px) {
+    .profile {
+      padding-left: 0;
+      padding-right: 10px;
+      width: 100%;
+
+      &__item {
+        width: 100%;
+        margin: inherit;
+      }
+    }
+
+  .saveButton {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 520px) {
+  .profile {
+    padding-left: 10px;
+    width: inherit;
+  }
+
+  .header__title p {
+    margin-left: 0;
+  }
+
+  .header {
+    margin-top: 40px;
+  }
+
+  .input {
+    width: calc(100% - 28px);
+    margin-left: 0;
+  }
+
+  .toggle__main {
+    width: initial;
+
+    input {
+        width: calc(100% - 28px);
+    }
+  }
+
+  .secure {
+    margin-left: 0;
+  }
+
+  .header__wrapper h2 {
+    padding-left: 20px;
+  }
+}

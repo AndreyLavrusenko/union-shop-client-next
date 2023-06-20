@@ -19,6 +19,7 @@ interface IProps {
 }
 
 const Home = ({topProduct, newProduct, firstCategory, secondCategory, thirdCategory}: IProps) => {
+
     return (
         <>
             <Card products={topProduct} title={"Лучшие товары."} secondTitle={"Зацените."}/>

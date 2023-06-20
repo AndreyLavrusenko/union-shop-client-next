@@ -2,13 +2,14 @@ import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import axios from "axios";
+import {authAPI, profileAPI} from "@/api/api";
 
 
 export const authOptions = {
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_LOGIN ?? '',
-            clientSecret: process.env.GOOGLE_SECRET ?? ''
+            clientSecret: process.env.GOOGLE_SECRET ?? '',
         }),
         CredentialsProvider({
             type: 'credentials',
@@ -68,6 +69,17 @@ export const authOptions = {
             }
             return session;
         },
+        async signIn({ account, profile }: any) {
+            if (account.provider === "google") {
+                if (profile.email_verified && profile.email.endsWith("@gmail.com")) {
+                    await authAPI.confirmGoogleUser(profile.email, profile.sub)
+                }
+            }
+            return true
+        },
+    },
+    pages: {
+        error: '/error/login-error'
     },
     secret: process.env.NEXT_AUTH_SECRET,
     session: {

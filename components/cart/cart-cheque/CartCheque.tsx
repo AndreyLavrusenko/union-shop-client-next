@@ -5,13 +5,13 @@ import styles from '../../../styles/page/cart.module.scss'
 
 interface IProps {
     availableBuy: boolean,
-    myCart: ICart[]
+    price: number,
+    finalPrice: number,
+    saveTotalPriceWithDiscount: () => {}
 }
 
-const CartCheque = ({availableBuy, myCart}: IProps) => {
-    const price = myCart.reduce((accumulator, object) => {
-        return accumulator + object.price * object.quantity
-    }, 0)
+const CartCheque = ({availableBuy, price, saveTotalPriceWithDiscount, finalPrice}: IProps) => {
+
 
     return (
         <div className={styles.cart__check}>
@@ -40,13 +40,13 @@ const CartCheque = ({availableBuy, myCart}: IProps) => {
                     Скидка
                 </div>
                 <div className={styles.cart__check__right}>
-                    0
+                    {(price - finalPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"}
                 </div>
             </div>
 
             <div className={styles.cart__check__wrapper + ' ' + styles.cart__check__wrapper__sum}>
                 <div className={styles.cart__check__sum}>Итог</div>
-                <div className={styles.cart__check__pay}>{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"}</div>
+                <div className={styles.cart__check__pay}>{finalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ₽"}</div>
             </div>
 
 
@@ -78,7 +78,7 @@ const CartCheque = ({availableBuy, myCart}: IProps) => {
                 </div>
 
                 {availableBuy
-                    ? <Link style={{ textDecoration: "none"}} href="delivery/delivery-method" className={styles.cart__check__button}>Оформить заказ</Link>
+                    ? <Link style={{ textDecoration: "none"}} onClick={saveTotalPriceWithDiscount} href="delivery/delivery-method" className={styles.cart__check__button}>Оформить заказ</Link>
                     : <button style={{ textDecoration: "none", backgroundColor: "#0707e1", cursor: "not-allowed"}} className={styles.cart__check__button}>Доступны не все товары</button>
                 }
             </div>
