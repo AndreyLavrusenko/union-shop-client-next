@@ -25,17 +25,17 @@ const CardSlider = ({image, images, background, title}: IProps) => {
             <div className={styles.cardslider__main} style={{backgroundColor: background}}>
                 {/*Главная картинка images*/}
                 {/*@ts-ignore*/}
-                <img className={styles.cardslider__main__img} src={activeImg.length > 0 ? activeImg : process.env.NEXT_PUBLIC_API + image} alt={title} />
+                <img className={styles.cardslider__main__img} src={activeImg.length > 0 ? activeImg : process.env.NEXT_S3_LINK + image} alt={title} />
             </div>
             {/*Картинки из массива*/}
             <div className={styles.cardslider__down}>
                 <div className={styles.cardslider__down__item}>
-                    <Image layout='fill' objectFit='contain' onClick={getNewImg} className={styles.cardslider__down__img} src={process.env.NEXT_PUBLIC_API + image} alt={title} />
+                    <Image layout='fill' objectFit='contain' onClick={getNewImg} className={styles.cardslider__down__img} src={process.env.NEXT_S3_LINK + image} alt={title} />
                 </div>
 
                 {images_arr.map((item: string, i: number) => (
                     <div key={i} className={styles.cardslider__down__item}>
-                        <Image layout='fill' objectFit='contain' onClick={getNewImg} className={styles.cardslider__down__img} src={process.env.NEXT_PUBLIC_API + item.trim()} alt=""/>
+                        <Image layout='fill' objectFit='contain' onClick={getNewImg} className={styles.cardslider__down__img} src={process.env.NEXT_S3_LINK + item.trim()} alt=""/>
                     </div>
                 ))}
 

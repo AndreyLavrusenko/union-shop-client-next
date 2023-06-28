@@ -7,9 +7,10 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_BACK_URI: process.env.BASE_URL,
     NEXT_PUBLIC_API: process.env.API_URL,
+    NEXT_S3_LINK: process.env.NEXT_S3_LINK,
   },
   images: {
-    domains: ["localhost", 'unionshop-api.onrender.com']
+    domains: ["localhost", 'unionshop-api.onrender.com', 's3.timeweb.com']
   },
   async headers() {
     return [

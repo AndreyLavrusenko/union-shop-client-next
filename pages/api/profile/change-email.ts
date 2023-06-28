@@ -96,8 +96,8 @@ export default async function handler(
                                         try {
                                             await transporter.sendMail({
                                                 ...mailOptions,
-                                                subject: "Union Shop - Подтверждение нового email", // Subject line
-                                                text: "Подтверждение новой почты", // plain text body
+                                                subject: "Union Shop - Изменение адреса электронной почты", // Subject line
+                                                text: "Изменение адреса электронной почты", // plain text body
                                                 html: `
                                                     <div style="background-color: white; padding: 40px; height: 100%;">
                                                         <h3 style="font-weight: 700;
@@ -115,11 +115,10 @@ export default async function handler(
                                                                      "
                                                          >
                                                             <div style="max-width: 880px; padding-left: 15px; margin: 0 auto;">
-                                                                <h4 style="margin: 0; padding-bottom: 5px;">Добро пожаловать в ЮНИОН!</h4>
+                                                                <h4 style="margin: 0; padding-bottom: 5px;">Изменён адрес электронной почты для аккаунта ЮНИОН.</h4>
                                                                 <p style="margin: 0;">
-                                                                Чтобы подтвердить учетную запись, Вам необходимо перейти по ссылке. <br>
-                                                                Если это были не вы, то смените пароль от учетной записи на странице профиля <br><br>
-                                                                Если у Вас возникли вопросы, обязательно обратитесь в службу поддержки.</p>
+                                                                Ваша основная почта для Интернет-Магазин ЮНИОН была изменена. <br>
+                                                                Если это были Вы, проигнорируйте данную автоматическую рассылку.</p>
                                                             </div>
                                                         </div>
                                                         
