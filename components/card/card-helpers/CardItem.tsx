@@ -4,6 +4,7 @@ import {useRouter} from "next/router";
 
 import styles from '../card.module.scss'
 import Image from "next/image";
+import * as process from "process";
 
 interface IProps {
     backgroundcolor: string;
@@ -88,7 +89,7 @@ const CardItem = forwardRef(({backgroundcolor, color, subColor, image, subtitle,
             <div className={styles.stripe__card__content} >
                 <Image
                     className={styles.stripe__card__img}
-                    src={process.env.NEXT_PUBLIC_API + image}
+                    src={process.env.NEXT_S3_LINK + image}
                     alt={title}
                     layout='fill'
                     objectFit='contain'

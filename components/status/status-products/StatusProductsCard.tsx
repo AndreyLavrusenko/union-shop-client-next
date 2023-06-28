@@ -11,7 +11,7 @@ const StatusProductsCard = ({orderDetails}: IProps) => {
     return (
         <div className={styles.status__card}>
             <div>
-                <img src={process.env.NEXT_PUBLIC_API + orderDetails.image} alt=""/>
+                <img src={process.env.NEXT_S3_LINK + orderDetails.image} alt=""/>
             </div>
             <div className={styles.status__card__data}>
                 <div className={styles.status__card__name}>{orderDetails.title}</div>
