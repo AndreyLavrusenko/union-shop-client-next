@@ -36,7 +36,7 @@ const CartItem = ({cart, handleDelete, plusProductQuantity, minusProductQuantity
         <div className={styles.cart__info} key={cart.id}>
             <div className={styles.cart__info__wrapper}>
                 <div className={styles.cart__info__block}>
-                    <img src={process.env.NEXT_PUBLIC_API + product.image} alt=""/>
+                    <img src={process.env.NEXT_S3_LINK + product.image} alt=""/>
                 </div>
                 <div className={styles.cart__info__main}>
                     <div>

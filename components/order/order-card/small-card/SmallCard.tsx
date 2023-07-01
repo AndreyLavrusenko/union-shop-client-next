@@ -1,6 +1,7 @@
 import React from 'react';
 import 'animate.css'
 import styles from '@/styles/page/order.module.scss'
+import process from "process";
 
 
 interface IProps {
@@ -27,7 +28,7 @@ const SmallCard = ({title, backgroundcolor, color, description, image, subColor,
             <div className={styles.order__small__desc} style={{color: subColor}}>{description}</div>
 
             <div className={styles.order__small__img}>
-                <img src={process.env.NEXT_PUBLIC_API + image} alt={title}/>
+                <img src={process.env.NEXT_S3_LINK + image} alt={title}/>
             </div>
         </div>
     );
