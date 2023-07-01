@@ -108,7 +108,7 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                 productInfo.map(item => {
                     if (item.color === activeColor && item.size === activeSize) {
                         // Если на товар есть скидка то записываем ее
-                        if (item.discount === null) {
+                        if (item.discount === null || item.discount === "") {
                             price = item.price
                         } else if (item.discount) {
                             discount = item.discount
