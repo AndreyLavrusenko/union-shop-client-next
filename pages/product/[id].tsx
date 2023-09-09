@@ -33,7 +33,6 @@ const Product = ({productData, productInfo}: IProps) => {
     }, [rerenderCart])
 
 
-    console.log(productData, productInfo)
     return (
         <div className={styles.card}>
             <CardSlider image={productData.image} background={productData.backgroundcolor} images={productData.image_arr} title={productData.title}/>
