@@ -1,6 +1,10 @@
 @import "styles/color";
 
 .cardslider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
 
     &__show_more {
         display: flex;
@@ -76,6 +80,7 @@
 
 @media (max-width: 420px) {
     .cardslider__main {
+        width: 95%;
         height: 430px;
     }
 
