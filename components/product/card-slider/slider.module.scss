@@ -76,7 +76,10 @@
 
 @media (max-width: 420px) {
     .cardslider__main {
-        width: 90vw;
         height: 430px;
+    }
+
+    .cardslider__down {
+        width: 100%;
     }
 }
