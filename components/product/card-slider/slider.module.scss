@@ -25,11 +25,12 @@
         justify-content: center;
         align-items: center;
         padding: 20px 0;
+        overflow: hidden;
 
         &__img {
-            width: 80% !important;
-            height: 100% !important;
-            object-fit: contain;
+            width: 100% !important;
+            //height: 100% !important;
+            //object-fit: contain;
             position: relative !important
         }
     }
