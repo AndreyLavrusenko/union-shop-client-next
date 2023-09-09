@@ -19,7 +19,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
     const [modal, setModal] = useState(false)
 
     return (
-        <div className={styles.side + " js-side" } style={navbar ? {zIndex: "2", position: "fixed"} : {zIndex: "0", position: "absolute"}}>
+        <div className={styles.side + " js-side" } style={navbar ? {zIndex: "2", position: "fixed", visibility: 'visible'} : {zIndex: "0", position: "absolute", visibility: 'hidden'}}>
             <div className={styles.side__inner} style={navbar ? {opacity: "1", visibility: 'visible'} : {opacity: "0", visibility: "hidden"}}>
                 <Link href="/">
                     <Image src={nav_logo} className={styles.nav__logo} alt="logo" />

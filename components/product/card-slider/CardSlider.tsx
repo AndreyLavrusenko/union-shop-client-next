@@ -50,12 +50,12 @@ const CardSlider = ({image, images, background, title}: IProps) => {
                         ))
                 }
 
-            </div>
+                {images_arr.length > 6
+                    ? <div className={styles.cardslider__show_more} onClick={() => setIsOpenGallery(!isOpenGallery)}>{isOpenGallery ? 'Скрыть': 'Показать еще'}</div>
+                    : null
+                }
 
-            {images_arr.length > 6
-                ? <div className={styles.cardslider__show_more} onClick={() => setIsOpenGallery(!isOpenGallery)}>{isOpenGallery ? 'Скрыть': 'Показать еще'}</div>
-                : null
-            }
+            </div>
 
 
 
