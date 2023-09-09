@@ -1,0 +1,10 @@
+{
+  "enter_email": "Enter your email and password",
+  "modal_desc": "If you don't have an account, enter your email address and create a password",
+  "email_placeholder": "Enter Your Email",
+  "password_placeholder": "Enter Your Password",
+  "enter_error": "Wrong login or password",
+  "loading": "Loading...",
+  "enter": "Sign In",
+  "or": "Or"
+}

@@ -3,6 +3,10 @@ import {productAPI} from "@/api/api";
 import {IProduct} from "@/models/IProduct";
 import Advertising from "@/components/advertising/Advertising";
 import Card from "@/components/card/Card";
+import {useRouter} from "next/router";
+import {GetServerSidePropsContext} from "next";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
 
 
 interface categoryItem {
@@ -20,10 +24,12 @@ interface IProps {
 
 const Home = ({topProduct, newProduct, firstCategory, secondCategory, thirdCategory}: IProps) => {
 
+    const {t: translate} = useTranslation('common')
+
     return (
         <>
-            <Card products={topProduct} title={"Лучшие товары."} secondTitle={"Зацените."}/>
-            <Card products={newProduct} title={"Наши новинки."} secondTitle={"Полистайте."}/>
+            <Card products={topProduct} title={translate('title_1')} secondTitle={translate('subtitle_1')}/>
+            <Card products={newProduct} title={translate('title_2')} secondTitle={translate('subtitle_2')}/>
             {firstCategory.resultProduct.length > 0
                 ? <Card products={firstCategory.resultProduct} title={firstCategory.titles[0]}
                         secondTitle={firstCategory.titles[1]}/>
@@ -47,7 +53,9 @@ const Home = ({topProduct, newProduct, firstCategory, secondCategory, thirdCateg
 export default Home;
 
 
-export const getServerSideProps = async () => {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+    const { locale } = context;
+
     const topProduct = await productAPI.renderTop()
     const newProduct = await productAPI.renderNew()
 
@@ -66,6 +74,7 @@ export const getServerSideProps = async () => {
             firstCategory,
             secondCategory,
             thirdCategory,
+            ...(await serverSideTranslations(locale, ['common', 'navbar', 'modal'])),
         },
     }
 }

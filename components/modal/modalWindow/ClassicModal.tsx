@@ -7,6 +7,7 @@ import {signIn} from 'next-auth/react'
 import {loginOrRegFailure, loginStart, loginSuccess} from "@/redux/reducer/userSlice";
 
 import styles from '../modal.module.scss'
+import {useTranslation} from "next-i18next";
 
 
 interface IProps {
@@ -17,6 +18,7 @@ interface IProps {
 const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
     const dispatch = useAppDispatch()
     const {isLoading, error} = useAppSelector(state => state.user)
+    const {t: translate} = useTranslation('modal')
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -59,16 +61,15 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
 
     return (
         <div className={styles.modal__info}>
-            <h4 className={styles.modal__info__title}>Введите почту и пароль</h4>
-            <p className={styles.modal__info__desc}>Если у вас нет аккаунта, то введите свой адрес электронной почты
-                и придумайте пароль</p>
+            <h4 className={styles.modal__info__title}>{translate("enter_email")}</h4>
+            <p className={styles.modal__info__desc}>{translate("modal_desc")}</p>
             <form>
                 <input
                     type="email"
                     className={styles.modal__info__input}
                     name="email"
                     value={email}
-                    placeholder="Введите email"
+                    placeholder={translate("email_placeholder")}
                     onChange={e => setEmail(e.target.value)}
                 />
                 <input
@@ -76,20 +77,20 @@ const ClassicModal = ({setModalActive, setUnionId}: IProps) => {
                     className={styles.modal__info__input}
                     name="password"
                     value={password}
-                    placeholder="Введите пароль"
+                    placeholder={translate("password_placeholder")}
                     onChange={e => setPassword(e.target.value)}
                 />
-                <p className={styles.modal__info__error}>{error && "Неверный логин или пароль"}</p>
+                <p className={styles.modal__info__error}>{error && translate("enter_error")}</p>
                 <button
                     className={styles.modal__info__button}
                     type="submit"
                     disabled={isLoading}
                     onClick={e => signUpOrRegister(e)}>
-                    {isLoading ? "Загрузка..." : "Войти"}
+                    {isLoading ? translate("loading") : translate("enter")}
                 </button>
             </form>
             <div className={styles.modal__info__or}>
-                <span>или</span>
+                <span>{translate("or")}</span>
             </div>
             <div className={styles.modal__login}>
                 <div className={styles.modal__login__mobile}>

@@ -1,0 +1,9 @@
+{
+  "main": "Home",
+  "all_goods": "All Goods",
+  "cart": "Cart",
+  "my_order": "My orders",
+  "profile": "Profile",
+  "exit": "Logout",
+  "enter": "Sign In"
+}

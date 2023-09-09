@@ -2,10 +2,12 @@ import React, {useEffect, useState} from 'react';
 import styles from './advertising.module.scss'
 import Image from "next/image";
 import {productAPI} from "@/api/api";
+import {useTranslation} from "next-i18next";
 
 const Advertising = () => {
     const [advertising, setAdvertising] = useState(null)
     const [loading, setLoading] = useState(true)
+    const {t: translate} = useTranslation('common')
 
     useEffect(() => {
         const getAdvertisingFunc = async () => {
@@ -23,7 +25,7 @@ const Advertising = () => {
                     : <div className={styles.advertising}>
                         <div className={styles.advertising__wrapper}>
                             <div className={styles.advertising__left}>
-                                <div className={styles.advertising__left__new}>Новинка</div>
+                                <div className={styles.advertising__left__new}>{translate("advertising")}</div>
                                 <br/>
                                 <div className={styles.advertising__left__title}>{advertising.advertising_text}</div>
                             </div>

@@ -9,6 +9,7 @@ import CartLetter from "@/components/cart/cart-letter/CartLetter";
 import CartCheque from "@/components/cart/cart-cheque/CartCheque";
 import {setCartQuantity} from "@/redux/reducer/cartSlice";
 import {useAppDispatch} from "@/hook/redux";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
 
 
 const Cart = () => {
@@ -142,6 +143,7 @@ export default Cart
 
 export async function getServerSideProps(context: any) {
     const session = await getSession(context)
+    const { locale } = context;
 
     if (!session) {
         return {
@@ -153,6 +155,9 @@ export async function getServerSideProps(context: any) {
     }
 
     return {
-        props: { session }
+        props: {
+            session,
+            ...(await serverSideTranslations(locale, ['cart', 'navbar', 'common'])),
+        }
     }
 }

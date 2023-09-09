@@ -6,6 +6,9 @@ import Modal from "@/components/modal/Modal";
 import { signOut } from "next-auth/react"
 import styles from './navbar.module.scss'
 import Link from "next/link";
+import {useTranslation} from "next-i18next";
+import {useRouter} from "next/router";
+import {router} from "next/client";
 
 
 interface IProps {
@@ -18,6 +21,13 @@ interface IProps {
 const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
     const [modal, setModal] = useState(false)
 
+    const {locale, locales, push} = useRouter()
+    const {t: translate} = useTranslation('navbar')
+
+    const changeLang = (lang: string) => {
+        push('/', '/', {locale: lang})
+    }
+
     return (
         <div className={styles.side + " js-side" } style={navbar ? {zIndex: "2", position: "fixed"} : {zIndex: "0", position: "absolute"}}>
             <div className={styles.side__inner} style={navbar ? {opacity: "1", visibility: 'visible'} : {opacity: "0", visibility: "hidden"}}>
@@ -27,7 +37,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
 
                 <nav className={styles.nav}>
                     <ul>
-                        <NavItems pathway={"/"} name={"Главная"} closeNavbar={closeNavbar}>
+                        <NavItems pathway={"/"} name={translate("main")} closeNavbar={closeNavbar}>
                             <svg className={styles.nav__list__icon} width="25" height="25" viewBox="0 0 25 25"
                                  fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -35,7 +45,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
                                     stroke="black" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </NavItems>
-                        <NavItems pathway={"/shop"} name={"Все товары"} closeNavbar={closeNavbar}>
+                        <NavItems pathway={"/shop"} name={translate("all_goods")} closeNavbar={closeNavbar}>
                             <svg className={styles.nav__list__icon} width="26" height="22" viewBox="0 0 26 22"
                                  fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -44,7 +54,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
                             </svg>
                         </NavItems>
                         {isAuth ?
-                            <NavItems data-testid={"cart"} quantityState={quantityState} pathway={"/cart"} name={"Корзина"} closeNavbar={closeNavbar}>
+                            <NavItems data-testid={"cart"} quantityState={quantityState} pathway={"/cart"} name={translate('cart')} closeNavbar={closeNavbar}>
                                 <svg className={styles.nav__list__icon} width="25" height="25" viewBox="0 0 25 25"
                                      fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -56,7 +66,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
                             : null
                         }
                         {isAuth ?
-                            <NavItems data-testid={"orders"} pathway={"/order"} name={"Мои заказы"} closeNavbar={closeNavbar}>
+                            <NavItems data-testid={"orders"} pathway={"/order"} name={translate("my_order")} closeNavbar={closeNavbar}>
                                 <svg className={styles.nav__list__icon} width="25" height="25" viewBox="0 0 23 23"
                                      fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <g clipPath="url(#clip0_4757_11064)">
@@ -77,7 +87,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
                             : null
                         }
                         {isAuth ?
-                            <NavItems data-testid={"profile"} pathway={"/profile"} name={"Профиль"} closeNavbar={closeNavbar}>
+                            <NavItems data-testid={"profile"} pathway={"/profile"} name={translate("profile")} closeNavbar={closeNavbar}>
                                 <svg  className={styles.nav__list__icon} width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M19 21V19C19 17.9391 18.5786 16.9217 17.8284 16.1716C17.0783 15.4214 16.0609 15 15 15H9C7.93913 15 6.92172 15.4214 6.17157 16.1716C5.42143 16.9217 5 17.9391 5 19V21" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                                     <path d="M12 11C14.2091 11 16 9.20914 16 7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7C8 9.20914 9.79086 11 12 11Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -87,6 +97,10 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
                         }
 
                     </ul>
+
+                    {/*{locales.map(l => (*/}
+                    {/*    <button key={l} onClick={() => changeLang(l)}>{l}</button>*/}
+                    {/*))}*/}
                 </nav>
 
                 <div className={styles.side__footer}>
@@ -101,7 +115,7 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
                                 <path fill="#19262E"
                                       d="M18.538 18.707l4.587-4.586a3.007 3.007 0 000-4.242l-4.587-4.586a1 1 0 00-1.414 1.414L21.416 11H6a1 1 0 000 2h15.417l-4.293 4.293a1 1 0 101.414 1.414z"/>
                             </svg>
-                            <span className={styles.logout__link__text}>Выйти</span>
+                            <span className={styles.logout__link__text}>{translate("exit")}</span>
                         </button>
 
                         : <button className={styles.logout__link} title="Login" onClick={() => setModal(true)}>
@@ -155,11 +169,11 @@ const Navbar = ({quantityState, navbar, closeNavbar, isAuth}: IProps) => {
                                     </g>
                                 </g>
                             </svg>
-                            <span className={styles.logout__link__text}>Войти</span>
+                            <span className={styles.logout__link__text}>{translate("enter")}</span>
                         </button>
                     }
-
                 </div>
+
             </div>
             <div className={styles.navContainer}>
                 <input className={styles.checkbox} type="checkbox"/>

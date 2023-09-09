@@ -6,6 +6,7 @@ import yt from '../../assets/image/icon/youtube.svg'
 import styles from './footer.module.scss'
 import Link from "next/link";
 import Image from "next/image";
+import {useTranslation} from "next-i18next";
 
 
 interface IProps {
@@ -13,6 +14,8 @@ interface IProps {
 }
 
 const Footer = ({copyright}: IProps) => {
+    const {t: translate} = useTranslation('common')
+
     return (
         <div className={styles.footer}>
             <div className={styles.footer__wrapper}>
@@ -32,14 +35,14 @@ const Footer = ({copyright}: IProps) => {
                 </div>
                 <div className={styles.footer__right}>
                     <div className={styles.footer__right__left}>
-                        <Link className={styles.footer__right__link} href={"/official/payment"}>Оплата</Link><br/>
-                        <Link className={styles.footer__right__link} href={"/official/delivery"}>Доставка</Link><br/>
-                        <Link className={styles.footer__right__link} href={"/official/public-offer"}>Публичная Оферта</Link>
+                        <Link className={styles.footer__right__link} href={"/official/payment"}>{translate("footer_pay")}</Link><br/>
+                        <Link className={styles.footer__right__link} href={"/official/delivery"}>{translate("footer_delivery")}</Link><br/>
+                        <Link className={styles.footer__right__link} href={"/official/public-offer"}>{translate("footer_public_offer")}</Link>
                     </div>
                     <div className={styles.footer__right__right}>
-                        <Link className={styles.footer__right__link} href={"/official/personal-data"}>Обработка персональных данных</Link><br/>
-                        <Link className={styles.footer__right__link} href={"/official/faq"}>Ответы на часто задаваемые вопросы</Link><br/>
-                        <Link className={styles.footer__right__link} href={"/official/contacts"}>Контакты</Link>
+                        <Link className={styles.footer__right__link} href={"/official/personal-data"}>{translate("footer_process")}</Link><br/>
+                        <Link className={styles.footer__right__link} href={"/official/faq"}>{translate("footer_faq")}</Link><br/>
+                        <Link className={styles.footer__right__link} href={"/official/contacts"}>{translate("footer_contact")}</Link>
                     </div>
                 </div>
             </div>

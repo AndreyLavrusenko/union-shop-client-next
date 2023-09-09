@@ -19,6 +19,7 @@ const NavItems = ({quantityState, pathway, name, closeNavbar, children}: IProps)
         <li className={styles.nav__list__item}>
             <Link
                 href={pathway}
+                locale={router.locale}
                 className={router.pathname == pathway ? styles.nav__list__link + " " + styles.active : styles.nav__list__link}
                 onClick={() => closeNavbar(false)}
                 title={name}

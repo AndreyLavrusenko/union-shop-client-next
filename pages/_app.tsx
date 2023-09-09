@@ -7,9 +7,10 @@ import {store} from "@/redux/store";
 import {SessionProvider} from "next-auth/react";
 import NextNProgress from 'nextjs-progressbar';
 import Preloader from "@/common/Preloader";
+import {appWithTranslation} from "next-i18next";
 
 
-export default function App({Component, pageProps}: AppProps) {
+function App({Component, pageProps}: AppProps) {
     const [isSSR, setIsSSR] = useState(true);
 
     useEffect(() => {
@@ -29,3 +30,5 @@ export default function App({Component, pageProps}: AppProps) {
         </SessionProvider>
     )
 }
+
+export default appWithTranslation(App)

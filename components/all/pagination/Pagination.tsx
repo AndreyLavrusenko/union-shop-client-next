@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactPaginate from 'react-paginate'
 import styles from '../../../styles/page/shop.module.scss'
+import {useTranslation} from "next-i18next";
 
 interface IProps {
     pages: number,
@@ -9,11 +10,13 @@ interface IProps {
 
 const Pagination = ({pages, changePage}: IProps) => {
 
+    const {t: translate} = useTranslation('common')
+
     return (
         <div className={styles.pagination}>
             <ReactPaginate
-                previousLabel={"Назад"}
-                nextLabel={"Вперед"}
+                previousLabel={translate("prev")}
+                nextLabel={translate("next")}
                 pageCount={pages}
                 onPageChange={changePage}
                 containerClassName={styles.pagination}

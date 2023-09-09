@@ -7,6 +7,8 @@ import Category from "@/components/all/category/Category";
 import Search from "@/components/all/search/Search";
 import Pagination from '@/components/all/pagination/Pagination'
 import {useRouter} from "next/router";
+import {serverSideTranslations} from "next-i18next/serverSideTranslations";
+import {useTranslation} from "next-i18next";
 
 
 export interface ICategoryType {
@@ -35,6 +37,8 @@ const Shop = ({products, category}: IProps) => {
     const [search, setSearch] = useState("")
 
     const router = useRouter()
+
+    const {t: translate} = useTranslation('common')
 
     const changePage = ({selected: selectedPage}: any) => {
         setPage(selectedPage)
@@ -81,7 +85,7 @@ const Shop = ({products, category}: IProps) => {
 export default Shop;
 
 
-export const getServerSideProps = async ({query}: any) => {
+export const getServerSideProps = async ({query, locale}: any) => {
     const category = await productAPI.getAllCategoryType()
     const result = await productAPI.getAllCategory(query.category, query.page, query.search)
 
@@ -89,6 +93,7 @@ export const getServerSideProps = async ({query}: any) => {
         props: {
             products: result,
             category,
+            ...(await serverSideTranslations(locale, ['shop', 'navbar', 'common', 'modal'])),
         }
     }
 }
