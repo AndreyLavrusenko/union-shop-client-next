@@ -66,7 +66,8 @@
         border: 1px solid #000000;
         border-radius: 5px;
         text-transform: uppercase;
-        width: 32px;
+        min-width: 32px;
+        padding: 0 2px;
         height: 32px;
         display: flex;
         margin-right: 7px;
@@ -109,10 +110,10 @@
 
     &__buy {
         background: $blue;
-        margin-top: 55px;
         color: white;
         border: none;
         transition: .4s;
+        margin-top: 55px;
 
         &:hover {
             background: #0707e1;
