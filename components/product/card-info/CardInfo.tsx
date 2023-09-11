@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState} from "react";
 import {IProduct} from "@/models/IProduct";
 import {IProductInfo} from "@/models/IProductInfo";
 import {useAppDispatch, useAppSelector} from "@/hook/redux";
@@ -10,7 +10,7 @@ import CardToggle from "@/components/product/card-info/card-toggle/CardToggle";
 import Image from "next/image";
 import Notification from "@/components/notification/Notification";
 
-import styles from './cardinfo.module.scss'
+import styles from "./cardinfo.module.scss";
 
 
 interface IProps {
@@ -23,83 +23,91 @@ interface IProps {
 
 
 const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productData}: IProps) => {
-    const dispatch = useAppDispatch()
-    const {error, isLoading} = useAppSelector(state => state.cart)
+    const dispatch = useAppDispatch();
+    const {error, isLoading} = useAppSelector(state => state.cart);
 
-    const router = useRouter()
+    const router = useRouter();
 
     // Отвечает за всплывающее уведомление
-    const [toastActive, setToastActive] = useState(false)
+    const [toastActive, setToastActive] = useState(false);
 
-    const {data: user} = useSession()
+    const {data: user} = useSession();
 
     // Картинки с размерами товара
-    let sizeImg = []
+    let sizeImg = [];
     if (productData.sizeImg.length > 1) {
         //@ts-ignore
-        sizeImg = JSON.parse(productData.sizeImg)
+        sizeImg = JSON.parse(productData.sizeImg);
     }
 
     // Изначальный размер
-    const [activeSize, setActiveSize] = useState(productInfo[0].size)
-    const [activeColor, setActiveColor] = useState(productInfo[0].color)
+    const [activeSize, setActiveSize] = useState(productInfo[0].size);
+    const [activeColor, setActiveColor] = useState(productInfo[0].color);
 
     // Массив для цветов
-    const [colorArr, setColorArr] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [colorArr, setColorArr] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [selectedImage, setSelectedImage] = useState("/UnionShop/size/size2.png");
 
-    const [showColor, setShowColor] = useState(null)
-    const [showSize, setShowSize] = useState(null)
 
-    const [colorError, setColorError] = useState(false)
-    const [modal, setModal] = useState(false)
+    const [showColor, setShowColor] = useState(null);
+    const [showSize, setShowSize] = useState(null);
 
-    let price: string | number = null
-    let discount: string | number = null
-    let title_product: IProductInfo = null
+    const [colorError, setColorError] = useState(false);
+    const [modal, setModal] = useState(false);
+
+    let price: string | number = null;
+    let discount: string | number = null;
+    let title_product: IProductInfo = null;
 
     useEffect(() => {
         // Обнуляем выбранный цвет
-        let FLAG = false
+        let FLAG = false;
 
         productInfo.filter(item => {
             if (item.size === activeSize && !FLAG) {
                 setActiveColor(item.color);
-                FLAG = true
+                FLAG = true;
             }
-        })
+        });
 
         colorArr.length = 0;
         title_product = null;
 
         // Проверяет массив, есть ли в нем цвет и размер, если они пустые, то не будут выводиться детали для выбора
-        const isColor = productInfo.some(item => item.color !== '')
-        const isSize = productInfo.some(item => item.size !== '')
-        setShowColor(isColor)
-        setShowSize(isSize)
+        const isColor = productInfo.some(item => item.color !== "");
+        const isSize = productInfo.some(item => item.size !== "");
+        setShowColor(isColor);
+        setShowSize(isSize);
 
-        setLoading(false)
+        setLoading(false);
 
-    }, [activeSize])
+    }, [activeSize]);
+
+    useEffect(() => {
+        return () => {
+            setSelectedImage('')
+        }
+    }, []);
 
     // При смене размера записыавет в массив новые цвета
     const setNewColorArr = () => {
-        colorArr.length = 0
+        colorArr.length = 0;
 
         if (!showSize) {
-            productInfo.map(item => colorArr.push(item))
+            productInfo.map(item => colorArr.push(item));
         } else {
             productInfo.find(item => {
                 if (item.size === activeSize) {
-                    colorArr.push(item)
+                    colorArr.push(item);
                 }
-            })
+            });
         }
 
-        return colorArr
-    }
+        return colorArr;
+    };
 
-    setNewColorArr()
+    setNewColorArr();
 
     // Меняет цену взависимоти от цвета и размера
     const setPriceHandler = () => {
@@ -109,14 +117,14 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                     if (item.color === activeColor && item.size === activeSize) {
                         // Если на товар есть скидка то записываем ее
                         if (item.discount === null || item.discount === "") {
-                            price = item.price
+                            price = item.price;
                         } else if (item.discount) {
-                            discount = item.discount
-                            price = item.price
+                            discount = item.discount;
+                            price = item.price;
                         }
                         // price = item.discount === null || item.discount > item.price ? item.price : item.discount
                     }
-                })
+                });
             }
         }
 
@@ -125,47 +133,47 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                 productInfo.map(item => {
                     if (item.color === activeColor) {
                         if (item.discount === null) {
-                            price = item.price
+                            price = item.price;
                         } else if (item.discount) {
-                            discount = item.discount
-                            price = item.price
+                            discount = item.discount;
+                            price = item.price;
                         }
                     }
-                })
+                });
             }
         }
 
         if (!showColor && !showSize) {
             productInfo.map(item => {
                 if (item.discount === null) {
-                    price = item.price
+                    price = item.price;
                 } else if (item.discount) {
-                    discount = item.discount
-                    price = item.price
+                    discount = item.discount;
+                    price = item.price;
                 }
-            })
+            });
         }
 
-    }
+    };
 
-    setPriceHandler()
+    setPriceHandler();
 
     // Добавление товара в корзину
     const addToCart = async () => {
         if (!isAuth) {
-            setModal(true)
+            setModal(true);
         }
 
 
         // Если для выбора доступен и цвет и размер
         if (showColor && showSize) {
             if (activeColor && activeSize) {
-                const id = productData.id
+                const id = productData.id;
                 title_product = productInfo.find(item => {
-                    if (item.color === activeColor && item.size === activeSize) return item
-                })
+                    if (item.color === activeColor && item.size === activeSize) return item;
+                });
 
-                const name = title_product.title_product
+                const name = title_product.title_product;
 
 
                 await cartAPI.setProduct({
@@ -175,26 +183,26 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                     color: activeColor,
                     size: activeSize
                     // @ts-ignore
-                }, dispatch, user?.user?.id ?? '')
+                }, dispatch, user?.user?.id ?? "");
 
-                setActiveSize(productInfo[0].size)
-                setActiveColor(productInfo[0].color)
-                setColorError(false)
-                setToastActive(true)
+                setActiveSize(productInfo[0].size);
+                setActiveColor(productInfo[0].color);
+                setColorError(false);
+                setToastActive(true);
             } else {
-                setColorError(true)
+                setColorError(true);
             }
         }
 
         // Если для выбора доступен только цвет
         if (showColor && !showSize) {
             if (activeColor) {
-                const id = productData.id
+                const id = productData.id;
                 title_product = productInfo.find(item => {
-                    if (item.color === activeColor && item.size === activeSize) return item
-                })
+                    if (item.color === activeColor && item.size === activeSize) return item;
+                });
 
-                const name = title_product.title_product
+                const name = title_product.title_product;
 
                 // @ts-ignore
                 await cartAPI.setProduct({
@@ -204,25 +212,25 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                     color: activeColor,
                     size: activeSize
                     // @ts-ignore
-                }, dispatch, user?.user?.id ?? '')
+                }, dispatch, user?.user?.id ?? "");
 
-                setActiveSize(productInfo[0].size)
-                setActiveColor(productInfo[0].color)
-                setColorError(false)
-                setToastActive(true)
+                setActiveSize(productInfo[0].size);
+                setActiveColor(productInfo[0].color);
+                setColorError(false);
+                setToastActive(true);
             } else {
-                setColorError(true)
+                setColorError(true);
             }
         }
 
         // Если для выбора ничего не доступно
         if (!showColor && !showSize) {
-            const id = productData.id
+            const id = productData.id;
             title_product = productInfo.find(item => {
-                if (item.color === activeColor && item.size === activeSize) return item
-            })
+                if (item.color === activeColor && item.size === activeSize) return item;
+            });
 
-            const name = title_product.title_product
+            const name = title_product.title_product;
 
             // @ts-ignore
             await cartAPI.setProduct({
@@ -232,28 +240,34 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                 color: activeColor,
                 size: activeSize
                 // @ts-ignore
-            }, dispatch, user?.user?.id ?? '')
+            }, dispatch, user?.user?.id ?? "");
 
-            setActiveColor(productInfo[0].color)
-            setColorError(false)
-            setToastActive(true)
+            setActiveColor(productInfo[0].color);
+            setColorError(false);
+            setToastActive(true);
         }
 
-        setRerenderCart(!rerenderCart)
-    }
+        setRerenderCart(!rerenderCart);
+    };
+
+    const openSizeImageFullSize = (image: string) => {
+        setSelectedImage(image);
+        document.body.style.overflow = "hidden";
+        console.log(image);
+    };
 
     if (showColor) {
         if (activeColor) {
             try {
                 title_product = productInfo.find(item => {
-                    if (item.color === activeColor && item.size === activeSize) return item
-                })
+                    if (item.color === activeColor && item.size === activeSize) return item;
+                });
             } catch (err) {
-                title_product = null
+                title_product = null;
             }
         }
     } else {
-        title_product = productInfo[0]
+        title_product = productInfo[0];
     }
 
     return (
@@ -275,12 +289,12 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                 ?
                 <div style={{display: "flex"}}>
 
-                    <del style={{textDecoration: 'line-through', textDecorationColor: 'red'}}
+                    <del style={{textDecoration: "line-through", textDecorationColor: "red"}}
                          className={styles.cardinfo__price}>
                         {price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽"}
                     </del>
 
-                    <div className={styles.cardinfo__price} style={{marginLeft: '10px'}}>
+                    <div className={styles.cardinfo__price} style={{marginLeft: "10px"}}>
                         {discount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " ₽"}
                     </div>
 
@@ -315,10 +329,10 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                                     : styles.cardinfo__size__item
                                 }
                                 onClick={() => {
-                                    setActiveSize(item)
-                                    setNewColorArr()
+                                    setActiveSize(item);
+                                    setNewColorArr();
                                 }}
-                            >{item}</div>
+                            >{item}</div>;
                         })}
                     </div>
                 </div>
@@ -349,10 +363,10 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                                 }
                                 style={{backgroundColor: item.color}}
                                 onClick={() => {
-                                    setActiveColor(item.color.trim())
-                                    setPriceHandler()
+                                    setActiveColor(item.color.trim());
+                                    setPriceHandler();
                                 }}
-                            />
+                            />;
                         })}
                     </div>
                 </>
@@ -363,8 +377,8 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
                 className={styles.cardinfo__button + " " + styles.cardinfo__buy}
                 onClick={() => {
                     addToCart().then(() => {
-                        if (isAuth) router.push('/cart')
-                    })
+                        if (isAuth) router.push("/cart");
+                    });
                 }}
             >Купить
             </button>
@@ -384,15 +398,25 @@ const CardInfo = ({setRerenderCart, rerenderCart, isAuth, productInfo, productDa
             <div className={styles.cardinfo__size}>
                 {sizeImg.map((item: string, i: number) => (
                     <div key={i}>
-                        <Image src={process.env.NEXT_S3_LINK + item} alt="" objectFit={"cover"} layout={"fill"}
+                        <Image onClick={() => openSizeImageFullSize(item)} src={process.env.NEXT_S3_LINK + item} alt="" objectFit={"cover"} layout={"fill"}
                                className={styles.cardinfo__size__img}/><br/>
                     </div>
                 ))}
             </div>
+
+            {
+                selectedImage
+                    ?  <div className={styles.cardinfo__img_full} onClick={() => setSelectedImage("")}>
+                        <img src={process.env.NEXT_S3_LINK + selectedImage} alt="Размерная сетка" className={styles.cardinfo__image__size} />
+                    </div>
+                    : null
+            }
+
+
             <Modal active={modal} setModalActive={setModal}/>
         </div>
 
-    )
+    );
 };
 
 export default CardInfo;
