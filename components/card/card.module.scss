@@ -69,9 +69,11 @@
         font-family: 'Raleway', -apple-system, sans-serif;
         font-style: normal;
         font-weight: 700;
-        font-size: 36px;
+        font-size: 31px;
         line-height: 42px;
         margin-bottom: 10px;
+
+        word-break: break-word;
     }
 
     &__header__subtitle {
